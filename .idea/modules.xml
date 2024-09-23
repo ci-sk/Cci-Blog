@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Cci-Blog-master.iml" filepath="$PROJECT_DIR$/Cci-Blog-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/blog-frontend-admin.iml" filepath="$PROJECT_DIR$/blog-frontend-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bolg-frontend-blog.iml" filepath="$PROJECT_DIR$/bolg-frontend-blog.iml" />
+    </modules>
+  </component>
+</project>
