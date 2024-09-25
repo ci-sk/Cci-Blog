@@ -3,6 +3,8 @@ spring:
     name:
       my-project-backend
   security:
+    filter:
+      order: -100
     jwt:
       key: nhxtbymmjsnzhu
       expire: 7
