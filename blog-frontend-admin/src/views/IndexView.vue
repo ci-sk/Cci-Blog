@@ -2,7 +2,6 @@
 import {logout} from "../net/index.js";
 import router from "../router/index.js";
 import { ref } from 'vue'
-import { Expand } from "@element-plus/icons-vue";
 import IndexMenu from "./index/components/IndexMenu.vue";
 import 'animate.css';
 import IndexMenuDown from "./index/components/IndexMenu-down.vue";
@@ -38,7 +37,7 @@ let downMenu=ref(false);
         <IndexMenu/>
           </el-aside>
         <el-header class="header">
-          <el-icon class="icon-down"><Expand @click="is_show"/></el-icon>
+<!--          <el-icon class="icon-down"><Expand @click="is_show"/></el-icon>-->
           <h3>Admin Bolg</h3>
           <el-button @click="userLogout">退出登录</el-button>
         </el-header>

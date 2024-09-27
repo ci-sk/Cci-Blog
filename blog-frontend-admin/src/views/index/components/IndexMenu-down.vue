@@ -1,10 +1,5 @@
 <script setup>
 import { ref } from 'vue'
-import {
-  Menu as IconMenu,
-  Location,
-  Setting,
-} from '@element-plus/icons-vue'
 
 import {ChatDotSquare, ChatSquare, Document, EditPen, ElementPlus, House, Picture, User} from "@element-plus/icons-vue";
 import {useRoute} from "vue-router";
@@ -31,15 +26,11 @@ const isCollapse = ref(true)
       :collapse="isCollapse"
       :router="true"
   >
-  <el-sub-menu v-for="(item,index) in itemList" :index="item.path" :key="index">
-    <template #title>
-      <el-icon>
-        <component :is="tupleList[index]"/>
-      </el-icon>
-      <span>{{item.meat.title}}</span>
-    </template>
-      <el-menu-item  :index="item.path" :route="{path:item.path}" >{{item.meat.title}}</el-menu-item>
-  </el-sub-menu>
+      <el-menu-item  v-for="(item,index) in itemList"  :index="item.path" :route="{path:item.path}" >
+          <el-icon>
+            <component :is="tupleList[index]"/>
+          </el-icon>
+      </el-menu-item>
   </el-menu>
 </template>
 
