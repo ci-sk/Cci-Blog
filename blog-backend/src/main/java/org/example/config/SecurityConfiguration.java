@@ -10,7 +10,6 @@ import org.example.entity.vo.response.AuthorizeVO;
 import org.example.filter.JwtAuthorizeFilter;
 import org.example.service.AccountService;
 import org.example.utils.JwtUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDeniedException;
@@ -70,7 +69,7 @@ public class SecurityConfiguration {
         response.setCharacterEncoding("UTF-8");
         User user = (User) authentication.getPrincipal();
         Account account =service.findAccountByNameOrEmail(user.getUsername());
-        String token = utils.createJwt(user,account.getId(),user.getUsername());
+        String token = utils.createJwt(user,account.getUid(),user.getUsername());
         AuthorizeVO vo = account.asViewObject(AuthorizeVO.class,v->{
             v.setExpire(utils.expireTime());
             v.setToken(token);

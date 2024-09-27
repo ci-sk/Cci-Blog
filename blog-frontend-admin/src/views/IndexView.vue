@@ -5,6 +5,7 @@ import { ref } from 'vue'
 import { Expand } from "@element-plus/icons-vue";
 import IndexMenu from "./index/components/IndexMenu.vue";
 import 'animate.css';
+import IndexMenuDown from "./index/components/IndexMenu-down.vue";
 
 function  userLogout(){
   logout(()=>router.push('/'))
@@ -20,14 +21,14 @@ let downMenu=ref(false);
 <template>
   <div class="common-layout">
     <el-container >
-      <el-row :gutter="10"  v-show="!downMenu">
-        <el-col  :xs="6" class="hidden-xs-only">
-          <el-aside width="200px">
-            <h3>Admin Bolg</h3>
-            <IndexMenu/>
+          <el-aside class="d-none d-sm-block" width="200">
+                  <h3>Admin Bolg</h3>
+                  <IndexMenu/>
           </el-aside>
-        </el-col>
-      </el-row>
+          <el-aside class="d-block d-sm-none" width="90">
+                  <h6>Admin</h6>
+                   <IndexMenuDown/>
+          </el-aside>
 
       <el-container class="common-content">
         <div class="el-down" v-show="downMenu" @click="is_show">

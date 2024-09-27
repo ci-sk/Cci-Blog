@@ -13,6 +13,7 @@
     "@vueuse/core": "^11.1.0",
     "animate.css": "^4.1.1",
     "axios": "^1.7.7",
+    "bootstrap": "^5.3.3",
     "element-plus": "^2.8.3",
     "magic.css": "^1.4.8",
     "vue": "^3.4.37",

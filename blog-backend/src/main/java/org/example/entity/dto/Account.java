@@ -14,7 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class Account implements BaseData {
     @TableId(type = IdType.AUTO)
-    Integer id;
+    Integer uid;
     String username;
     String password;
     String email;

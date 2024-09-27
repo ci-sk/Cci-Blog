@@ -1,5 +1,11 @@
 <script setup>
+
 import {ChatDotSquare, ChatSquare, Document, EditPen, ElementPlus, House, Picture, User} from "@element-plus/icons-vue";
+
+const tupleList =[House,User,Document,EditPen, ElementPlus,
+  ChatSquare,ChatDotSquare, Picture
+]
+
 
 import {useRoute, useRouter} from "vue-router";
 import router from "../../../router/index.js";
@@ -8,17 +14,7 @@ const route = useRoute();
 const useRouter1 = useRouter()
 
 
-const tupleList =[House,User,Document,EditPen, ElementPlus,
-  ChatSquare,ChatDotSquare, Picture
-]
-// {icon:House},
-// {icon:User},
-// {path:roicon:Document},
-// {path:icon:EditPen},
-// {path:rouicon:ElementPlus},
-// {path:ricon:ChatSquare},
-// {path:roicon:ChatDotSquare},
-// {path:roicon:Picture}
+
 
  const itemList =route.matched[0].children
 
@@ -29,9 +25,6 @@ function activeIndex(){
 function activeUser(){
   useRouter1.push(routeName+"/user")
 }
-
-// console.log(itemList)
-
 </script>
 
 <template>
@@ -108,4 +101,9 @@ function activeUser(){
 </template>
 
 <style scoped>
+
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 200px;
+  min-height: 400px;
+}
 </style>
