@@ -39,7 +39,10 @@ public class SecurityConfiguration {
             return http
                     .authorizeHttpRequests(conf -> conf
                             .requestMatchers("/api/auth/**").permitAll()
-                            .anyRequest().authenticated()
+                            .requestMatchers("/user").hasAnyRole("user", "admin")
+//                            //其他所有路径必须角色为admin才能访问
+                            .anyRequest().hasRole("admin")
+//                            .anyRequest().authenticated()
                     )
                     .formLogin(conf -> conf
                             .loginProcessingUrl("/api/auth/login")
@@ -74,7 +77,6 @@ public class SecurityConfiguration {
             v.setExpire(utils.expireTime());
             v.setToken(token);
         });
-
         response.getWriter().write(RestBean.success(vo).asJsonString());
     }
 
@@ -111,7 +113,7 @@ public class SecurityConfiguration {
 
     public void onAccessDeny(HttpServletRequest request,
                              HttpServletResponse response,
-                             AccessDeniedException exception) throws IOException, ServletException {
+                             AccessDeniedException exception) throws IOException{
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(RestBean.forbidden(exception.getMessage()).asJsonString());

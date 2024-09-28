@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.ArticlesMapper">
+
+    <resultMap id="ArticlesMap" type="org.example.entity.dto.Articles">
+        <id property="aid" column="aid" jdbcType="INTEGER"/>
+        <result property="uid" column="uid" jdbcType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="publish_Time" column="publish_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="addArt" parameterType="org.example.entity.dto.Articles" useGeneratedKeys="true" keyProperty="aid">
+        insert into db_articles(aid,uid,title,content,publish_time)
+            values(#{aid,jdbcType=INTEGER},#{uid},#{title},#{content},#{publish_Time})
+    </insert>
+
+    <select id="limitArticles" resultMap="ArticlesMap">
+        select * from db_articles limit ${start},${size}
+    </select>
+
+    <select id="findArticleAll" resultMap="ArticlesMap">
+        select *
+        from db_articles;
+    </select>
+
+
+
+    <update id="upDataArticles" parameterType="org.example.entity.dto.Articles">
+        update db_articles
+        set title = #{title},content = #{content}
+        where aid = #{aid}
+    </update>
+
+
+</mapper>
+

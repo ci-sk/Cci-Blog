@@ -58,11 +58,12 @@ public class JwtUtils {
         return true;
     }
 
+    //判断令牌是否已经过期
     private boolean isInvalidToken(String uuid){
         return Boolean.TRUE.equals(template.hasKey(Const.JWT_BLACK_LIST + uuid));
     }
 
-
+    //解析JWT
     public DecodedJWT resolveJwt(String headerToken){
         String token = convertToken(headerToken);
         if(token == null) return  null;
@@ -94,6 +95,7 @@ public class JwtUtils {
 
     }
     public Date expireTime(){
+        //日历
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.HOUR,expire *24);
         return  calendar.getTime();
@@ -113,6 +115,8 @@ public class JwtUtils {
         return claims.get("id").asInt();
     }
 
+
+    //判断Token是否合法
     private String convertToken(String headerToken){
         if(headerToken == null || !headerToken.startsWith("Bearer "))
             return null;

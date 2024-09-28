@@ -1,0 +1,39 @@
+package org.example.service.impl;
+
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.example.entity.dto.Articles;
+import org.example.mapper.ArticlesMapper;
+import org.example.service.ArticlesServer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class ArticlesServerImpl extends ServiceImpl<ArticlesMapper, Articles> implements ArticlesServer {
+
+    @Autowired
+    ArticlesMapper mapper;
+
+
+    @Override
+    public Integer addArt(Articles articles) {
+        return mapper.addArt(articles);
+    }
+
+    @Override
+    public List<Articles> limitArticles(Integer start, Integer size) {
+        return mapper.findArticles(start,size);
+    }
+
+    @Override
+    public List<Articles> findArticleAll() {
+        return mapper.findArticleAll();
+    }
+
+    @Override
+    public int upDataArticles(Integer aid,String title,String content){
+        return mapper.upDataArticles(aid,title,content);
+    }
+
+}

@@ -5,19 +5,16 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.example.entity.BaseData;
 
 import java.util.Date;
 
 @Data
-@TableName("db_account")
+@TableName("db_message")
 @AllArgsConstructor
-public class Account implements BaseData {
+public class message {
     @TableId(type = IdType.AUTO)
+    private Integer mid;
     private Integer uid;
-    private String username;
-    private String password;
-    private String email;
-    private String role;
-    private Date registerTime;
+    private String content;
+    private Date m_time;
 }
