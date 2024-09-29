@@ -1,6 +1,7 @@
 package org.example.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.example.entity.dto.Articles;
@@ -16,6 +17,8 @@ public interface ArticlesMapper extends BaseMapper<Articles> {
     List<Articles> findArticleAll();
 
     int upDataArticles(Integer aid,String title,String content);
+
+    int  delFart(Integer aid,Integer del);
 
     @Select("select count(*) from db_articles")
     public Integer getCount();

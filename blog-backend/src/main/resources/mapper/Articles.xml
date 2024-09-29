@@ -9,17 +9,32 @@
         <result property="uid" column="uid" jdbcType="INTEGER"/>
         <result property="title" column="title" jdbcType="VARCHAR"/>
         <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="del" column="del" javaType="INTEGER"/>
         <result property="publish_Time" column="publish_time" jdbcType="TIMESTAMP"/>
     </resultMap>
-
+<!--
+    添加文章
+    正常情况下只需要
+    文章标题title 文章内容content
+-->
     <insert id="addArt" parameterType="org.example.entity.dto.Articles" useGeneratedKeys="true" keyProperty="aid">
         insert into db_articles(aid,uid,title,content,publish_time)
             values(#{aid,jdbcType=INTEGER},#{uid},#{title},#{content},#{publish_Time})
     </insert>
 
-    <select id="limitArticles" resultMap="ArticlesMap">
+    <!--
+     <select id="limitArticles" resultMap="ArticlesMap">
         select * from db_articles limit ${start},${size}
     </select>
+    -->
+
+    <select id="aid" resultMap="ArticlesMap">
+        select * from db_articles where aid = #{aid}
+    </select>
+
+    <update id="delFart" useGeneratedKeys="true" parameterType="org.example.entity.dto.Articles">
+        update db_articles set del = #{del} where aid = #{aid}
+    </update>
 
     <select id="findArticleAll" resultMap="ArticlesMap">
         select *

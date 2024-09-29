@@ -36,4 +36,9 @@ public class ArticlesServerImpl extends ServiceImpl<ArticlesMapper, Articles> im
         return mapper.upDataArticles(aid,title,content);
     }
 
+    @Override
+    public int delFart(Integer aid, Integer del) {
+        return mapper.delFart(aid,del);
+    }
+
 }

@@ -10,6 +10,7 @@ import org.example.entity.vo.response.AuthorizeVO;
 import org.example.filter.JwtAuthorizeFilter;
 import org.example.service.AccountService;
 import org.example.utils.JwtUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDeniedException;
@@ -25,6 +26,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * Spring Security 配置类，用于配置应用的安全策略
+ */
+
 @Configuration
 public class SecurityConfiguration {
     @Resource
@@ -33,6 +38,14 @@ public class SecurityConfiguration {
     JwtAuthorizeFilter filter;
     @Resource
     AccountService service;
+
+    /**
+     * 配置 Spring Security 的过滤器链
+     *
+     * @param http HttpSecurity 对象，用于配置安全策略
+     * @return SecurityFilterChain 对象，代表配置好的过滤器链
+     * @throws Exception 如果配置过程中发生错误，抛出异常
+     */
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -60,10 +73,18 @@ public class SecurityConfiguration {
                     .sessionManagement(conf ->conf
                             .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                     .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
+//                    .addFilterAfter(exceptionFilter, UsernamePasswordAuthenticationFilter.class)
                     .build();
     }
 
-
+    /**
+     * 处理登录成功事件
+     *
+     * @param request HttpServletRequest 对象，包含请求信息
+     * @param response HttpServletResponse 对象，用于响应客户端
+     * @param authentication 认证对象，包含已认证的用户信息
+     * @throws IOException 如果在处理过程中发生 I/O 错误，抛出异常
+     */
 
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
@@ -80,6 +101,16 @@ public class SecurityConfiguration {
         response.getWriter().write(RestBean.success(vo).asJsonString());
     }
 
+    /**
+     * 处理注销成功事件
+     *
+     * @param request HttpServletRequest 对象，包含请求信息
+     * @param response HttpServletResponse 对象，用于响应客户端
+     * @param authentication 认证对象，包含已认证的用户信息
+     * @throws IOException 如果在处理过程中发生 I/O 错误，抛出异常
+     * @throws ServletException 如果在处理过程中发生 Servlet 错误，抛出异常
+     */
+
     public void onLogoutSuccess(HttpServletRequest request,
                                 HttpServletResponse response,
                                 Authentication authentication) throws IOException, ServletException {
@@ -94,6 +125,15 @@ public class SecurityConfiguration {
         }
     }
 
+    /**
+     * 处理登录失败事件
+     *
+     * @param request HttpServletRequest 对象，包含请求信息
+     * @param response HttpServletResponse 对象，用于响应客户端
+     * @param exception 认证异常对象，包含登录失败的原因
+     * @throws IOException 如果在处理过程中发生 I/O 错误，抛出异常
+     */
+
     public void onAuthenticationFailure(HttpServletRequest request,
                                         HttpServletResponse response,
                                         AuthenticationException exception) throws IOException {
@@ -103,6 +143,15 @@ public class SecurityConfiguration {
 
     }
 
+    /**
+     * 处理未授权访问事件
+     *
+     * @param request HttpServletRequest 对象，包含请求信息
+     * @param response HttpServletResponse 对象，用于响应客户端
+     * @param exception 认证异常对象，包含未授权访问的原因
+     * @throws IOException 如果在处理过程中发生 I/O 错误，抛出异常
+     */
+
     public void onUnauthorized(HttpServletRequest request,
                                HttpServletResponse response,
                                AuthenticationException exception) throws IOException {
@@ -110,6 +159,15 @@ public class SecurityConfiguration {
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(RestBean.unauthorized(exception.getMessage()).asJsonString());
     }
+
+    /**
+     * 处理访问被拒绝事件
+     *
+     * @param request HttpServletRequest 对象，包含请求信息
+     * @param response HttpServletResponse 对象，用于响应客户端
+     * @param exception 访问被拒绝异常对象，包含访问被拒绝的原因
+     * @throws IOException 如果在处理过程中发生 I/O 错误，抛出异常
+     */
 
     public void onAccessDeny(HttpServletRequest request,
                              HttpServletResponse response,
