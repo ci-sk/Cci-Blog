@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.AccountMapper">
+
+    <resultMap id="AccountMap" type="org.example.entity.dto.Account">
+        <id property="uid" column="uid" jdbcType="INTEGER"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="role" column="role" jdbcType="VARCHAR"/>
+        <result property="registerTime" column="registerTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="getAccountCount" resultMap="AccountMap">
+        select *
+        from db_account;
+    </select>
+
+    <insert id="insertAccount" parameterType="org.example.entity.dto.Account" useGeneratedKeys="true" keyProperty="uid">
+        insert into db_account (uid,username,email,role,register_Time)
+        values (#{username},#{email},#{role},#{register_Time})
+    </insert>
+
+    <delete id="deleteAccount" parameterType="org.example.entity.dto.Account">
+        delete from db_account where uid = #{uid}
+    </delete>
+
+</mapper>

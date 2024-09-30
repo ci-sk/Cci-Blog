@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import java.io.IOException;
@@ -27,8 +28,6 @@ public class ArticlesController {
     @Autowired
     ArticlesServerImpl artServer;
 
-    @Resource
-    JwtUtils utils;
 
     @ResponseBody
     @PutMapping("/addArt")
@@ -55,15 +54,25 @@ public class ArticlesController {
 
     @ResponseBody
     @GetMapping("/find")
-    public RestBean<?> findArticles(HttpServletResponse response, HttpServletRequest request) throws IOException {
+    public RestBean<?> findArticles(HttpServletResponse response){
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         try{
         List<Articles> articles = artServer.findArticleAll();
 
         if(articles!= null){
-
-           return RestBean.success(artServer.findArticleAll());
+            ArrayList<ArticlesVO> vo = new ArrayList<>();;
+            for (Articles article : articles) {
+                ArticlesVO vo1 = (article.asViewObject(ArticlesVO.class, v -> {
+                    v.setAid(article.getAid());
+                    v.setTitle(article.getTitle());
+                    v.setContent(article.getContent());
+                    v.setPublish_Time(article.getPublish_Time());
+                    v.setDel(article.getDel());
+                }));
+                vo.add(vo1);
+            }
+           return RestBean.success(vo);
         } else {
             response.getWriter().write(RestBean.db_failure().asJsonString());
         }
@@ -74,15 +83,20 @@ public class ArticlesController {
         return RestBean.db_failure();
     }
 
-    @ResponseBody
-    @PutMapping("/delF")
-    public RestBean<?> delArt(HttpServletResponse response, Integer aid, Integer del) throws IOException {
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
+   @ResponseBody
+@PutMapping("/delF")
+public RestBean<?> delArt(HttpServletResponse response, Integer aid, Integer del) {
+       response.setContentType("application/json");
+       response.setCharacterEncoding("UTF-8");
 
-        if (artServer.delFart(aid, del) == 1) return (RestBean.success());
-        else return(RestBean.db_failure());
-    }
-
-
+       if (aid == null || del == null) {
+           return RestBean.db_un_failure("aid和del参数不能为空");
+       }
+       int result = artServer.delFart(aid, del);
+       if (result == 1) {
+           return RestBean.success();
+       } else {
+           return RestBean.db_failure();
+       }
+   }
 }

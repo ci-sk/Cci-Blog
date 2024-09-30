@@ -19,5 +19,12 @@ public class Account implements BaseData {
     private String password;
     private String email;
     private String role;
-    private Date registerTime;
+    private Date register_Time;
+
+    public Account(String username, String email, String role, Date register_Time) {
+        this.username = username;
+        this.email = email;
+        this.role = role;
+        this.register_Time = register_Time;
+    }
 }

@@ -86,6 +86,10 @@ public record RestBean<T>(int code, T data, String message) {
         return new RestBean<>(200,data,message);
     }
 
+    public static <T> RestBean<T> db_success(String message){
+        return new RestBean<>(200,null,message);
+    }
+
     /**
      * 创建一个数据库添加成功的响应，包含数据和自定义消息。
      *

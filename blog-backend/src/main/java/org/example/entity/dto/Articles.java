@@ -39,6 +39,12 @@ public class Articles implements BaseData {
     }
     public Articles(){}
 
+    public Articles(String title, String content, Date date) {
+        this.title = title;
+        this.content = content;
+        this.publish_Time = date;
+    }
+
 }
 
 

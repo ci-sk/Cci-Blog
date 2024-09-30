@@ -68,4 +68,24 @@ public interface BaseData {
             // 忽略非法访问异常和字段不存在异常
         }
     }
+
+
+//    default <E, V> List<V> asViewObjectList(List<E> entityList, Class<V> viewClass, Consumer<List<V>> consumer){
+//        List<V> v = this.asViewObjectList(entityList,viewClass);
+//        consumer.accept(v);
+//        return v;
+//    }
+
+    /**
+     * 将实体对象列表转换为视图对象列表
+     *
+     * @param entityList 实体对象列表
+     * @param viewClass  视图对象的类
+     * @return 转换后的视图对象列表
+     */
+    default <E, V> List<V> asViewObjectList(List<E> entityList, Class<V> viewClass){
+        return entityList.stream()
+                .map(entity -> asViewObject(viewClass))
+                .collect(Collectors.toList());
+    }
 }
