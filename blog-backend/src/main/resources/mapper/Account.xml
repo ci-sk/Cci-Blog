@@ -19,8 +19,8 @@
     </select>
 
     <insert id="insertAccount" parameterType="org.example.entity.dto.Account" useGeneratedKeys="true" keyProperty="uid">
-        insert into db_account (uid,username,email,role,register_Time)
-        values (#{username},#{email},#{role},#{register_Time})
+        insert into db_account (uid,username,password,email,role,register_Time)
+        values (#{uid},#{username},#{password},#{email},#{role},#{register_Time})
     </insert>
 
     <delete id="deleteAccount" parameterType="org.example.entity.dto.Account">

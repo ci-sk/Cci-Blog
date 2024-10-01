@@ -6,6 +6,7 @@ import org.example.entity.RestBean;
 import org.example.entity.dto.Account;
 import org.example.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,8 @@ public class AccountController {
 
     @Autowired
     AccountService service;
-
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
 
     @ResponseBody
@@ -27,7 +29,7 @@ public class AccountController {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        Account account = new Account(username,email,"user",new Date());
+        Account account = new Account(username,passwordEncoder.encode("123456"),email,"user",new Date());
 
         System.out.println(account);
 
