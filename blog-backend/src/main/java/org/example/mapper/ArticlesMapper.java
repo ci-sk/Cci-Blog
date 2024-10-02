@@ -15,7 +15,7 @@ public interface ArticlesMapper extends BaseMapper<Articles> {
 
     List<Articles> findArticleAll();
 
-    int upDataArticles(Integer aid,String title,String content);
+    int upDataArticles(Articles articles);
 
     int  delFart(Integer aid,Integer del);
 

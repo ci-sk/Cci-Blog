@@ -5,12 +5,14 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Data
 @TableName("db_message")
 @AllArgsConstructor
+@NoArgsConstructor
 public class message {
     @TableId(type = IdType.AUTO)
     private Integer mid;

@@ -33,15 +33,23 @@ public class ArticlesController {
     @PutMapping("/addArt")
     public RestBean<?> addArt(Integer aid, String title, String content) {
         try {
+
+            Articles articles = new Articles();
             if (aid == null || aid <= 0) {
-                Articles articles = new Articles(null, title, content, new Date());
+
+                articles.setTitle(title);
+                articles.setContent(content);
+                articles.setPublish_Time(new Date());
                 System.out.println(articles);
                 if (artServer.addArt(articles) == 1) return RestBean.db_add_success(articles, "添加成功");
             } else {
                 System.out.println("修改接口");
+                articles.setAid(aid);
+                articles.setTitle(title);
+                articles.setContent(content);
                 // 判断id是否存在
-                if (artServer.upDataArticles(aid, title, content) == 1) {
-                    return RestBean.db_update_success(new Articles(aid, title, content), "修改成功");
+                if (artServer.upDataArticles(articles) == 1) {
+                    return RestBean.db_update_success(articles, "修改成功");
                 }
             }
             return RestBean.db_failure();

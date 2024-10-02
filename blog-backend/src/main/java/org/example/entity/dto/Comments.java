@@ -8,11 +8,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.List;
 
 @Data
 @TableName("db_comments")
 @AllArgsConstructor
+@NoArgsConstructor
 public class Comments {
     @TableId(type = IdType.AUTO)
     private Integer cid;
@@ -23,7 +23,4 @@ public class Comments {
     private Account account;
 
 
-    public Comments(){
-
-    }
 }

@@ -57,7 +57,6 @@ public class CommentsConfiguration  {
 
         List<Comments> commentsList = server.getCommentsByAid(23);
 
-
         System.out.println(commentsList+"!!");
 
         if(commentsList!= null){

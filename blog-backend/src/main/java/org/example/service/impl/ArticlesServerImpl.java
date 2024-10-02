@@ -32,8 +32,8 @@ public class ArticlesServerImpl extends ServiceImpl<ArticlesMapper, Articles> im
     }
 
     @Override
-    public int upDataArticles(Integer aid,String title,String content){
-        return mapper.upDataArticles(aid,title,content);
+    public int upDataArticles(Articles articles){
+        return mapper.upDataArticles(articles);
     }
 
     @Override

@@ -29,7 +29,14 @@ public class AccountController {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        Account account = new Account(username,passwordEncoder.encode("123456"),email,"user",new Date());
+//        Account account = new Account(username,passwordEncoder.encode("123456"),email,"user",new Date());
+
+        Account account = new Account();
+        account.setUsername(username);
+        account.setPassword(passwordEncoder.encode("123456"));
+        account.setEmail(email);
+        account.setRole("user");
+        account.setRegister_Time(new Date());
 
         System.out.println(account);
 
