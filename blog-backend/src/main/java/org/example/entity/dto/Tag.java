@@ -15,6 +15,6 @@ public class Tag {
     @TableId(type = IdType.AUTO)
     private Integer tid;
     private Integer aid;
-    private String tag;
+    private String tagName;
     private String desc;
 }

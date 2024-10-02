@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.TagMapper">
+    <resultMap id="tagMap" type="org.example.entity.dto.Tag">
+        <id property="tid" column="tid"/>
+        <result property="aid" column="aid"/>
+        <result property="tagName" column="tagName"/>
+        <result property="desc" column="desc"/>
+    </resultMap>
+
+    <insert id="addTag" parameterType="org.example.entity.dto.Tag" useGeneratedKeys="true" keyProperty="tid">
+        insert into db_tag (tid,aid,tagName,`desc`) values (#{tid},#{aid},#{tagName},#{desc})
+    </insert>
+
+    <select id="getTagList" parameterType="int" resultMap="tagMap">
+        select * from db_tag;
+    </select>
+
+    <delete id="deleteTagByTid" parameterType="int">
+        delete from db_tag where tid=#{tid}
+    </delete>
+
+
+</mapper>

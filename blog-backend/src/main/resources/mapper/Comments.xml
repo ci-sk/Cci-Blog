@@ -49,7 +49,6 @@
                 join db_articles a on c.aid = a.aid
     </select>
 
-
     <delete id="deleteComments" parameterType="int">
         delete
         from db_comments
