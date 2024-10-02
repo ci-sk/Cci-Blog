@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.CommentsMapper">
+
+    <resultMap id="comMap" type="org.example.entity.dto.Comments">
+        <id column="cid" property="cid" javaType="INTEGER"/>
+        <result column="aid" property="aid" javaType="INTEGER"/>
+        <result column="uid" property="uid" javaType="INTEGER"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="c_time" property="c_time" jdbcType="TIMESTAMP"/>
+        <association property="account" javaType="org.example.entity.dto.Account">
+            <id column="uid" property="uid"/>
+            <result column="username" property="username"/>
+            <result column="password" property="password"/>
+            <result column="email" property="email"/>
+            <result column="role" property="role"/>
+            <result column="register_Time" property="register_Time"/>
+        </association>
+    </resultMap>
+
+    <select id="getCommentsByAid" resultMap="comMap">
+        select c.*, u.username,u.email
+        from db_comments c
+                 join db_account u on c.uid = u.uid
+        where c.aid = #{aid}
+    </select>
+
+
+    <insert id="insertComments" parameterType="org.example.entity.dto.Comments" useGeneratedKeys="true" keyProperty="cid">
+        insert into db_comments (cid,aid,uid,content,c_time)
+        values (#{cid},#{aid},#{uid},#{content},#{c_time})
+
+    </insert>
+
+    <select id="getCommentsAll" parameterType="int" resultMap="comMap">
+        select * from db_comments;
+    </select>
+</mapper>

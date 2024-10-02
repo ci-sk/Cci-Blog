@@ -28,4 +28,8 @@ public class Account implements BaseData {
         this.role = role;
         this.register_Time = register_Time;
     }
+
+    public Account() {
+
+    }
 }

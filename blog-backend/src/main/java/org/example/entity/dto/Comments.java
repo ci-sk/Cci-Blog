@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @TableName("db_comments")
@@ -14,8 +16,14 @@ import java.util.Date;
 public class Comments {
     @TableId(type = IdType.AUTO)
     private Integer cid;
+    private Integer uid;
     private Integer aid;
-    private String txt;
+    private String content;
     private Date c_time;
+    private Account account;
 
+
+    public Comments(){
+
+    }
 }
