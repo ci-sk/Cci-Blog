@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Articles implements BaseData {
-//    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.AUTO)
     private Integer aid;
     private Integer uid;
     private String title;

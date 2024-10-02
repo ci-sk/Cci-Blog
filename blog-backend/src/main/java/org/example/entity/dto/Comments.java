@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.entity.BaseData;
 
 import java.util.Date;
 
@@ -13,7 +14,7 @@ import java.util.Date;
 @TableName("db_comments")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Comments {
+public class Comments implements BaseData {
     @TableId(type = IdType.AUTO)
     private Integer cid;
     private Integer uid;
@@ -21,6 +22,5 @@ public class Comments {
     private String content;
     private Date c_time;
     private Account account;
-
-
+    private Articles article;
 }

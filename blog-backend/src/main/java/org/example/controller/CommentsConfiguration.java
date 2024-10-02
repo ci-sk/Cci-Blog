@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.example.entity.RestBean;
 import org.example.entity.dto.Account;
 import org.example.entity.dto.Comments;
+import org.example.entity.vo.response.ArticlesVO;
+import org.example.entity.vo.response.CommentsVO;
 import org.example.service.CommentsServer;
 import org.example.service.impl.CommentsServerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -55,17 +58,70 @@ public class CommentsConfiguration  {
 
         System.out.println(aid);
 
-        List<Comments> commentsList = server.getCommentsByAid(23);
-
-        System.out.println(commentsList+"!!");
+        List<Comments> commentsList = server.getCommentsByAid(aid);
 
         if(commentsList!= null){
-            return RestBean.success(commentsList);
+
+            ArrayList<CommentsVO> vo = new ArrayList<>();
+
+            for (Comments comments : commentsList) {
+
+                CommentsVO vo1 = (comments.asViewObject(CommentsVO.class, v -> {
+                    v.setCid(comments.getCid());
+                    v.setAid(comments.getAid());
+                    v.setUsername(comments.getAccount().getUsername());
+                    v.setContent(comments.getContent());
+                    v.setC_time(new Date());
+                }));
+                vo.add(vo1);
+            }
+            return RestBean.success(vo);
         }
         else{
             return RestBean.db_un_failure("获取失败");
         }
+    }
 
+    @ResponseBody
+    @RequestMapping("/getAll")
+    public RestBean<?> getAll(HttpServletResponse response){
+        response.setContentType("application/json;charset=utf-8");
+
+        List<Comments> commentsList = server.getCommentsAll();
+
+        if(commentsList!= null){
+
+            ArrayList<CommentsVO> vo = new ArrayList<>();
+
+            for (Comments comments : commentsList) {
+                CommentsVO vo1 = (comments.asViewObject(CommentsVO.class, v -> {
+                    v.setCid(comments.getCid());
+                    v.setTitle(comments.getArticle().getTitle());
+                    v.setUsername(comments.getAccount().getUsername());
+                    v.setContent(comments.getContent());
+                    v.setC_time(new Date());
+                }));
+                vo.add(vo1);
+            }
+
+            return RestBean.success(vo);
+        }
+        else{
+            return RestBean.db_un_failure("获取失败");
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping("/admin/delete")
+    public RestBean<?> delete(HttpServletResponse response,int  cid){
+        response.setContentType("application/json;charset=utf-8");
+
+        System.out.println(cid);
+
+        if(server.deleteComments(cid) == 1){
+            return RestBean.success("删除成功");
+        }
+        return RestBean.db_un_failure("删除失败");
     }
 
 }

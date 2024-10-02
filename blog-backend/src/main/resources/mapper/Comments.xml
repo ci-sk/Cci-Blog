@@ -18,6 +18,14 @@
             <result column="role" property="role"/>
             <result column="register_Time" property="register_Time"/>
         </association>
+        <association property="article" javaType="org.example.entity.dto.Articles">
+            <id column="aid" property="aid"/>
+            <result column="uid" property="uid"/>
+            <result column="title" property="title"/>
+            <result column="content" property="content"/>
+            <result column="del" property="del"/>
+            <result column="publish_time" property="publish_time"/>
+        </association>
     </resultMap>
 
     <select id="getCommentsByAid" resultMap="comMap">
@@ -35,6 +43,16 @@
     </insert>
 
     <select id="getCommentsAll" parameterType="int" resultMap="comMap">
-        select * from db_comments;
+        select c.*, u.username,u.email,a.title
+        from db_comments c
+                join db_account u on c.uid = u.uid
+                join db_articles a on c.aid = a.aid
     </select>
+
+
+    <delete id="deleteComments" parameterType="int">
+        delete
+        from db_comments
+        where cid = #{cid}
+    </delete>
 </mapper>

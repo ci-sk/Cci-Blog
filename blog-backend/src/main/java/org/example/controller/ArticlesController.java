@@ -69,7 +69,7 @@ public class ArticlesController {
         List<Articles> articles = artServer.findArticleAll();
 
         if(articles!= null){
-            ArrayList<ArticlesVO> vo = new ArrayList<>();;
+            ArrayList<ArticlesVO> vo = new ArrayList<>();
             for (Articles article : articles) {
                 ArticlesVO vo1 = (article.asViewObject(ArticlesVO.class, v -> {
                     v.setAid(article.getAid());

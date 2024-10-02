@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class ArticlesVO implements BaseData {
+public class ArticlesVO{
     Integer aid;
     String title;
     String content;
