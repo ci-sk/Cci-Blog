@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-@RequestMapping("/api/auth/com")
+@RequestMapping("/api")
 public class CommentsConfiguration  {
 
     @Autowired
@@ -24,7 +24,7 @@ public class CommentsConfiguration  {
 
 
     @ResponseBody
-    @RequestMapping("/add")
+    @RequestMapping("/addCom")
     public RestBean<?> add(HttpServletResponse response, HttpServletRequest request, Integer aid, String content){
         response.setContentType("application/json;charset=utf-8");
 
@@ -78,7 +78,7 @@ public class CommentsConfiguration  {
     }
 
     @ResponseBody
-    @RequestMapping("/getAll")
+    @RequestMapping("/find/Comments")
     public RestBean<?> getAll(HttpServletResponse response){
         response.setContentType("application/json;charset=utf-8");
 
@@ -107,7 +107,7 @@ public class CommentsConfiguration  {
     }
 
     @ResponseBody
-    @RequestMapping("/admin/delete")
+    @RequestMapping("/delCom")
     public RestBean<?> delete(HttpServletResponse response,int  cid){
         response.setContentType("application/json;charset=utf-8");
 

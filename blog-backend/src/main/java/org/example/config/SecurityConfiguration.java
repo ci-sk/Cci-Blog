@@ -52,7 +52,7 @@ public class SecurityConfiguration {
             return http
                     .authorizeHttpRequests(conf -> conf
                             .requestMatchers("/api/auth/**").permitAll()
-                            .requestMatchers("/user").hasAnyRole("user", "admin")
+                            .requestMatchers("/api/find/**").hasAnyRole("user", "admin")
 //                            //其他所有路径必须角色为admin才能访问
                             .anyRequest().hasRole("admin")
 //                            .anyRequest().authenticated()

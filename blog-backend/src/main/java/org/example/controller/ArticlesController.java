@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.Date;
 
 @Controller
-@RequestMapping("/admin/api/art")
+@RequestMapping("/api")
 public class ArticlesController {
     @Autowired
     ArticlesServiceImpl artServer;
@@ -58,7 +58,7 @@ public class ArticlesController {
 
 
     @ResponseBody
-    @GetMapping("/find")
+    @GetMapping("/find/Art")
     public RestBean<?> findArticles(HttpServletResponse response){
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -89,7 +89,7 @@ public class ArticlesController {
     }
 
    @ResponseBody
-@PutMapping("/delF")
+@PutMapping("/delArt")
 public RestBean<?> delArt(HttpServletResponse response, Integer aid, Integer del) {
        response.setContentType("application/json");
        response.setCharacterEncoding("UTF-8");

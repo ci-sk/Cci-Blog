@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 
 @Controller
-@RequestMapping("/admin/api/account")
+@RequestMapping("/api")
 public class AccountController {
 
     @Autowired
@@ -23,7 +23,7 @@ public class AccountController {
 
 
     @ResponseBody
-    @PutMapping("/insert")
+    @PutMapping("/addAccount")
     public RestBean<?> insertAccount(HttpServletResponse response,String username,String email)
     {
         response.setContentType("application/json");
@@ -49,7 +49,7 @@ public class AccountController {
     }
 
     @ResponseBody
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delAccount")
     public RestBean<?> deleteAccount(HttpServletResponse response,Integer uid)
     {
         response.setContentType("application/json");
@@ -59,12 +59,12 @@ public class AccountController {
         {
             return RestBean.db_success("删除成功");
         }else {
-            return  RestBean.db_failure();
+            return  RestBean.db_un_failure("删除失败");
         }
     }
 
     @ResponseBody
-    @GetMapping("find")
+    @GetMapping("/find/Account")
     public RestBean<?> findAccount(HttpServletResponse response){
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

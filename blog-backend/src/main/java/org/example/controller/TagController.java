@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin/api/tag")
+@RequestMapping("/api")
 public class TagController {
     @Autowired
     TagServiceImpl server;
 
 
     @ResponseBody
-    @RequestMapping("/add")
+    @RequestMapping("/addTag")
     public RestBean<?> add(HttpServletResponse response,Integer aid,String tagName,String desc){
         response.setContentType("application/json;charset=utf-8");
 
@@ -35,7 +35,7 @@ public class TagController {
     }
 
     @ResponseBody
-    @RequestMapping("/get")
+    @RequestMapping("/find/tag")
     public RestBean<?> get(HttpServletResponse response){
         response.setContentType("application/json;charset=utf-8");
 
@@ -47,7 +47,7 @@ public class TagController {
     }
 
     @ResponseBody
-    @RequestMapping("/delete")
+    @RequestMapping("/delTag")
     public RestBean<?> delete(HttpServletResponse response,Integer tid){
         response.setContentType("application/json;charset=utf-8");
 

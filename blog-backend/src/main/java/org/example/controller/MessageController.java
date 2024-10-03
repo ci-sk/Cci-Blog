@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.Date;
 
 @Controller
-@RequestMapping("/api/auth")
+@RequestMapping("/api")
 public class MessageController {
 
     @Autowired
@@ -21,7 +21,7 @@ public class MessageController {
 
 
     @ResponseBody
-    @RequestMapping("/admin/msg/add")
+    @RequestMapping("/addMsg")
     public RestBean<?> add(HttpServletResponse response, HttpServletRequest request, String content){
         response.setContentType("application/json;charset=utf-8");
 
@@ -38,7 +38,7 @@ public class MessageController {
     }
 
     @ResponseBody
-    @RequestMapping("/user/msg/select")
+    @RequestMapping("/find/msg")
     public RestBean<?> find(HttpServletResponse response, HttpServletRequest request){
         response.setContentType("application/json;charset=utf-8");
 
@@ -46,7 +46,7 @@ public class MessageController {
     }
 
     @ResponseBody
-    @RequestMapping("/admin/msg/delete")
+    @RequestMapping("/delMsg")
     public RestBean<?> delete(HttpServletResponse response,Integer mid){
         response.setContentType("application/json;charset=utf-8");
 

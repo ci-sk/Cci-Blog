@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @TableName("db_f_link")
 @AllArgsConstructor
 @NoArgsConstructor
-public class f_link {
+public class F_Link {
     @TableId(type = IdType.AUTO)
     private Integer fid;
     private String fname;
