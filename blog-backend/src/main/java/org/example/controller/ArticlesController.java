@@ -1,13 +1,10 @@
 package org.example.controller;
 
-import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.entity.RestBean;
 import org.example.entity.dto.Articles;
 import org.example.entity.vo.response.ArticlesVO;
-import org.example.service.impl.ArticlesServerImpl;
-import org.example.utils.JwtUtils;
+import org.example.service.impl.ArticlesServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -26,7 +23,7 @@ import java.util.Date;
 @RequestMapping("/admin/api/art")
 public class ArticlesController {
     @Autowired
-    ArticlesServerImpl artServer;
+    ArticlesServiceImpl artServer;
 
 
     @ResponseBody

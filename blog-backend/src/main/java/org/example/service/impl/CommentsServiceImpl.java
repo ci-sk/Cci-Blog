@@ -3,14 +3,14 @@ package org.example.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.example.entity.dto.Comments;
 import org.example.mapper.CommentsMapper;
-import org.example.service.CommentsServer;
+import org.example.service.CommentsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class CommentsServerImpl extends ServiceImpl<CommentsMapper, Comments> implements CommentsServer {
+public class CommentsServiceImpl extends ServiceImpl<CommentsMapper, Comments> implements CommentsService {
 
     @Autowired
     CommentsMapper mapper;

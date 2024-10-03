@@ -13,7 +13,7 @@ import java.util.Date;
 @TableName("db_message")
 @AllArgsConstructor
 @NoArgsConstructor
-public class message {
+public class Message {
     @TableId(type = IdType.AUTO)
     private Integer mid;
     private Integer uid;

@@ -2,10 +2,9 @@ package org.example.service;
 
 import org.example.entity.dto.Comments;
 
-import java.util.Date;
 import java.util.List;
 
-public interface CommentsServer {
+public interface CommentsService {
 
     int insertComments(Comments comments);
 

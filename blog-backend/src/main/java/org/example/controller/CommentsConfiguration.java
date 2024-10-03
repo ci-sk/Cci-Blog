@@ -1,21 +1,16 @@
 package org.example.controller;
 
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.entity.RestBean;
-import org.example.entity.dto.Account;
 import org.example.entity.dto.Comments;
-import org.example.entity.vo.response.ArticlesVO;
 import org.example.entity.vo.response.CommentsVO;
-import org.example.service.CommentsServer;
-import org.example.service.impl.CommentsServerImpl;
+import org.example.service.impl.CommentsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +20,7 @@ import java.util.List;
 public class CommentsConfiguration  {
 
     @Autowired
-    CommentsServerImpl server;
+    CommentsServiceImpl server;
 
 
     @ResponseBody

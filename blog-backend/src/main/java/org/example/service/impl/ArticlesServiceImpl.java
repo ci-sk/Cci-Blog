@@ -3,14 +3,14 @@ package org.example.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.example.entity.dto.Articles;
 import org.example.mapper.ArticlesMapper;
-import org.example.service.ArticlesServer;
+import org.example.service.ArticlesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ArticlesServerImpl extends ServiceImpl<ArticlesMapper, Articles> implements ArticlesServer {
+public class ArticlesServiceImpl extends ServiceImpl<ArticlesMapper, Articles> implements ArticlesService {
 
     @Autowired
     ArticlesMapper mapper;

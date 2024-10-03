@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.MessageMapper">
+
+    <resultMap id="MessageMap" type="org.example.entity.dto.Message">
+        <id property="mid" column="mid"/>
+        <result property="uid" column="uid"/>
+        <result property="content" column="content"/>
+        <result property="m_time" column="m_time"/>
+    </resultMap>
+
+    <insert id="addMessage" parameterType="org.example.entity.dto.Message" useGeneratedKeys="true" keyProperty="mid">
+        insert into db_message(mid,uid,content,m_time) values (#{mid},#{uid},#{content},#{m_time})
+    </insert>
+
+    <select id="getMessage" resultMap="MessageMap">
+        select * from db_message
+    </select>
+    
+    <delete id="deleteMessage" parameterType="int">
+        delete from db_message where mid = #{mid}
+    </delete>
+</mapper>

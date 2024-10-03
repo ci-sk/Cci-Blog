@@ -4,7 +4,7 @@ import org.example.entity.dto.Articles;
 
 import java.util.List;
 
-public interface ArticlesServer {
+public interface ArticlesService {
     Integer addArt(Articles articles);
 
     List<Articles> limitArticles(Integer start,Integer size);
