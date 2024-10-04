@@ -10,7 +10,7 @@
         <result property="password" column="password" jdbcType="VARCHAR"/>
         <result property="email" column="email" jdbcType="VARCHAR"/>
         <result property="role" column="role" jdbcType="VARCHAR"/>
-        <result property="registerTime" column="registerTime" jdbcType="TIMESTAMP"/>
+        <result property="register_Time" column="register_Time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <select id="getAccountCount" resultMap="AccountMap">

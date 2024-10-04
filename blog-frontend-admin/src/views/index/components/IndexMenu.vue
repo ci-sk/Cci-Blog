@@ -26,9 +26,6 @@ const itemList =route.matched[0].children
         <el-icon>
           <component :is="tupleList[index]"/>
         </el-icon>
-<!--            <el-icon>-->
-<!--              {{ item.meta.icon }}-->
-<!--            </el-icon>-->
         <span>{{item.meat.title}}</span>
       </template>
     </el-menu-item>

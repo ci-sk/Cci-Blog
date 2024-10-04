@@ -4,13 +4,18 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.ibatis.annotations.Delete;
 import org.example.entity.RestBean;
 import org.example.entity.dto.Account;
+import org.example.entity.vo.response.AccountVO;
+import org.example.entity.vo.response.ArticlesVO;
 import org.example.service.AccountService;
+import org.example.utils.TimeFormatUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("/api")
@@ -49,12 +54,13 @@ public class AccountController {
     }
 
     @ResponseBody
-    @DeleteMapping("/delAccount")
+    @RequestMapping("/delAccount")
     public RestBean<?> deleteAccount(HttpServletResponse response,Integer uid)
     {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
+        System.out.println("删除"+uid);
         if(service.deleteAccount(uid) == 1)
         {
             return RestBean.db_success("删除成功");
@@ -69,7 +75,21 @@ public class AccountController {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        return RestBean.success(service.getAccountCount());
+        List<Account> accounts = service.getAccountCount();
+
+        ArrayList<AccountVO> vo = new ArrayList<>();;
+        for(Account  a : accounts){
+            AccountVO vo1 =(a.asViewObject(AccountVO.class,v->{
+                v.setUsername(a.getUsername());
+                v.setEmail(a.getEmail());
+                v.setRole(a.getRole());
+//                System.out.println(a.getRegister_Time().getTime());
+//                v.setRegister_Time(TimeFormatUtil.formatTimestamp(a.getRegister_Time().getTime()));
+            }));
+            vo.add(vo1);
+        }
+
+        return RestBean.success(accounts);
     }
 
 }
