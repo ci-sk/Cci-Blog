@@ -65,18 +65,7 @@ const formatTime = (value) => {
     <el-container>
       <el-header>
         <div class="head">
-          <div>
-            <label for="username">姓名:</label>
-            <el-input v-model="username" id="username" style="width: 240px" placeholder="请输入姓名"/>
-          </div>
-          <div>
-            <label for="email">邮箱:</label>
-            <el-input v-model="email" id="email" style="width: 240px" placeholder="请输入邮箱"/>
-          </div>
-          <div>
-            <label for="type">类型:</label>
-            <el-input v-model="type" id="type" style="width: 240px" placeholder="请输入类型"/>
-          </div>
+          <el-input v-m odel="type" id="type" style="width: 240px;margin-right: 10px;" placeholder="请输入..."/>
           <el-button type="primary" plain>查询</el-button>
         </div>
 
@@ -102,9 +91,13 @@ const formatTime = (value) => {
 <style scoped>
   .head{
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     padding: 20px;
     border-bottom: 1px solid #ccc;
+  }
+  /deep/
+  .el-table__row{
+    height: 56px;
   }
 </style>

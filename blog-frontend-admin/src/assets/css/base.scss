@@ -1,0 +1,24 @@
+:root {
+  //侧边栏颜色
+  --Aside-PageBgColor:#87CEFA;
+  //头部颜色
+  --Header-BgColor:#B0E0E6;
+  //主背景
+  --cci-bg-color:#F5F5F5;
+  //侧边栏文字
+  --cci-text-color: #000000;
+  //主文字颜色
+  --cci-zw-text-color:#404040;
+  //选中文字颜色
+  --cci-active-text-color:#D0E0E3;
+}
+
+html.dark {
+  --Aside-PageBgColor:#2C3539;
+  --Header-BgColor:#3D5266;
+  --cci-bg-color:#121212;
+  --cci-text-color: #E0FFFF;
+  --cci-zw-text-color:#D3D3D3;
+  --cci-active-text-color:#87CEEB;
+}
+

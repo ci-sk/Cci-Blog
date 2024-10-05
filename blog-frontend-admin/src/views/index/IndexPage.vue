@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <el-main>Main</el-main>
+  <h2 style="color: var(--cci-zw-text-color)">main</h2>
 </template>
 
 <style scoped>
