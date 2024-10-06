@@ -1,18 +1,35 @@
 <script setup>
 import {ref,onMounted} from "vue";
-import {DelAccount, getUserInfo} from "../../net/index.js";
-import * as register_Time from "element-plus/es/components/countdown/src/utils";
+import {DelAccount, getAccountText, getUserInfo} from "../../net/index.js";
 import data from "bootstrap/js/src/dom/data.js";
 import {ElMessage, ElMessageBox} from "element-plus";
 
-const username = ref('')
-const email = ref("");
-const type = ref("");
+const text = ref('')
 
-const UserInfo = ref([]);
+const UserInfo = ref([{}]);
 
+//初始化加载数据
+onMounted(() => {
+  userLogin();
+})
+
+//时间格式转化
+const formatTime = (value) => {
+  if (!value) return '';
+  const date = new Date(value);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+  return `${year}年${month}月${day}日 ${hours}:${minutes}:${seconds}`;
+}
+
+//获取用户列表
 const userLogin = () => {
   getUserInfo((res) => {
+    console.log(res);
     UserInfo.value = res;
     UserInfo.value.forEach((item) => {
       item.register_Time = formatTime(item.register_Time);
@@ -27,11 +44,9 @@ const delAccount = (uid) => {
     cancelButtonText: '取消',
     type: 'warning'
   }).then(() => {
-      DelAccount(uid, (res) => {
-        console.log(uid,res);
-        if (res.code === 200) {
+      DelAccount(uid, (data) => {
+        console.log(uid,data,"!!");
           userLogin();
-        }
       });
     }).catch(() => {
       ElMessage({
@@ -41,22 +56,19 @@ const delAccount = (uid) => {
   })
 }
 
-onMounted(() => {
-  userLogin();
-})
-
-const formatTime = (value) => {
-  if (!value) return '';
-  const date = new Date(value);
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const seconds = date.getSeconds();
-  return `${year}年${month}月${day}日 ${hours}:${minutes}:${seconds}`;
+//查询
+const search = (text) => {
+  getAccountText(text, (res) => {
+      UserInfo.value = res;
+      UserInfo.value.forEach((item) => {
+        item.register_Time = formatTime(item.register_Time);
+      })
+  });
 }
 
+function currentChange(val){
+  console.log(val);
+}
 
 </script>
 
@@ -65,14 +77,13 @@ const formatTime = (value) => {
     <el-container>
       <el-header>
         <div class="head">
-          <el-input v-m odel="type" id="type" style="width: 240px;margin-right: 10px;" placeholder="请输入..."/>
-          <el-button type="primary" plain>查询</el-button>
+          <el-input v-model="text" id="type" style="width: 240px;margin-right: 10px;" placeholder="请输入..."/>
+          <el-button type="primary" @click="search(text)" plain>查询</el-button>
         </div>
-
       </el-header>
       <el-main>
-        <el-table :data="UserInfo" style="width: 100%">
-          <el-table-column prop="uid" label="编号" width="180" />
+        <el-table class="el-table-user" :data="UserInfo" style="width: 100%">
+          <el-table-column prop="uid" label="编号" width="180"/>
           <el-table-column prop="username" label="姓名" width="180" />
           <el-table-column prop="email" label="邮箱" width="180" />
           <el-table-column prop="register_Time" label="注册时间" width="240"/>
@@ -83,12 +94,17 @@ const formatTime = (value) => {
             </template>
           </el-table-column>
         </el-table>
+        <div style="margin-top: 30px">
+          <el-pagination background layout="prev, pager, next"
+                         :total="1000"
+                         @current-change="currentChange" />
+        </div>
       </el-main>
     </el-container>
   </div>
 </template>
 
-<style scoped>
+<style lang="less" scoped>
   .head{
     display: flex;
     justify-content: flex-end;
@@ -99,5 +115,12 @@ const formatTime = (value) => {
   /deep/
   .el-table__row{
     height: 56px;
+  }
+  .el-table{
+    --el-table-tr-bg-color:linear-gradient(to right, #FFF8DC, #B6C7A5);
+
+    --el-table-header-bg-color:linear-gradient(to right, #FFF8DC, #B6C7A5);
+
+    --el-table-bg-color :linear-gradient(to right, #FFF8DC, #B6C7A5);
   }
 </style>

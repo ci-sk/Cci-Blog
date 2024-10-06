@@ -65,7 +65,7 @@ function clickItem(item){
 .el-menu{
  height:100vh;
  border-right: 1px solid var(--bPageBgColor);
-  background-color: var(--Aside-PageBgColor);
+  background: var(--Aside-PageBgColor);
   color: var(--cci-text-color);
  h3{
    text-align: center;

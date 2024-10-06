@@ -97,13 +97,13 @@ const toggleDark = () =>useToggle(isDark)
     /deep/ .el-breadcrumb__item {
       .el-breadcrumb__inner {
         &.is-link {
-          color: #666;
+          color: var(--cci-header-active-text-color);
         }
       }
 
       &:last-child {
         .el-breadcrumb__inner {
-          color: #fff;
+          color: var(--cci-header-text-color);
         }
       }
 

@@ -22,11 +22,10 @@
             values(#{aid,jdbcType=INTEGER},#{uid},#{title},#{content},#{publish_Time})
     </insert>
 
-    <!--
      <select id="limitArticles" resultMap="ArticlesMap">
         select * from db_articles limit ${start},${size}
     </select>
-    -->
+
 
     <select id="aid" resultMap="ArticlesMap">
         select * from db_articles where aid = #{aid}
@@ -40,8 +39,6 @@
         select *
         from db_articles;
     </select>
-
-
 
     <update id="upDataArticles" parameterType="org.example.entity.dto.Articles">
         update db_articles

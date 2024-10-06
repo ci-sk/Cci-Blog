@@ -23,7 +23,7 @@ public class ArticlesServiceImpl extends ServiceImpl<ArticlesMapper, Articles> i
 
     @Override
     public List<Articles> limitArticles(Integer start, Integer size) {
-        return mapper.findArticles(start,size);
+        return mapper.limitArticles(start,size);
     }
 
     @Override

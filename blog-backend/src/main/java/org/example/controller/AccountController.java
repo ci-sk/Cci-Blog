@@ -71,7 +71,8 @@ public class AccountController {
 
     @ResponseBody
     @GetMapping("/find/Account")
-    public RestBean<?> findAccount(HttpServletResponse response){
+    public RestBean<?> findAccount(HttpServletResponse response)
+    {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
@@ -90,6 +91,18 @@ public class AccountController {
         }
 
         return RestBean.success(accounts);
+    }
+
+    @ResponseBody
+    @RequestMapping("/getAccountByText")
+    public RestBean<?> getAccountByText(HttpServletResponse response,String text)
+    {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        List<Account> account = service.getAccountByText(text);
+
+        return RestBean.success(account);
     }
 
 }

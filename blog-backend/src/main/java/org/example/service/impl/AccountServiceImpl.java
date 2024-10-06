@@ -57,4 +57,14 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     public List<Account> getAccountCount() {
         return mapper.getAccountCount();
     }
+
+    @Override
+    public List<Account> getAccountByText(String text) {
+        return mapper.getAccountByText(text);
+    }
+
+    @Override
+    public List<Account> limitAccount(Integer start, Integer size) {
+        return mapper.limitAccount(start,size);
+    }
 }

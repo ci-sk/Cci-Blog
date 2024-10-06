@@ -11,7 +11,7 @@ import java.util.List;
 public interface ArticlesMapper extends BaseMapper<Articles> {
     Integer addArt(Articles articles);
 
-    List<Articles> findArticles(Integer start,Integer size);
+    List<Articles> limitArticles(Integer start,Integer size);
 
     List<Articles> findArticleAll();
 

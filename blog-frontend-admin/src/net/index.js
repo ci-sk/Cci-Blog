@@ -82,18 +82,23 @@ function internalGet(url, header, success, failure, error = defaultError) {
 
 // 发送 PUT 请求的内部函数
 function internalPut(url, data, header, success, failure, error = defaultError) {
-    axios.put(url,data, { headers: header }).then(({ data }) => {
+    axios.put(url, data,{
+        headers: header,
+        params:{text:data.text}
+    })
+      .then(({ data }) => {
         if (data.code === 200) {
             success(data.data);
         } else {
             failure(data.message, data.code, url);
         }
-    }).catch(err => error(err))
+      }).catch(err => error(err))
 }
 
 // 发送 POST 请求的内部函数
 function internalPost(url, data, header, success, failure, error = defaultError) {
-    axios.post(url, data, { headers: header }).then(({ data }) => {
+    axios.post(url, data,{ headers: header }
+    ).then(({ data }) => {
         if (data.code === 200) {
             success(data.data);
         } else {
@@ -109,7 +114,6 @@ function internalDel(url, data,header, success, failure, error = defaultError) {
         params: {uid:data.uid}
     })
         .then(({data}) => {
-            console.log(data,"!!!");
             if(data.code === 200) {
                 success(data.data);
             } else {
@@ -133,7 +137,7 @@ function post(url, data, success, failure = defaultFailure) {
 }
 
 // 发送 PUT 请求的封装函数
-function put(url, data, success, failure = defaultFailure) {
+function put(url, data,header, success, failure = defaultFailure) {
     internalPut(url, data, accessHeader(), success, failure);
 }
 
@@ -188,21 +192,34 @@ function getUserInfo(success, failure = defaultFailure) {
     }, failure)
 }
 
-function DelAccount(data, failure = defaultFailure) {
+function DelAccount(data,success,failure = defaultFailure) {
     del('api/delAccount', {
         uid:data
     },{
         'Content-Type': 'application/x-www-form-urlencoded'
     },()=>{
-        // success(data);
         ElMessage.success("删除成功");
+        success();
     }, () => {
         // 调用失败回调函数，传递错误信息
         failure("删除失败", 500, "api/delAccount");
     })
 }
 
+function getAccountText(data, success, failure = defaultFailure) {
 
+    put('/api/getAccountByText', {
+        text:data
+    },{
+        'Content-Type': 'application/x-www-form-urlencoded'
+    },(data)=>{
+        ElMessage.success("获取成功");
+        success(data);
+    }, () => {
+        // 调用失败回调函数，传递错误信息
+        failure("获取失败", 500, "api/getAccountText");
+    })
+}
 
 // 判断用户是否未登录
 function unauthorized() {
@@ -210,7 +227,5 @@ function unauthorized() {
     return!takeAccessToken();
 }
 
-
-
 // 导出函数
-export { login, logout, get, post, unauthorized,getUserInfo,DelAccount };
+export { login, logout, get, post, unauthorized,getUserInfo,DelAccount,getAccountText };

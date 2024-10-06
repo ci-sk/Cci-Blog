@@ -27,6 +27,6 @@ import CommonTags from "../components/CommonTags.vue";
 <style scoped lang="less">
 
 .common-layout{
-  background-color: var(--cci-bg-color);
+  background: var(--cci-bg-color);
 }
 </style>

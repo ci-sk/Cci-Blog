@@ -18,4 +18,8 @@ public interface AccountMapper extends BaseMapper<Account> {
     int deleteAccount(Integer uid);
 
     List<Account> getAccountCount();
+
+    List<Account> getAccountByText(String text);
+
+    List<Account> limitAccount(Integer start,Integer size);
 }

@@ -1,24 +1,44 @@
 :root {
   //侧边栏颜色
-  --Aside-PageBgColor:#87CEFA;
+  --Aside-PageBgColor:radial-gradient(circle, #3366CC , #2c90b6) ;
   //头部颜色
-  --Header-BgColor:#B0E0E6;
+  --Header-BgColor:#F8F6F4;
   //主背景
-  --cci-bg-color:#F5F5F5;
+  --cci-bg-color: linear-gradient(to right, #FFF8DC, #B6C7A5);
   //侧边栏文字
-  --cci-text-color: #000000;
+  --cci-text-color: #fff;
   //主文字颜色
   --cci-zw-text-color:#404040;
   //选中文字颜色
-  --cci-active-text-color:#D0E0E3;
-}
+  --cci-active-text-color: #FFD700;
+  //头部文字颜色
+  --cci-header-text-color:#800080 ;
 
+  --cci-header-active-text-color: #87CEEB ;
+
+  //导航栏选中颜色
+  --el-menu-hover-bg-color: #3fa7cd !important ;
+  // 表格选中颜色
+  --el-table-row-hover-bg-color: #d3e4bf !important ;
+
+  --el-table-header-text-color:#404040!important;
+}
 html.dark {
-  --Aside-PageBgColor:#2C3539;
-  --Header-BgColor:#3D5266;
-  --cci-bg-color:#121212;
-  --cci-text-color: #E0FFFF;
+  --Aside-PageBgColor:#2C123E;
+  --Header-BgColor:#1A1A1A;
+  // 主背景
+  --cci-bg-color: linear-gradient(to right, #1E2749, #2C123E);
+
+  --cci-text-color: #E0E0E0;
   --cci-zw-text-color:#D3D3D3;
-  --cci-active-text-color:#87CEEB;
+  --cci-active-text-color:#DDA0DD;
+  --cci-header-text-color:#FFD700;
+
+  //导航栏选中颜色
+  --el-menu-hover-bg-color: #1E2749 !important ;
+  // 表格选中颜色
+  --el-table-row-hover-bg-color: #2C123E !important ;
+
+  --el-table-header-text-color:#fff!important;
 }
 
