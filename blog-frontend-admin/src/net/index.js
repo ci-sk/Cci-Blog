@@ -82,9 +82,9 @@ function internalGet(url, header, success, failure, error = defaultError) {
 
 // 发送 PUT 请求的内部函数
 function internalPut(url, data, header, success, failure, error = defaultError) {
+    console.log(data,"内部")
     axios.put(url, data,{
         headers: header,
-        params:{text:data.text}
     })
       .then(({ data }) => {
         if (data.code === 200) {
@@ -138,6 +138,7 @@ function post(url, data, success, failure = defaultFailure) {
 
 // 发送 PUT 请求的封装函数
 function put(url, data,header, success, failure = defaultFailure) {
+    console.log(data,"封装")
     internalPut(url, data, accessHeader(), success, failure);
 }
 
@@ -193,7 +194,7 @@ function getUserInfo(success, failure = defaultFailure) {
 }
 
 function DelAccount(data,success,failure = defaultFailure) {
-    del('api/delAccount', {
+    internalDel('api/delAccount', {
         uid:data
     },{
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -208,9 +209,10 @@ function DelAccount(data,success,failure = defaultFailure) {
 
 function getAccountText(data, success, failure = defaultFailure) {
 
-    put('/api/getAccountByText', {
+    internalPut('/api/getAccountByText',{
         text:data
     },{
+        'Authorization' : `Bearer ${takeAccessToken()}`,
         'Content-Type': 'application/x-www-form-urlencoded'
     },(data)=>{
         ElMessage.success("获取成功");
@@ -221,6 +223,21 @@ function getAccountText(data, success, failure = defaultFailure) {
     })
 }
 
+function AccountLimit(data,success, failure = defaultFailure) {
+    internalPut('api/getAccountLimit',{
+        page:data,
+        limit:10
+    },{
+        'Authorization' : `Bearer ${takeAccessToken()}`,
+        'Content-Type': 'application/x-www-form-urlencoded'
+    },(data)=>{
+        ElMessage.success("获取成功");
+        success(data);
+    }, () => {
+        // 调用失败回调函数，传递错误信息
+        failure("获取失败", 500, "api/getAccountText");
+    })
+}
 // 判断用户是否未登录
 function unauthorized() {
     // 返回是否存在访问令牌
@@ -228,4 +245,4 @@ function unauthorized() {
 }
 
 // 导出函数
-export { login, logout, get, post, unauthorized,getUserInfo,DelAccount,getAccountText };
+export { login, logout, get, post, unauthorized,getUserInfo,DelAccount,getAccountText,AccountLimit };

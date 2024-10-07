@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.ibatis.annotations.Delete;
 import org.example.entity.RestBean;
@@ -100,9 +101,31 @@ public class AccountController {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
+        System.out.println(text);
+
         List<Account> account = service.getAccountByText(text);
 
         return RestBean.success(account);
     }
 
+
+    @ResponseBody
+    @RequestMapping("/getAccountLimit")
+    public RestBean<?> getAccountLimit(HttpServletResponse response, HttpServletRequest request, Integer page, Integer limit){
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        page--;
+        if(page>=1){
+            page = (page) * 10;
+            limit += page;
+        }
+
+        System.out.println(page+" "+limit);
+
+        List<Account> account = service.limitAccount(page,limit);
+
+        return RestBean.success(account);
+    }
 }

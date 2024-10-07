@@ -1,7 +1,6 @@
 package org.example.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import jakarta.annotation.Resource;
 import org.example.entity.dto.Account;
 import org.example.mapper.AccountMapper;
 import org.example.service.AccountService;
@@ -64,7 +63,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     }
 
     @Override
-    public List<Account> limitAccount(Integer start, Integer size) {
-        return mapper.limitAccount(start,size);
+    public List<Account> limitAccount(Integer page, Integer limit) {
+        return mapper.limitAccount(page, limit);
     }
 }

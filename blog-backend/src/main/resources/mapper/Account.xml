@@ -18,9 +18,6 @@
         from db_account;
     </select>
 
-    <select id="limitAccount" resultMap="AccountMap">
-        select * from db_articles limit ${start},${size}
-    </select>
 
     <insert id="insertAccount" parameterType="org.example.entity.dto.Account" useGeneratedKeys="true" keyProperty="uid">
         insert into db_account (uid,username,password,email,role,register_Time)
@@ -34,5 +31,6 @@
     <select id="getAccountByText" resultMap="AccountMap">
         select * from db_account where uid = '${text}' or username like '%${text}%' or email like '%${text}%'
     </select>
+
 
 </mapper>

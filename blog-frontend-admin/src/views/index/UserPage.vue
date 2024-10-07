@@ -1,6 +1,6 @@
 <script setup>
 import {ref,onMounted} from "vue";
-import {DelAccount, getAccountText, getUserInfo} from "../../net/index.js";
+import {AccountLimit, DelAccount, getAccountText, getUserInfo} from "../../net/index.js";
 import data from "bootstrap/js/src/dom/data.js";
 import {ElMessage, ElMessageBox} from "element-plus";
 
@@ -59,6 +59,7 @@ const delAccount = (uid) => {
 //查询
 const search = (text) => {
   getAccountText(text, (res) => {
+      console.log(res);
       UserInfo.value = res;
       UserInfo.value.forEach((item) => {
         item.register_Time = formatTime(item.register_Time);
@@ -67,7 +68,11 @@ const search = (text) => {
 }
 
 function currentChange(val){
-  console.log(val);
+
+  AccountLimit((val),(data)=>{
+    console.log(data);
+    UserInfo.value = data;
+  })
 }
 
 </script>
@@ -117,10 +122,10 @@ function currentChange(val){
     height: 56px;
   }
   .el-table{
-    --el-table-tr-bg-color:linear-gradient(to right, #FFF8DC, #B6C7A5);
+    --el-table-tr-bg-color:var(--cci-bg-color);
 
-    --el-table-header-bg-color:linear-gradient(to right, #FFF8DC, #B6C7A5);
+    --el-table-header-bg-color:var(--cci-bg-color);
 
-    --el-table-bg-color :linear-gradient(to right, #FFF8DC, #B6C7A5);
+    --el-table-bg-color :var(--cci-bg-color);
   }
 </style>
