@@ -29,11 +29,12 @@ function clickItem(item){
 
 <template>
   <el-menu
-      default-active="1-4-1"
+      default-active="home"
       class="el-menu-vertical-demo"
       :collapse="isCollapse"
-      text-color="#fff00"
-      active-text-color="var(--cci-active-text-color)"
+      background-color="#545c64"
+      text-color="#fff"
+      active-text-color="#FFD700"
   >
     <h3>{{isCollapse?"后台":"通用后台管理系统"}}</h3>
     <el-menu-item @click="clickItem(item)"  v-for="item in noChildren" :key="item.name" :index="item.name">
@@ -49,7 +50,7 @@ function clickItem(item){
         </el-icon>
         <span slot="title">{{item.label}}</span>
       </template>
-      <el-menu-item-group v-for="subItem in item.children" :key="subItem.name">
+      <el-menu-item-group class="item-group" v-for="subItem in item.children" :key="subItem.name">
         <el-menu-item @click="clickItem(subItem)" :index="subItem.name">{{subItem.label}}</el-menu-item>
       </el-menu-item-group>
     </el-sub-menu>
@@ -65,14 +66,19 @@ function clickItem(item){
 .el-menu{
  height:100vh;
  border-right: 1px solid var(--bPageBgColor);
-  background: var(--Aside-PageBgColor);
-  color: var(--cci-text-color);
+ // background: var(--Aside-PageBgColor);
+ // color: var(--cci-text-color);
+
  h3{
    text-align: center;
    line-height: 48px;
    font-size: 16px;
    font-weight: 400;
+   color:#fff
  }
+}
+.item-group{
+  background: var(--Aside-PageBgColor);
 }
 
 

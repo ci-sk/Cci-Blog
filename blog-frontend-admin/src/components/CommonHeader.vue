@@ -66,7 +66,7 @@ const toggleDark = () =>useToggle(isDark)
 
 <style lang="less" scoped>
 .header-container {
-  background-color: var(--Header-BgColor);
+  background-color: #000;
   height: 60px;
 
   display: flex;
@@ -97,13 +97,13 @@ const toggleDark = () =>useToggle(isDark)
     /deep/ .el-breadcrumb__item {
       .el-breadcrumb__inner {
         &.is-link {
-          color: var(--cci-header-active-text-color);
+          color: #ccc;
         }
       }
 
       &:last-child {
         .el-breadcrumb__inner {
-          color: var(--cci-header-text-color);
+          color: #fff;
         }
       }
 

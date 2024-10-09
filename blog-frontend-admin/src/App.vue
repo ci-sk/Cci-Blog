@@ -1,5 +1,6 @@
 <script setup>
 import {useDark, useToggle} from "@vueuse/core";
+import FIleUpdate from "./components/FIleUpdate.vue";
 
 useDark({
   selector: 'html',
@@ -14,7 +15,8 @@ useDark({
 </script>
 
 <template>
-  <router-view/>
+<!--  <router-view/>-->
+  <FIleUpdate/>
 </template>
 
 <style>

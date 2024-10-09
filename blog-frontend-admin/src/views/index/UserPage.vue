@@ -121,11 +121,11 @@ function currentChange(val){
   .el-table__row{
     height: 56px;
   }
-  .el-table{
-    --el-table-tr-bg-color:var(--cci-bg-color);
-
-    --el-table-header-bg-color:var(--cci-bg-color);
-
-    --el-table-bg-color :var(--cci-bg-color);
-  }
+  //.el-table{
+  //  --el-table-tr-bg-color:var(--cci-bg-color);
+  //
+  //  --el-table-header-bg-color:var(--cci-bg-color);
+  //
+  //  --el-table-bg-color :var(--cci-bg-color);
+  //}
 </style>

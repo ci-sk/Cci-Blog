@@ -73,7 +73,6 @@ public class SecurityConfiguration {
                     .sessionManagement(conf ->conf
                             .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                     .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
-//                    .addFilterAfter(exceptionFilter, UsernamePasswordAuthenticationFilter.class)
                     .build();
     }
 
