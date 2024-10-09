@@ -7,7 +7,6 @@ import router from "./router/index.js";
 // import "./assets/css/base.scss"
 import axios from "axios";
 
-
 // 引入pinia仓库
 import { createPinia } from 'pinia'
 // 持久化存储pinia

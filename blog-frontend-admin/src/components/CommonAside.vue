@@ -1,8 +1,11 @@
 <script setup>
-import {computed} from 'vue'
+import {computed, ref,watch} from 'vue'
 import MenuData from "../data/MenuData.js";
 import {useCounterStore} from "../store/index.js";
 import router from "../router/index.js";
+import {useRoute} from "vue-router";
+
+const route = useRoute()
 
 const Store = useCounterStore()
 
@@ -20,7 +23,6 @@ const isCollapse = computed(()=>{
 
 function clickItem(item){
   router.push(item.path)
-
   Store.SelectMenu(Store,item)
 }
 
@@ -29,7 +31,7 @@ function clickItem(item){
 
 <template>
   <el-menu
-      default-active="home"
+      :default-active="route.path"
       class="el-menu-vertical-demo"
       :collapse="isCollapse"
       background-color="#545c64"
@@ -37,13 +39,13 @@ function clickItem(item){
       active-text-color="#FFD700"
   >
     <h3>{{isCollapse?"后台":"通用后台管理系统"}}</h3>
-    <el-menu-item @click="clickItem(item)"  v-for="item in noChildren" :key="item.name" :index="item.name">
+    <el-menu-item @click="clickItem(item)"  v-for="item in noChildren" :key="item.name" :index="item.path">
       <el-icon>
         <component :is="item.icon"/>
       </el-icon>
         <span>{{item.label}}</span>
     </el-menu-item>
-    <el-sub-menu v-for="item in hasChildren" :key="item.name" :index="item.name">
+    <el-sub-menu v-for="item in hasChildren" :key="item.name" :index="item.name+''">
       <template #title>
         <el-icon>
           <component :is="item.icon"/>
@@ -66,8 +68,6 @@ function clickItem(item){
 .el-menu{
  height:100vh;
  border-right: 1px solid var(--bPageBgColor);
- // background: var(--Aside-PageBgColor);
- // color: var(--cci-text-color);
 
  h3{
    text-align: center;

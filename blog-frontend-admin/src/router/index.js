@@ -1,9 +1,10 @@
-import {createRouter, createWebHashHistory, useRoute} from 'vue-router'
+import {createRouter, createWebHashHistory, createWebHistory, useRoute} from 'vue-router'
 
 import {unauthorized} from "../net/index.js";
 
 const router = createRouter({
      history:createWebHashHistory(import.meta.env.BASE_URL),
+    // history:createWebHistory(),
      routes:[
         {
             path:'/',

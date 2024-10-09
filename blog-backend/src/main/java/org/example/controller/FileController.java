@@ -34,9 +34,8 @@ public class FileController {
 
     @PostMapping("/file/upload")
     public RestBean<?> upload(MultipartFile multipartFile) throws IOException {
-        System.out.println(multipartFile.getInputStream()+"!!!");
         String upload = fileService.upload(multipartFile);
-        if(upload==null) return RestBean.failure(301,"上传失败");
+        if(upload==null) return RestBean.failure(401,"上传失败");
         return RestBean.success(upload);
     }
 

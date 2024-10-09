@@ -15,8 +15,8 @@ useDark({
 </script>
 
 <template>
-<!--  <router-view/>-->
-  <FIleUpdate/>
+  <router-view/>
+<!--  <FIleUpdate/>-->
 </template>
 
 <style>

@@ -3,7 +3,7 @@ import {defineStore} from 'pinia';
 export const useCounterStore
     = defineStore("Collapse",{
     state:()=>({
-        isCollapse:false,  //导航栏是否折叠
+        isCollapse:false, //导航栏是否折叠
         // 面包屑导航
         tabList:[
             {
@@ -22,6 +22,7 @@ export const useCounterStore
         },
         //更新面包屑数据的方法
         SelectMenu(state,item){
+            console.log(item)
             const index = state.tabList.findIndex((item1)=>item1.name === item.name)
             if(index === -1){
                 state.tabList.push(item)
@@ -31,5 +32,8 @@ export const useCounterStore
             const index = state.tabList.findIndex((item1)=>item1.name === item.name)
             state.tabList.splice(index,1)
         }
+    },
+    persist:{
+        enabled:true,
     }
 })
