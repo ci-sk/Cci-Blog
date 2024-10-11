@@ -3,14 +3,14 @@ import {Menu} from "@element-plus/icons-vue";
 import {logout} from "../net/index.js";
 import {useCounterStore} from "../store/index.js";
 import router from "../router/index.js";
+import MenuData from "../data/MenuData.js";
 import {useDark, useToggle} from "@vueuse/core";
+import {onMounted} from "vue";
+import {useRoute} from "vue-router";
 
-useDark({
-  selector: 'html',
-  attribute:'class',
-  valueDark:"dark",
-  valueLight:"light"
-})
+const route = useRoute()
+console.log(route)
+
 
 const Store = useCounterStore()
 console.log(Store.isCollapse)
@@ -19,13 +19,12 @@ const handleMenu = () => {
   Store.isCollapse =!Store.isCollapse
 }
 
-const tags = Store.tabList;
+// const tags = Store.tabList;
 
 function  userLogout(){
   logout(()=>router.push('/'))
 
 }
-
 const isDark = useDark()
 const toggleDark = () =>useToggle(isDark)
 
@@ -37,11 +36,11 @@ const toggleDark = () =>useToggle(isDark)
       <el-icon :size="26" color="#409efc" @click="handleMenu"><Menu /></el-icon>
       <!-- 面包屑 -->
       <el-breadcrumb separator="/">
-      <el-breadcrumb-item v-for="item in tags"
-        :key="item.path"
-        :to="item.path"
-      >{{item.label}}
-      </el-breadcrumb-item>
+        <el-breadcrumb-item v-for="item in route.matched"
+          :key="item.path"
+          :to="item.path"
+        >{{item.name}}
+        </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
 

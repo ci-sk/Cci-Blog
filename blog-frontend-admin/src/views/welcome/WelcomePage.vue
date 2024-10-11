@@ -22,7 +22,6 @@ const rule ={
 }
 
 function userLogin(){
-
   formRef.value.validate((valid)=>{
       if(valid){
         login(form.username,form.password,form.remember,()=>router.push('/index'))

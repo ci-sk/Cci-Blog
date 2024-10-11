@@ -25,11 +25,8 @@ import java.io.IOException;
 @RequestMapping("/find")
 public class FileController {
 
-    private final FileService fileService;
-
-    public FileController(FileService fileService) {
-        this.fileService = fileService;
-    }
+    @Autowired
+    FileService fileService;
 
 
     @PostMapping("/file/upload")

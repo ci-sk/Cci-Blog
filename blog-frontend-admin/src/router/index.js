@@ -1,4 +1,4 @@
-import {createRouter, createWebHashHistory, createWebHistory, useRoute} from 'vue-router'
+import {createRouter, createWebHashHistory} from 'vue-router'
 
 import {unauthorized} from "../net/index.js";
 
@@ -19,42 +19,87 @@ const router = createRouter({
             ]
         },{
             path:'/index',
-             name:'index',
              component:() =>import("../views/IndexView.vue"),
              children:[
                  {
                      path:"/index",
-                     name:"index-home",
+                     name:"首页",
                      component:() => import("../views/index/IndexPage.vue"),
                  },{
-                     path: "/index/user",
-                     name: "index-user",
-                     component: () => import("../views/index/UserPage.vue"),
-                 },{
-                     path: "/index/article",
-                     name: "index-article",
-                     component: () => import("../views/index/ArticlePage.vue"),
-                 },{
-                     path: "/index/write",
-                     name: "index-write",
-                     component: () => import("../views/index/WritePage.vue"),
-                 },{
-                     path: "/index/categories",
-                     name: "index-categories",
-                     component: () => import("../views/index/CategoriesPage.vue"),
-                 },{
-                     path: "/index/message",
-                     name: "index-message",
-                     component: () => import("../views/index/MessagePage.vue"),
-                 },{
-                     path: "/index/comments",
-                     name: "index-comments",
-                     component: () => import("../views/index/CommentsPage.vue"),
-                 },{
-                     path: "/index/picture",
-                     name: "index-picture",
-                     component: () => import("../views/index/PicturePage.vue"),
+                    path: "/article",
+                     name:"文章管理",
+                     children:[
+                         {
+                             path:"/article",
+                             name:"博客管理",
+                             component: () => import("../views/index/ArticlePage.vue"),
+                         },
+                         {
+                             path: "/article/write",
+                             name: "撰写",
+                             component: () => import("../views/index/WritePage.vue"),
+                         },
+                         {
+                             path: "/article/categories",
+                             name: "标签",
+                             component: () => import("../views/index/CategoriesPage.vue"),
+                         },
+                         {
+                             path: "/article/picture",
+                             name: "图片",
+                             component: () => import("../views/index/PicturePage.vue"),
+                         },
+                     ]
                  },
+                 {
+                     path:"/webSite",
+                     name:"网站",
+                     children:[
+                         {
+                             path: "/webSite",
+                             name: "系统",
+                             component: () => import("../views/index/SystemPage.vue"),
+                         },
+                         {
+                             path: "/webSite/friend",
+                             name: "友链",
+                             component: () => import("../views/index/LinkPage.vue"),
+                         },
+                     ]
+                 },
+                 {
+                   path:"/message",
+                   name:"消息管理",
+                   children:[
+                       {
+                         path: "/message",
+                         name: "消息",
+                         component: () => import("../views/index/MessagePage.vue"),
+                       },
+                       {
+                         path: "/message/comments",
+                         name: "评论",
+                         component: () => import("../views/index/CommentsPage.vue"),
+                       },
+                   ]
+                 },
+                 {
+                     path:"/root",
+                     name:"权限",
+                     children:[
+                         {
+                             path: "/root/user",
+                             name: "用户",
+                             component: () => import("../views/index/UserPage.vue"),
+                         },
+                         {
+                             path: "/root/menu",
+                             name: "菜单",
+                             component: () => import("../views/index/MenuPage.vue"),
+                         },
+                     ]
+                 },
+
              ]
          }
      ]

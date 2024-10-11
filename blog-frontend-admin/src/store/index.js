@@ -11,9 +11,8 @@ export const useCounterStore
                 name:"home",
                 label:"首页",
                 icon:"s-home",
-                url:"/index"
             }
-        ]
+        ],
     }),
     actions:{
         //修改导航栏展开和收起的方法

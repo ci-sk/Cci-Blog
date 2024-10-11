@@ -7,6 +7,7 @@ import {useRoute} from "vue-router";
 
 const route = useRoute()
 
+
 const Store = useCounterStore()
 
 const noChildren = computed(()=>{
@@ -34,7 +35,6 @@ function clickItem(item){
       :default-active="route.path"
       class="el-menu-vertical-demo"
       :collapse="isCollapse"
-      background-color="#545c64"
       text-color="#fff"
       active-text-color="#FFD700"
   >
@@ -53,7 +53,12 @@ function clickItem(item){
         <span slot="title">{{item.label}}</span>
       </template>
       <el-menu-item-group class="item-group" v-for="subItem in item.children" :key="subItem.name">
-        <el-menu-item @click="clickItem(subItem)" :index="subItem.name">{{subItem.label}}</el-menu-item>
+        <el-menu-item @click="clickItem(subItem)" :index="subItem.path+''">
+          <el-icon>
+            <component :is="subItem.icon"/>
+          </el-icon>
+          {{subItem.label}}
+        </el-menu-item>
       </el-menu-item-group>
     </el-sub-menu>
   </el-menu>
@@ -63,12 +68,12 @@ function clickItem(item){
 <style lang="less" scoped>
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
-  min-height: 550px;
+  min-height: 100vh;
 }
 .el-menu{
- height:100vh;
+ height:100%;
  border-right: 1px solid var(--bPageBgColor);
-
+  background-color: var(--Aside-PageBgColor);
  h3{
    text-align: center;
    line-height: 48px;

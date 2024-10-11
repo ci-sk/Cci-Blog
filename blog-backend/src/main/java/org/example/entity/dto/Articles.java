@@ -6,12 +6,9 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.ibatis.type.Alias;
 import org.example.entity.BaseData;
-import org.example.entity.vo.response.ArticlesVO;
 
 import java.util.Date;
-import java.util.List;
 
 @Data
 @TableName("db_articles")
@@ -23,6 +20,7 @@ public class Articles implements BaseData {
     private Integer uid;
     private String title;
     private String content;
+    private String img_url;
     private int del;
     private Date publish_Time;
 }

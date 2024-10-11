@@ -4,7 +4,7 @@ import App from './App.vue'
 import 'element-plus/theme-chalk/dark/css-vars.css'
 import 'element-plus/theme-chalk/display.css'
 import router from "./router/index.js";
-// import "./assets/css/base.scss"
+import "./assets/css/base-admin.scss"
 import axios from "axios";
 
 // 引入pinia仓库

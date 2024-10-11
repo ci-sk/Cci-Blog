@@ -7,7 +7,7 @@ import {
     Message,
     Picture, Setting,
     User,
-    Location
+    Location, Key, MilkTea, Menu
 } from "@element-plus/icons-vue";
 
 
@@ -17,75 +17,100 @@ export default[
         name:"home",
         label:"首页",
         icon:House,
-        url:"/index"
+
     },
     {
-        path:"/index/user",
-        name:"user",
-        label:"用户管理",
-        icon:User,
-        url:"/index/user"
-    },
-    {
-        path:"/index/article",
-        name:"article",
-        label:"博客管理",
+        label:"文章管理",
         icon:Document,
-        url:"/index/article"
-    },
-    {
-        path:"/index/write",
-        name:"write",
-        label:"撰写博客",
-        icon:EditPen,
-        url:"/index/write"
-    },
-    {
-        path:"/index/categories",
-        name:"categories",
-        label:"分类管理",
-        icon:ElementPlus,
-        url:"/index/categories"
-    },
-    {
-        path:"/index/message",
-        name:"message",
-        label:"留言管理",
-        icon:Message,
-        url:"/index/message"
-    },
-    {
-        path:"/index/comments",
-        name:"comments",
-        label:"评论管理",
-        icon:ChatSquare,
-        url:"/index/comments"
-    },
-    {
-        path:"/index/picture",
-        name:"picture",
-        label:"图片管理",
-        icon:Picture,
-        url:"/index/picture"
-    },
-    {
-        label: '其他',
-        icon: Location,
-        children: [
+        name:"article",
+        children:[
             {
-                path: '/page1',
-                name: 'page1',
-                label: '页面1',
-                icon: Setting,
-                url: 'Other/PageOne'
+                path:"/article",
+                name:"article",
+                label:"博客管理",
+                icon:Document,
             },
             {
-                path: '/page2',
-                name: 'page2',
-                label: '页面2',
-                icon: Setting,
-                url: 'Other/PageTwo'
-            }
+                path:"/article/write",
+                name:"write",
+                label:"撰写博客",
+                icon:EditPen,
+            },
+            {
+                path:"/article/categories",
+                name:"categories",
+                label:"标签管理",
+                icon:ElementPlus,
+            },
+            {
+                path:"/article/picture",
+                name:"picture",
+                label:"图片管理",
+                icon:Picture,
+            },
+        ],
+    },
+    {
+        label:"网站设置",
+        name:"setting",
+        icon:Key,
+        children:[
+            {
+                path: "/webSite",
+                name: "webSite",
+                label: "网站设置",
+                icon: Key,
+                url: "/webSite"
+            },
+            {
+                path: "/webSite/friend",
+                name: "friend",
+                label: "友链管理",
+                icon: MilkTea,
+                url: "/friend"
+            },
+        ],
+    },
+    {
+        label:"消息管理",
+        name:"message",
+        icon:Message,
+        url:"/message",
+        children: [
+            {
+                path:"/message",
+                name:"message",
+                label:"留言管理",
+                icon:Message,
+                url:"/message"
+            },
+            {
+                path:"/message/comments",
+                name:"comments",
+                label:"评论管理",
+                icon:ChatSquare,
+                url:"/comments"
+            },
         ]
-    }
+    },
+    {
+        label: '权限管理',
+        icon: Setting,
+        children: [
+            {
+                path:"/root/user",
+                name:"user",
+                label:"用户管理",
+                icon:User,
+                url:"/user"
+            },
+            {
+                path: '/root/menu',
+                name: 'menu',
+                label: '菜单管理',
+                icon: Menu,
+                url: 'Power/Menu'
+            },
+        ]
+    },
 ]
