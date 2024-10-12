@@ -65,7 +65,9 @@ function deleteAccessToken() {
 function accessHeader() {
     // 获取令牌，如果没有则返回空对象
     const token = takeAccessToken();
-    return token ? { 'Authorization': `Bearer ${takeAccessToken()}` } : {};
+    return token ? { 'Authorization': `Bearer ${takeAccessToken()}`,
+        'Content-Type': 'application/x-www-form-urlencoded'
+    } : {};
 }
 
 
@@ -82,9 +84,8 @@ function internalGet(url, header, success, failure, error = defaultError) {
 
 // 发送 PUT 请求的内部函数
 function internalPut(url, data, header, success, failure, error = defaultError) {
-    console.log(data,"内部")
     axios.put(url, data,{
-        headers: header,
+        headers: header
     })
       .then(({ data }) => {
         if (data.code === 200) {
@@ -109,19 +110,15 @@ function internalPost(url, data, header, success, failure, error = defaultError)
 
 // 发送 DELETE 请求的内部函数
 function internalDel(url, data,header, success, failure, error = defaultError) {
-    axios.delete(url, {
+    axios.delete(url,{
         headers: header,
-        params: {uid:data.uid}
+        data:data
     })
         .then(({data}) => {
-            if(data.code === 200) {
-                success(data.data);
-            } else {
-                failure(data.message, data.code, url);
-            }
+           success(data)
         })
         .catch(error => {
-            console.error(error);
+            failure(error);
         });
 
 }
@@ -137,13 +134,12 @@ function post(url, data, success, failure = defaultFailure) {
 }
 
 // 发送 PUT 请求的封装函数
-function put(url, data,header, success, failure = defaultFailure) {
-    console.log(data,"封装")
+function put(url, data, success, failure = defaultFailure) {
     internalPut(url, data, accessHeader(), success, failure);
 }
 
 // 发送 DELETE 请求的封装函数
-function del(url,data,header,success, failure = defaultFailure) {
+function del(url,data,success, failure = defaultFailure) {
     internalDel(url, data,accessHeader(), success, failure);
 }
 
@@ -186,18 +182,97 @@ function getUserInfo(success, failure = defaultFailure) {
         // 调用成功回调函数，传递用户信息数据
         success(data);
     }, () => {
-        // 调用成功回调函数，传递用户信息数据
-        // success(data);
-        // 调用失败回调函数，传递错误信息
         failure("获取用户信息失败", 500, "api/find/Account");
     }, failure)
 }
 
+function getTag(success,failure){
+    get('api/find/tag',(data)=>{
+        success(data);
+    }, () => {
+        failure("获取用户信息失败", 500, "api/find/Account");
+    })
+}
+
+function getAccountText(data, success, failure = defaultFailure) {
+
+    put('/api/getAccountByText',{
+        text:data
+    },(data)=>{
+        ElMessage.success("获取成功");
+        success(data);
+    }, () => {
+        // 调用失败回调函数，传递错误信息
+        failure("获取失败", 500, "api/getAccountText");
+    })
+}
+
+function TagSearch(data, success, failure = defaultFailure) {
+
+    put('/api/TagSearch', {
+        text: data.value
+    }, (data) => {
+        ElMessage.success("获取成功");
+        success(data);
+    }, () => {
+        // 调用失败回调函数，传递错误信息
+        failure("获取失败", 500, "api/getAccountText");
+    })
+}
+
+
+function AccountLimit(data,success, failure = defaultFailure) {
+    put('api/getAccountLimit',{
+        page:data,
+        limit:10
+    },(data)=>{
+        ElMessage.success("获取成功");
+        success(data);
+    }, () => {
+        // 调用失败回调函数，传递错误信息
+        failure("获取失败", 500, "api/getAccountText");
+    })
+}
+
+function TagLimit(data,success, failure = defaultFailure) {
+    put('api/limitTag',{
+        page:data,
+        limit:10
+    },(data)=>{
+        ElMessage.success("获取成功");
+        success(data);
+    }, () => {
+        // 调用失败回调函数，传递错误信息
+        failure("获取失败", 500, "api/getAccountText");
+    })
+}
+
+function insertTag(data,success,failure){
+    console.log(data.value)
+    put("api/addTag", {
+        tagName:data.value
+    },(data)=>{
+        ElMessage.success("添加成功");
+        success(data);
+    },()=>{
+        ElMessage.error("添加失败");
+    })
+}
+
+function DelTag(data,success,failure){
+    del("/api/delTag",{
+        tid:data
+    },(data)=>{
+        ElMessage.success("删除成功");
+        success(data);
+    },()=>{
+        failure("删除失败", 500, "api/delAccount");
+    })
+}
+
 function DelAccount(data,success,failure = defaultFailure) {
-    internalDel('api/delAccount', {
+    del('api/delAccount', {
         uid:data
-    },{
-        'Content-Type': 'application/x-www-form-urlencoded'
     },()=>{
         ElMessage.success("删除成功");
         success();
@@ -207,37 +282,7 @@ function DelAccount(data,success,failure = defaultFailure) {
     })
 }
 
-function getAccountText(data, success, failure = defaultFailure) {
 
-    internalPut('/api/getAccountByText',{
-        text:data
-    },{
-        'Authorization' : `Bearer ${takeAccessToken()}`,
-        'Content-Type': 'application/x-www-form-urlencoded'
-    },(data)=>{
-        ElMessage.success("获取成功");
-        success(data);
-    }, () => {
-        // 调用失败回调函数，传递错误信息
-        failure("获取失败", 500, "api/getAccountText");
-    })
-}
-
-function AccountLimit(data,success, failure = defaultFailure) {
-    internalPut('api/getAccountLimit',{
-        page:data,
-        limit:10
-    },{
-        'Authorization' : `Bearer ${takeAccessToken()}`,
-        'Content-Type': 'application/x-www-form-urlencoded'
-    },(data)=>{
-        ElMessage.success("获取成功");
-        success(data);
-    }, () => {
-        // 调用失败回调函数，传递错误信息
-        failure("获取失败", 500, "api/getAccountText");
-    })
-}
 // 判断用户是否未登录
 function unauthorized() {
     // 返回是否存在访问令牌
@@ -245,4 +290,6 @@ function unauthorized() {
 }
 
 // 导出函数
-export { login, logout, get, post, unauthorized,getUserInfo,DelAccount,getAccountText,AccountLimit };
+export { login, logout, get, post, unauthorized,getUserInfo,DelAccount,getAccountText,AccountLimit,getTag};
+
+export {insertTag,DelTag,TagLimit,TagSearch}

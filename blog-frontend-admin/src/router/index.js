@@ -42,7 +42,7 @@ const router = createRouter({
                          {
                              path: "/article/categories",
                              name: "标签",
-                             component: () => import("../views/index/CategoriesPage.vue"),
+                             component: () => import("../views/index/Tag.vue"),
                          },
                          {
                              path: "/article/picture",

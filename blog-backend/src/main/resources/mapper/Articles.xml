@@ -18,8 +18,8 @@
     文章标题title 文章内容content
 -->
     <insert id="addArt" parameterType="org.example.entity.dto.Articles" useGeneratedKeys="true" keyProperty="aid">
-        insert into db_articles(aid,uid,title,content,publish_time)
-            values(#{aid,jdbcType=INTEGER},#{uid},#{title},#{content},#{publish_Time})
+        insert into db_articles(aid,uid,tags,title,content,publish_time)
+            values(#{aid,jdbcType=INTEGER},#{tags},#{uid},#{title},#{content},#{publish_Time})
     </insert>
 
      <select id="limitArticles" resultMap="ArticlesMap">

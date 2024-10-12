@@ -111,7 +111,8 @@ public class AccountController {
 
     @ResponseBody
     @RequestMapping("/getAccountLimit")
-    public RestBean<?> getAccountLimit(HttpServletResponse response, HttpServletRequest request, Integer page, Integer limit){
+    public RestBean<?> getAccountLimit(HttpServletResponse response, HttpServletRequest request, Integer page, Integer limit)
+    {
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -128,4 +129,5 @@ public class AccountController {
 
         return RestBean.success(account);
     }
+
 }

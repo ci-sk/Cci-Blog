@@ -28,7 +28,7 @@ public class ArticlesController {
 
     @ResponseBody
     @PutMapping("/addArt")
-    public RestBean<?> addArt(Integer aid, String title, String content) {
+    public RestBean<?> addArt(Integer aid,String tags, String title, String content) {
         try {
 
             Articles articles = new Articles();
@@ -36,6 +36,7 @@ public class ArticlesController {
 
                 articles.setTitle(title);
                 articles.setContent(content);
+                articles.setTags(tags);
                 articles.setPublish_Time(new Date());
                 System.out.println(articles);
                 if (artServer.addArt(articles) == 1) return RestBean.db_add_success(articles, "添加成功");

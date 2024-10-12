@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @TableName("db_tag")
 @Data
 @AllArgsConstructor
@@ -14,7 +16,6 @@ import lombok.NoArgsConstructor;
 public class Tag {
     @TableId(type = IdType.AUTO)
     private Integer tid;
-    private Integer aid;
     private String tagName;
-    private String desc;
+    private Date t_time;
 }

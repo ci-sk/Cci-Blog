@@ -18,6 +18,7 @@ public class Articles implements BaseData {
     @TableId(type = IdType.AUTO)
     private Integer aid;
     private Integer uid;
+    private String tags;
     private String title;
     private String content;
     private String img_url;

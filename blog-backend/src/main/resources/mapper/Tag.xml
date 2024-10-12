@@ -5,13 +5,12 @@
 <mapper namespace="org.example.mapper.TagMapper">
     <resultMap id="tagMap" type="org.example.entity.dto.Tag">
         <id property="tid" column="tid"/>
-        <result property="aid" column="aid"/>
         <result property="tagName" column="tagName"/>
-        <result property="desc" column="desc"/>
+        <result property="t_time" column="t_time"/>
     </resultMap>
 
     <insert id="addTag" parameterType="org.example.entity.dto.Tag" useGeneratedKeys="true" keyProperty="tid">
-        insert into db_tag (tid,aid,tagName,`desc`) values (#{tid},#{aid},#{tagName},#{desc})
+        insert into db_tag (tid,tagName,t_time) values (#{tid},#{tagName},#{t_time})
     </insert>
 
     <select id="getTagList" parameterType="int" resultMap="tagMap">
@@ -22,5 +21,12 @@
         delete from db_tag where tid=#{tid}
     </delete>
 
+    <select id="limitTag" resultMap="tagMap">
+        select * from db_tag limit #{page},#{limit};
+    </select>
+
+    <select id="getTagText" parameterType="int" resultMap="tagMap">
+        select * from db_tag where db_tag.tagName like '%${text}%'
+    </select>
 
 </mapper>

@@ -14,4 +14,8 @@ public interface TagMapper extends BaseMapper<Tag> {
     int addTag(Tag tag);
 
     int deleteTagByTid(int tid);
+
+    List<Tag> limitTag(Integer page,Integer limit);
+
+    List<Tag> getTagText(String text);
 }

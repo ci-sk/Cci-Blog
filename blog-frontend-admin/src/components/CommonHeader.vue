@@ -9,11 +9,8 @@ import {onMounted} from "vue";
 import {useRoute} from "vue-router";
 
 const route = useRoute()
-console.log(route)
-
 
 const Store = useCounterStore()
-console.log(Store.isCollapse)
 
 const handleMenu = () => {
   Store.isCollapse =!Store.isCollapse

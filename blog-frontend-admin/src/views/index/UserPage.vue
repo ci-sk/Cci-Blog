@@ -3,6 +3,7 @@ import {ref,onMounted} from "vue";
 import {AccountLimit, DelAccount, getAccountText, getUserInfo} from "../../net/index.js";
 import data from "bootstrap/js/src/dom/data.js";
 import {ElMessage, ElMessageBox} from "element-plus";
+import {changeTime, formatTime} from "../../uilt/index.js";
 
 const text = ref('')
 
@@ -13,27 +14,12 @@ onMounted(() => {
   userLogin();
 })
 
-//时间格式转化
-const formatTime = (value) => {
-  if (!value) return '';
-  const date = new Date(value);
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const seconds = date.getSeconds();
-  return `${year}年${month}月${day}日 ${hours}:${minutes}:${seconds}`;
-}
-
 //获取用户列表
 const userLogin = () => {
   getUserInfo((res) => {
     console.log(res);
     UserInfo.value = res;
-    UserInfo.value.forEach((item) => {
-      item.register_Time = formatTime(item.register_Time);
-    })
+    UserInfo.value = changeTime(UserInfo.value);
   });
 }
 
@@ -59,11 +45,8 @@ const delAccount = (uid) => {
 //查询
 const search = (text) => {
   getAccountText(text, (res) => {
-      console.log(res);
       UserInfo.value = res;
-      UserInfo.value.forEach((item) => {
-        item.register_Time = formatTime(item.register_Time);
-      })
+      UserInfo.value = changeTime(UserInfo.value);
   });
 }
 

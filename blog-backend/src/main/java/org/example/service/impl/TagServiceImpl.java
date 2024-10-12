@@ -30,4 +30,14 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     public int deleteTagByTid(int tid) {
         return mapper.deleteTagByTid(tid);
     }
+
+    @Override
+    public List<Tag> limitTag(Integer page, Integer limit) {
+        return mapper.limitTag(page,limit);
+    }
+
+    @Override
+    public List<Tag> getTagText(String text) {
+        return mapper.getTagText(text);
+    }
 }
