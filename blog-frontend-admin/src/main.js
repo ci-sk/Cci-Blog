@@ -12,7 +12,6 @@ import { createPinia } from 'pinia'
 // 持久化存储pinia
 import piniaPluginPersist from 'pinia-plugin-persist'
 
-
 axios.defaults.baseURL = "http://localhost:8080";
 
 const store = createPinia()

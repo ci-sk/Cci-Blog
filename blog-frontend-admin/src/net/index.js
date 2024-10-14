@@ -98,8 +98,9 @@ function internalPut(url, data, header, success, failure, error = defaultError) 
 
 // 发送 POST 请求的内部函数
 function internalPost(url, data, header, success, failure, error = defaultError) {
-    axios.post(url, data,{ headers: header }
-    ).then(({ data }) => {
+    axios.post(url, data,{
+        headers: header
+    }).then(({ data }) => {
         if (data.code === 200) {
             success(data.data);
         } else {
@@ -142,8 +143,6 @@ function put(url, data, success, failure = defaultFailure) {
 function del(url,data,success, failure = defaultFailure) {
     internalDel(url, data,accessHeader(), success, failure);
 }
-
-
 
 // 登录函数
 function login(username, password, remember, success, failure = defaultFailure) {
@@ -220,7 +219,6 @@ function TagSearch(data, success, failure = defaultFailure) {
     })
 }
 
-
 function AccountLimit(data,success, failure = defaultFailure) {
     put('api/getAccountLimit',{
         page:data,
@@ -282,6 +280,19 @@ function DelAccount(data,success,failure = defaultFailure) {
     })
 }
 
+function uploadFile(data,success,failure = defaultFailure){
+    internalPost('api/file/upload',{
+        multipartFile: data
+    },{
+        'Authorization': `Bearer ${takeAccessToken()}`,
+        "Content-Type": "multipart/form-data"
+    },(res)=>{
+        ElMessage.success("上传成功");
+        success(res);
+    },(res)=>{
+        failure( res,500, "api/file/upload");
+    })
+}
 
 // 判断用户是否未登录
 function unauthorized() {
@@ -293,3 +304,5 @@ function unauthorized() {
 export { login, logout, get, post, unauthorized,getUserInfo,DelAccount,getAccountText,AccountLimit,getTag};
 
 export {insertTag,DelTag,TagLimit,TagSearch}
+
+export {uploadFile}

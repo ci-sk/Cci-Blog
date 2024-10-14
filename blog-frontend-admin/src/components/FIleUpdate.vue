@@ -3,9 +3,10 @@ import axios from "axios";
 import { ElButton, ElMessage } from "element-plus";
 
 const uploadFile = async (options) => {
+  console.log(options.file)
   const formData = new FormData();
   formData.append("file", options.file);
-  axios.post('find/file/upload', {
+  axios.post('api/file/upload', {
     multipartFile: formData.get("file")
   },{
     headers: {
