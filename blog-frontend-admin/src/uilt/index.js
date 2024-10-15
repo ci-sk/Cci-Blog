@@ -14,7 +14,7 @@ const formatTime = (value) => {
 
 const changeTime = (value)=>{
     value.forEach((item) => {
-        item.t_time = formatTime(item.t_time);
+        item.time = formatTime(item.time);
     })
     return value;
 }

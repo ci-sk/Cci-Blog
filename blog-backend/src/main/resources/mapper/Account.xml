@@ -10,7 +10,7 @@
         <result property="password" column="password" jdbcType="VARCHAR"/>
         <result property="email" column="email" jdbcType="VARCHAR"/>
         <result property="role" column="role" jdbcType="VARCHAR"/>
-        <result property="register_Time" column="register_Time" jdbcType="TIMESTAMP"/>
+        <result property="time" column="register_Time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <select id="getAccountCount" resultMap="AccountMap">
@@ -21,7 +21,7 @@
 
     <insert id="insertAccount" parameterType="org.example.entity.dto.Account" useGeneratedKeys="true" keyProperty="uid">
         insert into db_account (uid,username,password,email,role,register_Time)
-        values (#{uid},#{username},#{password},#{email},#{role},#{register_Time})
+        values (#{uid},#{username},#{password},#{email},#{role},#{time})
     </insert>
 
     <delete id="deleteAccount" parameterType="org.example.entity.dto.Account">
@@ -32,5 +32,8 @@
         select * from db_account where uid = '${text}' or username like '%${text}%' or email like '%${text}%'
     </select>
 
+    <select id="limitAccount" resultMap="AccountMap">
+        select * from db_account limit #{page},#{limit}
+    </select>
 
 </mapper>

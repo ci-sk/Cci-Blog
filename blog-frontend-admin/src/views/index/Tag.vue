@@ -1,7 +1,7 @@
 <script setup>
 import { ref,onMounted } from 'vue';
 import {Plus, Refresh, Search} from "@element-plus/icons-vue";
-import {DelTag, getTag, getUserInfo, insertTag, TagLimit, TagSearch} from "../../net/index.js";
+import {DelTag, getTag, getTagCount, insertTag, TagLimit, TagSearch} from "../../net/tag.js";
 import {changeTime, formatTime} from "../../uilt/index.js";
 import {ElMessage, ElMessageBox} from "element-plus";
 
@@ -10,6 +10,8 @@ const input = ref('');
 const val = ref('')
 
 const TagInfo = ref([]);
+
+const total = ref('')
 
 let dialogVisible = ref(false)
 
@@ -21,7 +23,7 @@ const addTags = ()=>{
 }
 
 const TagUser = () => {
-  getTag((res) => {
+  TagLimit(1,(res) => {
     console.log(res);
     TagInfo.value = res;
     TagInfo.value = changeTime(TagInfo.value);
@@ -64,6 +66,9 @@ const search = ()=>{
 //初始化加载数据
 onMounted(() => {
   TagUser();
+  getTagCount((res)=>{
+    total.value = res;
+  })
 })
 
 </script>
@@ -125,7 +130,7 @@ onMounted(() => {
         label="标签名"
       />
       <el-table-column
-          prop="t_time"
+          prop="time"
           label="创建时间"
       />
       <el-table-column label="操作" align="center">
@@ -136,7 +141,7 @@ onMounted(() => {
     </el-table>
     <div style="margin-top: 30px">
       <el-pagination background layout="prev, pager, next"
-                     :total="1000"
+                     :total="total"
                      @current-change="currentChange" />
     </div>
   </el-card>

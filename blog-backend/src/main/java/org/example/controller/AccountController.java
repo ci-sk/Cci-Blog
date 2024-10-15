@@ -35,16 +35,12 @@ public class AccountController {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-//        Account account = new Account(username,passwordEncoder.encode("123456"),email,"user",new Date());
-
         Account account = new Account();
         account.setUsername(username);
         account.setPassword(passwordEncoder.encode("123456"));
         account.setEmail(email);
         account.setRole("user");
-        account.setRegister_Time(new Date());
-
-        System.out.println(account);
+        account.setTime(new Date());
 
         if(service.insertAccount(account) == 1)
         {
@@ -86,7 +82,7 @@ public class AccountController {
                 v.setEmail(a.getEmail());
                 v.setRole(a.getRole());
 //                System.out.println(a.getRegister_Time().getTime());
-//                v.setRegister_Time(TimeFormatUtil.formatTimestamp(a.getRegister_Time().getTime()));
+//                v.setRegister_Time(a.getRegister_Time().getTime());
             }));
             vo.add(vo1);
         }
@@ -100,8 +96,6 @@ public class AccountController {
     {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-
-        System.out.println(text);
 
         List<Account> account = service.getAccountByText(text);
 
@@ -123,11 +117,22 @@ public class AccountController {
             limit += page;
         }
 
-        System.out.println(page+" "+limit);
-
         List<Account> account = service.limitAccount(page,limit);
+
+        System.out.println(account);
 
         return RestBean.success(account);
     }
 
+    @ResponseBody
+    @RequestMapping("/getAccountCount")
+    public RestBean<?> getAccountCount(HttpServletResponse response)
+    {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        Integer count = service.getCount();
+
+        return RestBean.success(count);
+    }
 }

@@ -65,7 +65,7 @@ public class QiniuFileServiceImpl implements FileService {
         Response response = uploadManager.put(file.getInputStream(), fileKey, upToken, null, null);
 
         // 返回文件url
-        return domain +"/"+ fileKey;
+        return  "http://"+domain +"/"+ fileKey;
     }
 }
 

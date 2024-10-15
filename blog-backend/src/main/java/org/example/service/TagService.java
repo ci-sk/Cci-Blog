@@ -15,4 +15,5 @@ public interface TagService {
 
     List<Tag> getTagText(String text);
 
+    Integer getTagCount();
 }

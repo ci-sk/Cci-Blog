@@ -66,4 +66,9 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     public List<Account> limitAccount(Integer page, Integer limit) {
         return mapper.limitAccount(page, limit);
     }
+
+    @Override
+    public Integer getCount() {
+        return mapper.getCount();
+    }
 }

@@ -17,5 +17,5 @@ public class Tag {
     @TableId(type = IdType.AUTO)
     private Integer tid;
     private String tagName;
-    private Date t_time;
+    private Date time;
 }

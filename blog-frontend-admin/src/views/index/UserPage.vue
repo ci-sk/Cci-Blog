@@ -1,6 +1,6 @@
 <script setup>
 import {ref,onMounted} from "vue";
-import {AccountLimit, DelAccount, getAccountText, getUserInfo} from "../../net/index.js";
+import {AccountLimit, DelAccount, getAccountCount, getAccountText, getUserInfo} from "../../net/account.js";
 import data from "bootstrap/js/src/dom/data.js";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {changeTime, formatTime} from "../../uilt/index.js";
@@ -9,14 +9,19 @@ const text = ref('')
 
 const UserInfo = ref([{}]);
 
+const total = ref('')
+
 //初始化加载数据
 onMounted(() => {
+  getAccountCount((res)=>{
+    total.value = res;
+  })
   userLogin();
 })
 
 //获取用户列表
 const userLogin = () => {
-  getUserInfo((res) => {
+  AccountLimit(1,(res) => {
     console.log(res);
     UserInfo.value = res;
     UserInfo.value = changeTime(UserInfo.value);
@@ -74,7 +79,7 @@ function currentChange(val){
           <el-table-column prop="uid" label="编号" width="180"/>
           <el-table-column prop="username" label="姓名" width="180" />
           <el-table-column prop="email" label="邮箱" width="180" />
-          <el-table-column prop="register_Time" label="注册时间" width="240"/>
+          <el-table-column prop="time" label="注册时间" width="240"/>
           <el-table-column prop="role" label="用户角色" width="180" />
           <el-table-column fixed="right" label="操作" min-width="120">
             <template #default="scope">
@@ -83,8 +88,9 @@ function currentChange(val){
           </el-table-column>
         </el-table>
         <div style="margin-top: 30px">
-          <el-pagination background layout="prev, pager, next"
-                         :total="1000"
+          <el-pagination background
+                         layout="prev, pager, next"
+                         :total="total"
                          @current-change="currentChange" />
         </div>
       </el-main>
@@ -104,11 +110,4 @@ function currentChange(val){
   .el-table__row{
     height: 56px;
   }
-  //.el-table{
-  //  --el-table-tr-bg-color:var(--cci-bg-color);
-  //
-  //  --el-table-header-bg-color:var(--cci-bg-color);
-  //
-  //  --el-table-bg-color :var(--cci-bg-color);
-  //}
 </style>

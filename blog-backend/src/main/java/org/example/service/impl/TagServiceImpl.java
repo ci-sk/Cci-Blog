@@ -40,4 +40,9 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     public List<Tag> getTagText(String text) {
         return mapper.getTagText(text);
     }
+
+    @Override
+    public Integer getTagCount() {
+        return mapper.getTagCount();
+    }
 }

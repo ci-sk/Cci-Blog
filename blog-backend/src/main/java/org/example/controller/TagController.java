@@ -30,7 +30,7 @@ public class TagController {
         Tag tag = new Tag();
 
         tag.setTagName(tagName);
-        tag.setT_time(new Date());
+        tag.setTime(new Date());
         if(server.addTag(tag) ==1 ){
             return RestBean.success(tag);
         }
@@ -88,6 +88,18 @@ public class TagController {
         List<Tag> list = server.getTagText(text);
         if(list!= null){
             return RestBean.success(list);
+        }
+        else return RestBean.db_un_failure("获取失败");
+    }
+
+    @ResponseBody
+    @RequestMapping("/getTagCount")
+    public RestBean<?> count(HttpServletResponse response){
+        response.setContentType("application/json;charset=utf-8");
+
+        Integer count = server.getTagCount();
+        if(count!= null){
+            return RestBean.success(count);
         }
         else return RestBean.db_un_failure("获取失败");
     }

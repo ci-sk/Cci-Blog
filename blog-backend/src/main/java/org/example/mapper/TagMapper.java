@@ -18,4 +18,6 @@ public interface TagMapper extends BaseMapper<Tag> {
     List<Tag> limitTag(Integer page,Integer limit);
 
     List<Tag> getTagText(String text);
+
+    Integer getTagCount();
 }

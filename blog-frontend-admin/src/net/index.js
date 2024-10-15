@@ -175,112 +175,8 @@ function logout(success, failure = defaultFailure) {
     }, failure);
 }
 
-function getUserInfo(success, failure = defaultFailure) {
-    // 调用 GET 请求函数，获取用户信息
-    get('api/find/Account', (data)=>{
-        // 调用成功回调函数，传递用户信息数据
-        success(data);
-    }, () => {
-        failure("获取用户信息失败", 500, "api/find/Account");
-    }, failure)
-}
-
-function getTag(success,failure){
-    get('api/find/tag',(data)=>{
-        success(data);
-    }, () => {
-        failure("获取用户信息失败", 500, "api/find/Account");
-    })
-}
-
-function getAccountText(data, success, failure = defaultFailure) {
-
-    put('/api/getAccountByText',{
-        text:data
-    },(data)=>{
-        ElMessage.success("获取成功");
-        success(data);
-    }, () => {
-        // 调用失败回调函数，传递错误信息
-        failure("获取失败", 500, "api/getAccountText");
-    })
-}
-
-function TagSearch(data, success, failure = defaultFailure) {
-
-    put('/api/TagSearch', {
-        text: data.value
-    }, (data) => {
-        ElMessage.success("获取成功");
-        success(data);
-    }, () => {
-        // 调用失败回调函数，传递错误信息
-        failure("获取失败", 500, "api/getAccountText");
-    })
-}
-
-function AccountLimit(data,success, failure = defaultFailure) {
-    put('api/getAccountLimit',{
-        page:data,
-        limit:10
-    },(data)=>{
-        ElMessage.success("获取成功");
-        success(data);
-    }, () => {
-        // 调用失败回调函数，传递错误信息
-        failure("获取失败", 500, "api/getAccountText");
-    })
-}
-
-function TagLimit(data,success, failure = defaultFailure) {
-    put('api/limitTag',{
-        page:data,
-        limit:10
-    },(data)=>{
-        ElMessage.success("获取成功");
-        success(data);
-    }, () => {
-        // 调用失败回调函数，传递错误信息
-        failure("获取失败", 500, "api/getAccountText");
-    })
-}
-
-function insertTag(data,success,failure){
-    console.log(data.value)
-    put("api/addTag", {
-        tagName:data.value
-    },(data)=>{
-        ElMessage.success("添加成功");
-        success(data);
-    },()=>{
-        ElMessage.error("添加失败");
-    })
-}
-
-function DelTag(data,success,failure){
-    del("/api/delTag",{
-        tid:data
-    },(data)=>{
-        ElMessage.success("删除成功");
-        success(data);
-    },()=>{
-        failure("删除失败", 500, "api/delAccount");
-    })
-}
-
-function DelAccount(data,success,failure = defaultFailure) {
-    del('api/delAccount', {
-        uid:data
-    },()=>{
-        ElMessage.success("删除成功");
-        success();
-    }, () => {
-        // 调用失败回调函数，传递错误信息
-        failure("删除失败", 500, "api/delAccount");
-    })
-}
-
-function uploadFile(data,success,failure = defaultFailure){
+//文件上传
+function uploadFile(data,success,failure){
     internalPost('api/file/upload',{
         multipartFile: data
     },{
@@ -301,8 +197,5 @@ function unauthorized() {
 }
 
 // 导出函数
-export { login, logout, get, post, unauthorized,getUserInfo,DelAccount,getAccountText,AccountLimit,getTag};
+export { login, logout, get, post,put,del,defaultFailure, unauthorized,uploadFile};
 
-export {insertTag,DelTag,TagLimit,TagSearch}
-
-export {uploadFile}
