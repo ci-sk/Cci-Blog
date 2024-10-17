@@ -1,7 +1,7 @@
 <script setup>
 import { ref,onMounted } from 'vue';
 import {Plus, Refresh, Search} from "@element-plus/icons-vue";
-import {DelTag, getTag, getTagCount, insertTag, TagLimit, TagSearch} from "../../net/tag.js";
+import {DelTag,getTagCount, insertTag, TagLimit, TagSearch} from "../../net/tag.js";
 import {changeTime, formatTime} from "../../uilt/index.js";
 import {ElMessage, ElMessageBox} from "element-plus";
 

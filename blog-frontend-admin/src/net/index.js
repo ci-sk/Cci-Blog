@@ -183,7 +183,6 @@ function uploadFile(data,success,failure){
         'Authorization': `Bearer ${takeAccessToken()}`,
         "Content-Type": "multipart/form-data"
     },(res)=>{
-        ElMessage.success("上传成功");
         success(res);
     },(res)=>{
         failure( res,500, "api/file/upload");

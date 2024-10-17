@@ -42,7 +42,6 @@ public class QiniuFileServiceImpl implements FileService {
         if (file.isEmpty()) {
             throw new RuntimeException("文件是空的");
         }
-        System.out.println("进入");
 
 
         // 创建上传token

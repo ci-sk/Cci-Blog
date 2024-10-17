@@ -9,6 +9,7 @@
         <result property="uid" column="uid" jdbcType="INTEGER"/>
         <result property="title" column="title" jdbcType="VARCHAR"/>
         <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="img_url" column="img_url" jdbcType="VARCHAR"/>
         <result property="del" column="del" javaType="INTEGER"/>
         <result property="publish_Time" column="publish_time" jdbcType="TIMESTAMP"/>
     </resultMap>
@@ -18,8 +19,8 @@
     文章标题title 文章内容content
 -->
     <insert id="addArt" parameterType="org.example.entity.dto.Articles" useGeneratedKeys="true" keyProperty="aid">
-        insert into db_articles(aid,uid,tags,title,content,publish_time)
-            values(#{aid,jdbcType=INTEGER},#{tags},#{uid},#{title},#{content},#{publish_Time})
+        insert into db_articles(aid,tags,title,img_url,content,publish_time)
+            values(#{aid,jdbcType=INTEGER},#{tags},#{title},#{img_url},#{content},#{publish_Time})
     </insert>
 
      <select id="limitArticles" resultMap="ArticlesMap">

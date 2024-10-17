@@ -28,7 +28,7 @@ public class ArticlesController {
 
     @ResponseBody
     @PutMapping("/addArt")
-    public RestBean<?> addArt(Integer aid,String tags, String title, String content) {
+    public RestBean<?> addArt(Integer aid,String tags, String image,String title, String content) {
         try {
 
             Articles articles = new Articles();
@@ -37,6 +37,7 @@ public class ArticlesController {
                 articles.setTitle(title);
                 articles.setContent(content);
                 articles.setTags(tags);
+                articles.setImg_url(image);
                 articles.setPublish_Time(new Date());
                 System.out.println(articles);
                 if (artServer.addArt(articles) == 1) return RestBean.db_add_success(articles, "添加成功");
@@ -44,6 +45,8 @@ public class ArticlesController {
                 System.out.println("修改接口");
                 articles.setAid(aid);
                 articles.setTitle(title);
+                articles.setImg_url(image);
+                articles.setTags(tags);
                 articles.setContent(content);
                 // 判断id是否存在
                 if (artServer.upDataArticles(articles) == 1) {
@@ -73,6 +76,8 @@ public class ArticlesController {
                     v.setAid(article.getAid());
                     v.setTitle(article.getTitle());
                     v.setContent(article.getContent());
+                    v.setTags(article.getTags());
+                    v.setImg_url(article.getImg_url());
                     v.setPublish_Time(article.getPublish_Time());
                     v.setDel(article.getDel());
                 }));
