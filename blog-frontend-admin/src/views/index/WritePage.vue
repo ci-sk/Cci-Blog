@@ -5,24 +5,40 @@ import {MdEditor} from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 import {useDark} from "@vueuse/core";
-import {uploadFile} from "../../net/index.js";
+import {takeAccessToken, uploadFile} from "../../net/index.js";
 import {Plus} from "@element-plus/icons-vue";
 import {getTag} from "../../net/tag.js";
 
 const text = ref('# Hello Editor');
 
-const form = reactive({
-       title:"",
-       desc:"",
-       image:"",
-       tags:[],
-       text:""
-})
-
 const imgBase = ref();
 
 const isDark = useDark();
 
+const uploadRef = ref();
+
+const buttonRef = ref()
+
+const tags = ref([]);
+
+const pTags = ref([])
+
+const form = reactive({
+  title:"",
+  desc:"",
+  image:"",
+  tags:[],
+  text:""
+})
+
+//渲染标签
+const TagUser = () => {
+  getTag((res) => {
+    tags.value = res;
+  });
+};
+
+//md 编辑器上传图片
 const onUploadImg = async (files, callback) => {
   const formData = new FormData();
   formData.append("file", files[0]);
@@ -43,47 +59,40 @@ const onUploadImg = async (files, callback) => {
 
 }
 
-const beforeUpload = async (file)=>{
-  form.image = file;
-  let reader = new FileReader();
-  reader.readAsDataURL(file);
-  console.log("@@@",reader)
-
-  reader.onload = () => {
-    imgBase.value = reader.result;
-  }
-  console.log(imgBase.value)
-
-}
-
-const handleAvatarSuccess = (file)=>{
-  const formData = new FormData();
-  formData.append("file", file);
-  uploadFile(formData.get("file"),(res)=>{
-    form.image  = res;
-  })
-}
-
-const buttonRef = ref()
-
-const tags = ref([]);
-
-const pTags = ref([])
-
-const TagUser = () => {
-  getTag((res) => {
-    tags.value = res;
-  });
-};
-
+//添加标签
 const add = (item)=>{
   pTags.value = [...new Set([...pTags.value, item])];
   form.tags = [...new Set([...form.tags, item.tagName])];
   console.log(form);
 }
 
+// 上传图片(不进云存储)
+const changeUpload = (file,fileList)=>{
+  // 或者使用 URL.createObjectURL(file.raw) 来创建一个 URL
+  const fileUrl = URL.createObjectURL(file.raw);
+  console.log(fileUrl);
+  // 将文件路径或 URL 存储在 imgBase 中，以便在模板中使用
+  imgBase.value = fileUrl;
+}
+
+//自定义图片上传
+function uploadRequest(req){
+  const formData = new FormData();
+
+  formData.append("file", req.file);
+  uploadFile(formData.get("file"),(res)=>{
+    form.image  = res;
+  })
+}
+
+//提交上传图片
+const submitUpload = () => {
+  console.log(uploadRef.value)
+  uploadRef.value.submit();
+}
+
+//提交表单
 const submitForm = ()=>{
-  handleAvatarSuccess(form.image);
 
 }
 
@@ -113,10 +122,12 @@ onMounted(() => {
 
       <el-form-item label="标题图" style="margin-left: 84px" >
         <el-upload
+            ref="uploadRef"
             class="avatar-uploader"
-            action="http://localhost:8080/api/file/upload"
+            :http-request="uploadRequest"
             :show-file-list="false"
-            :before-upload="beforeUpload"
+            :auto-upload="false"
+            :on-change="changeUpload"
         >
           <img v-if="imgBase" :src="imgBase" class="avatar"  alt=""/>
           <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
@@ -158,7 +169,7 @@ onMounted(() => {
         </el-tag>
       </el-popover>
     </el-form-item>
-    <el-button type="primary" plain @click="submitForm ">
+    <el-button type="primary" plain @click="submitUpload ">
       提交
     </el-button>
 

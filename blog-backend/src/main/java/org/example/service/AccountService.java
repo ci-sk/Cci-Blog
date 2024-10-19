@@ -15,7 +15,7 @@ public interface AccountService extends IService<Account>, UserDetailsService {
 
     List<Account> getAccountCount();
 
-    List<Account> getAccountByText(String text);
+    List<Account> getAccountByText(String text,Integer page,Integer limit);
 
     List<Account> limitAccount(Integer page,Integer limit);
 

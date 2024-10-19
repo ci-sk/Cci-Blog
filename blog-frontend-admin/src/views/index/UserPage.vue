@@ -4,25 +4,33 @@ import {AccountLimit, DelAccount, getAccountCount, getAccountText, getUserInfo} 
 import data from "bootstrap/js/src/dom/data.js";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {changeTime, formatTime} from "../../uilt/index.js";
+import {Refresh} from "@element-plus/icons-vue";
 
 const text = ref('')
 
 const UserInfo = ref([{}]);
 
-const total = ref('')
+const page = ref(1)
 
-//初始化加载数据
-onMounted(() => {
+const total = ref(0)
+
+function rest(){
+  text.value = '';
   getAccountCount((res)=>{
     total.value = res;
   })
   userLogin();
+}
+
+
+//初始化加载数据
+onMounted(() => {
+  rest()
 })
 
 //获取用户列表
 const userLogin = () => {
   AccountLimit(1,(res) => {
-    console.log(res);
     UserInfo.value = res;
     UserInfo.value = changeTime(UserInfo.value);
   });
@@ -49,19 +57,27 @@ const delAccount = (uid) => {
 
 //查询
 const search = (text) => {
-  getAccountText(text, (res) => {
+  getAccountText({text:text,page:page.value}, (res) => {
       UserInfo.value = res;
       UserInfo.value = changeTime(UserInfo.value);
   });
 }
 
+//翻页
 function currentChange(val){
-
+  page.value = val;
+  if(text.value === ''){
+    console.log("寻常分页")
   AccountLimit((val),(data)=>{
-    console.log(data);
     UserInfo.value = data;
+    UserInfo.value = changeTime(UserInfo.value);
   })
+  }else {
+    console.log("查询分页")
+    search(text.value)
+  }
 }
+
 
 </script>
 
@@ -72,10 +88,11 @@ function currentChange(val){
         <div class="head">
           <el-input v-model="text" id="type" style="width: 240px;margin-right: 10px;" placeholder="请输入..."/>
           <el-button type="primary" @click="search(text)" plain>查询</el-button>
+          <el-button :icon="Refresh" @click="rest">重置</el-button>
         </div>
       </el-header>
       <el-main>
-        <el-table class="el-table-user" :data="UserInfo" style="width: 100%">
+        <el-table class="el-table-user" :data="UserInfo" style="width: 100%" height="600">
           <el-table-column prop="uid" label="编号" width="180"/>
           <el-table-column prop="username" label="姓名" width="180" />
           <el-table-column prop="email" label="邮箱" width="180" />

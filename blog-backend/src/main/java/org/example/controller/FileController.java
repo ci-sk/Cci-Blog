@@ -21,6 +21,8 @@ public class FileController {
     @ResponseBody
     @RequestMapping("/file/upload")
     public RestBean<?> upload(MultipartFile multipartFile) throws IOException {
+//        response.setContentType("application/json;charset=utf-8");
+        System.out.println("@@@");
         String upload = fileService.upload(multipartFile);
         if(upload==null) return RestBean.failure(401,"上传失败");
         return RestBean.success(upload);

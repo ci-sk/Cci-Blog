@@ -12,9 +12,11 @@ function getUserInfo(success, failure = defaultFailure) {
 }
 
 function getAccountText(data, success, failure = defaultFailure) {
-
+    console.log(data)
     put('/api/getAccountByText',{
-        text:data
+        text:data.text,
+        page:data.page,
+        limit:10
     },(data)=>{
         ElMessage.success("获取成功");
         success(data);

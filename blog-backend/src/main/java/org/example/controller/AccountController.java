@@ -92,12 +92,17 @@ public class AccountController {
 
     @ResponseBody
     @RequestMapping("/getAccountByText")
-    public RestBean<?> getAccountByText(HttpServletResponse response,String text)
+    public RestBean<?> getAccountByText(HttpServletResponse response,String text,Integer page,Integer limit)
     {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
+        page--;
+        if(page>=1){
+            page = (page) * 10;
+            limit += page;
+        }
 
-        List<Account> account = service.getAccountByText(text);
+        List<Account> account = service.getAccountByText(text,page,limit);
 
         return RestBean.success(account);
     }
@@ -118,8 +123,6 @@ public class AccountController {
         }
 
         List<Account> account = service.limitAccount(page,limit);
-
-        System.out.println(account);
 
         return RestBean.success(account);
     }

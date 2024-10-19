@@ -29,7 +29,9 @@
     </delete>
 
     <select id="getAccountByText" resultMap="AccountMap">
-        select * from db_account where uid = '${text}' or username like '%${text}%' or email like '%${text}%'
+        select * from db_account where
+            uid = '${text}' or username like '%${text}%' or email like '%${text}%'
+            limit #{page},#{limit}
     </select>
 
     <select id="limitAccount" resultMap="AccountMap">

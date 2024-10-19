@@ -58,8 +58,8 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     }
 
     @Override
-    public List<Account> getAccountByText(String text) {
-        return mapper.getAccountByText(text);
+    public List<Account> getAccountByText(String text, Integer page, Integer limit) {
+        return mapper.getAccountByText(text, page, limit);
     }
 
     @Override
