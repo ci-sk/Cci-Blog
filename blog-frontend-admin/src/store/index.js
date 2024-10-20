@@ -1,9 +1,11 @@
 import {defineStore} from 'pinia';
+import {getTag, getTagCount} from "../net/tag.js";
 
 export const useCounterStore
     = defineStore("Collapse",{
     state:()=>({
         isCollapse:false, //导航栏是否折叠
+
         // 面包屑导航
         tabList:[
             {

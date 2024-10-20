@@ -1,5 +1,6 @@
 import {ElMessage} from "element-plus";
 import {defaultFailure, del, get, put} from "./index.js";
+import data from "bootstrap/js/src/dom/data.js";
 
 //添加
 function insertTag(data,success,failure){
@@ -14,7 +15,7 @@ function insertTag(data,success,failure){
     })
 }
 
-//获取用户列表
+//获取标签列表
 function getTag(success,failure){
     get('api/find/tag',(data)=>{
         success(data);

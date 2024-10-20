@@ -3,6 +3,7 @@ package org.example.controller;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.entity.RestBean;
 import org.example.entity.dto.Articles;
+import org.example.entity.vo.request.ArticleRequest;
 import org.example.entity.vo.response.ArticlesVO;
 import org.example.service.impl.ArticlesServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,26 +29,27 @@ public class ArticlesController {
 
     @ResponseBody
     @PutMapping("/addArt")
-    public RestBean<?> addArt(Integer aid,String tags, String image,String title, String content) {
+    public RestBean<?> addArt(ArticleRequest reqArt) {
+
         try {
-
             Articles articles = new Articles();
-            if (aid == null || aid <= 0) {
-
-                articles.setTitle(title);
-                articles.setContent(content);
-                articles.setTags(tags);
-                articles.setImg_url(image);
+            if (reqArt.getAid() == null || reqArt.getAid() <= 0) {
+                articles.setTitle(reqArt.getTitle());
+                articles.setContent(reqArt.getContent());
+                articles.setTags(reqArt.getTags());
+                articles.setDesc(reqArt.getDesc());
+                articles.setImg_url(reqArt.getImg_url());
                 articles.setPublish_Time(new Date());
                 System.out.println(articles);
                 if (artServer.addArt(articles) == 1) return RestBean.db_add_success(articles, "添加成功");
             } else {
                 System.out.println("修改接口");
-                articles.setAid(aid);
-                articles.setTitle(title);
-                articles.setImg_url(image);
-                articles.setTags(tags);
-                articles.setContent(content);
+                articles.setAid(reqArt.getAid());
+                articles.setTitle(reqArt.getTitle());
+                articles.setContent(reqArt.getContent());
+                articles.setTags(reqArt.getTags());
+                articles.setDesc(reqArt.getDesc());
+                articles.setImg_url(reqArt.getImg_url());
                 // 判断id是否存在
                 if (artServer.upDataArticles(articles) == 1) {
                     return RestBean.db_update_success(articles, "修改成功");
@@ -76,9 +78,10 @@ public class ArticlesController {
                     v.setAid(article.getAid());
                     v.setTitle(article.getTitle());
                     v.setContent(article.getContent());
+                    v.setDesc(article.getDesc());
                     v.setTags(article.getTags());
                     v.setImg_url(article.getImg_url());
-                    v.setPublish_Time(article.getPublish_Time());
+                    v.setTime(article.getPublish_Time());
                     v.setDel(article.getDel());
                 }));
                 vo.add(vo1);

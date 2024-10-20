@@ -17,10 +17,10 @@ import java.util.Date;
 public class Articles implements BaseData {
     @TableId(type = IdType.AUTO)
     private Integer aid;
-    private Integer uid;
-    private String tags;
     private String title;
     private String content;
+    private String desc;
+    private String tags;
     private String img_url;
     private int del;
     private Date publish_Time;

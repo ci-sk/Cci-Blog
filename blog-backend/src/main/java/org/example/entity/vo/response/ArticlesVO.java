@@ -12,8 +12,8 @@ public class ArticlesVO{
     String title;
     String content;
     String tags;
-    Integer uid;
+    String desc;
     String img_url;
-    Date publish_Time;
+    Date time;
     Integer del;
 }

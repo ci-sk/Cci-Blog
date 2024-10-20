@@ -5,9 +5,11 @@ import {MdEditor} from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 import {useDark} from "@vueuse/core";
-import {takeAccessToken, uploadFile} from "../../net/index.js";
+import {uploadFile} from "../../net/index.js";
 import {Plus} from "@element-plus/icons-vue";
 import {getTag} from "../../net/tag.js";
+import {insertArticle} from "../../net/article.js";
+import {ElMessage} from "element-plus";
 
 const text = ref('# Hello Editor');
 
@@ -26,9 +28,9 @@ const pTags = ref([])
 const form = reactive({
   title:"",
   desc:"",
-  image:"",
+  img_url:"",
   tags:[],
-  text:""
+  content:""
 })
 
 //渲染标签
@@ -81,7 +83,7 @@ function uploadRequest(req){
 
   formData.append("file", req.file);
   uploadFile(formData.get("file"),(res)=>{
-    form.image  = res;
+    form.img_url  = res;
   })
 }
 
@@ -93,7 +95,11 @@ const submitUpload = () => {
 
 //提交表单
 const submitForm = ()=>{
-
+    submitUpload()
+    insertArticle(form,(res)=>{
+      ElMessage.success("添加成功");
+      console.log(res);
+    })
 }
 
 onMounted(() => {
@@ -169,7 +175,7 @@ onMounted(() => {
         </el-tag>
       </el-popover>
     </el-form-item>
-    <el-button type="primary" plain @click="submitUpload ">
+    <el-button type="primary" plain @click="submitForm">
       提交
     </el-button>
 
@@ -177,7 +183,7 @@ onMounted(() => {
 
   <MdEditor
             :theme="isDark?'dark':'light'"
-            v-model="form.text"
+            v-model="form.content"
             @onUploadImg="onUploadImg"
   />
 </template>

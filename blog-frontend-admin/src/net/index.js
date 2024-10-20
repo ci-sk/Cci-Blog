@@ -196,5 +196,5 @@ function unauthorized() {
 }
 
 // 导出函数
-export { login, logout, get, post,put,del,defaultFailure,takeAccessToken, unauthorized,uploadFile};
+export { login, logout, get, post,put,del,defaultFailure,unauthorized,uploadFile};
 
