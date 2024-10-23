@@ -17,7 +17,7 @@ public interface ArticlesMapper extends BaseMapper<Articles> {
 
     int upDataArticles(Articles articles);
 
-    int  delFart(Integer aid,Integer del);
+    int  delFart(Integer aid);
 
     @Select("select count(*) from db_articles")
     public Integer getCount();

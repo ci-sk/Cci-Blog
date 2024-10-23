@@ -13,6 +13,6 @@ public interface ArticlesService {
 
     int upDataArticles(Articles articles);
 
-    int  delFart(Integer aid,Integer del);
+    int  delFart(Integer aid);
 
 }

@@ -22,11 +22,9 @@ public class TagController {
     @RequestMapping("/addTag")
     public RestBean<?> add(HttpServletResponse response,String tagName){
         response.setContentType("application/json;charset=utf-8");
-
         if(tagName.equals("")){
             return RestBean.db_un_failure("标签名不能为空");
         }
-
         Tag tag = new Tag();
 
         tag.setTagName(tagName);
@@ -103,5 +101,4 @@ public class TagController {
         }
         else return RestBean.db_un_failure("获取失败");
     }
-
 }

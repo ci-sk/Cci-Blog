@@ -5,10 +5,6 @@ import {useRoute} from "vue-router";
 
 const Store = useCounterStore()
 
-function changeMenu(item){
-  router.push(item.path)
-}
-
 const route = useRoute()
 
 const tags = Store.tabList;
@@ -30,7 +26,10 @@ function handleClose(item, index) {
   }
 }
 
-
+function changeMenu(item){
+  console.log("ssss",item)
+  router.push(item.path)
+}
 </script>
 
 <template>
@@ -48,7 +47,6 @@ function handleClose(item, index) {
 <style lang="less" scoped>
 .tabs{
   padding: 10px 20px 0 ;
-
   .el-tag{
     width: 80px;
     height: 30px;

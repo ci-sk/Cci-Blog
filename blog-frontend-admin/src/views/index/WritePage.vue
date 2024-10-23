@@ -5,13 +5,11 @@ import {MdEditor} from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 import {useDark} from "@vueuse/core";
-import {uploadFile} from "../../net/index.js";
+import {get, uploadFile} from "../../net/index.js";
 import {Plus} from "@element-plus/icons-vue";
-import {getTag} from "../../net/tag.js";
+import {getTag, insertTag} from "../../net/tag.js";
 import {insertArticle} from "../../net/article.js";
 import {ElMessage} from "element-plus";
-
-const text = ref('# Hello Editor');
 
 const imgBase = ref();
 
@@ -25,12 +23,14 @@ const tags = ref([]);
 
 const pTags = ref([])
 
+const Tval = ref('')
+
 const form = reactive({
   title:"",
   desc:"",
   img_url:"",
   tags:[],
-  content:""
+  content:"# Hello Editor"
 })
 
 //渲染标签
@@ -39,6 +39,15 @@ const TagUser = () => {
     tags.value = res;
   });
 };
+
+//添加标签去页面
+const addTags = ()=>{
+  if(Tval.value){
+    pTags.value = [...new Set([...pTags.value, {tagName:Tval.value}])];
+    form.tags = [...new Set([...form.tags, Tval.value])];
+    Tval.value = "";
+  }
+}
 
 //md 编辑器上传图片
 const onUploadImg = async (files, callback) => {
@@ -61,7 +70,7 @@ const onUploadImg = async (files, callback) => {
 
 }
 
-//添加标签
+//添加表单标签
 const add = (item)=>{
   pTags.value = [...new Set([...pTags.value, item])];
   form.tags = [...new Set([...form.tags, item.tagName])];
@@ -78,31 +87,56 @@ const changeUpload = (file,fileList)=>{
 }
 
 //自定义图片上传
-function uploadRequest(req){
-  const formData = new FormData();
-
-  formData.append("file", req.file);
-  uploadFile(formData.get("file"),(res)=>{
-    form.img_url  = res;
+function uploadRequest (req)  {
+  return new Promise((resolve)=>{
+    const formData = new FormData();
+    formData.append("file", req.file);
+     uploadFile(formData.get("file"),(res)=>{
+      form.img_url  = res;
+      console.log("存入表单",form);
+      resolve(res);
+    })
   })
 }
 
-//提交上传图片
-const submitUpload = () => {
-  console.log(uploadRef.value)
-  uploadRef.value.submit();
+//表单提交上传图片
+const submitUpload =  () => {
+    uploadRef.value.submit();
+    console.log("上传完",form)
+}
+
+//上传标签
+const submitTag =  ()=>{
+  console.log(pTags.value);
+  for (let i =0;i<pTags.value.length;i++){
+    if(!pTags.value[i].tid){
+      console.log(pTags.value[i].tagName);
+       insertTag(pTags.value[i].tagName,(res)=>{
+        ElMessage.success("添加成功");
+      })
+    }
+  }
 }
 
 //提交表单
 const submitForm = ()=>{
-    submitUpload()
-    insertArticle(form,(res)=>{
-      ElMessage.success("添加成功");
-      console.log(res);
-    })
+  submitUpload()
 }
 
-onMounted(() => {
+//图片上传成功后上传到数据库
+const success = ()=>{
+  console.log("上传成功",form);
+
+  submitTag();
+
+  insertArticle(form,(res)=>{
+    ElMessage.success("添加成功");
+    console.log(res);
+  })
+}
+
+
+onMounted(()=>{
   TagUser();
 })
 </script>
@@ -130,6 +164,7 @@ onMounted(() => {
         <el-upload
             ref="uploadRef"
             class="avatar-uploader"
+            :on-success="success"
             :http-request="uploadRequest"
             :show-file-list="false"
             :auto-upload="false"
@@ -162,8 +197,7 @@ onMounted(() => {
           virtual-triggering
           width="280px"
       >
-      <el-input placeholder="enter添加自定义标签">
-
+      <el-input placeholder="enter添加自定义标签" v-model="Tval" @keyup.enter="addTags">
       </el-input>
         <el-tag
             v-for="(item,index) in tags"

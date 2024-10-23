@@ -1,6 +1,7 @@
 import {createRouter, createWebHashHistory} from 'vue-router'
 
 import {unauthorized} from "../net/index.js";
+import {ElMessage} from "element-plus";
 
 const router = createRouter({
      history:createWebHashHistory(import.meta.env.BASE_URL),
@@ -17,7 +18,8 @@ const router = createRouter({
                     component:()=>import('../views/welcome/WelcomePage.vue')
                 }
             ]
-        },{
+        },
+         {
             path:'/index',
              component:() =>import("../views/IndexView.vue"),
              children:[
@@ -106,10 +108,13 @@ const router = createRouter({
 })
 
 router.beforeEach((to,from,next) =>{
+    console.log(to)
     const isUnauthorized = unauthorized()
     if(to.name.startsWith("welcome-")&&!isUnauthorized){
         next("/index")
-    }else if(to.fullPath.startsWith("/index")&&isUnauthorized){
+    }else if((to.fullPath.startsWith("/index") ||to.fullPath.startsWith("/article") ||
+        to.fullPath.startsWith("/webSite") || to.fullPath.startsWith("/root")|| to.fullPath.startsWith("/message"))  &&isUnauthorized){
+        ElMessage.warning("登录失效，请重新登录")
         next("/")
     }else {
         next()

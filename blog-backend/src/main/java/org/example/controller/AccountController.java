@@ -107,7 +107,6 @@ public class AccountController {
         return RestBean.success(account);
     }
 
-
     @ResponseBody
     @RequestMapping("/getAccountLimit")
     public RestBean<?> getAccountLimit(HttpServletResponse response, HttpServletRequest request, Integer page, Integer limit)

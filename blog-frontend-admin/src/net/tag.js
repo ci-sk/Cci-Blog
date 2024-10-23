@@ -4,11 +4,10 @@ import data from "bootstrap/js/src/dom/data.js";
 
 //添加
 function insertTag(data,success,failure){
-    console.log(data.value)
+    let val = data.value || data;
     put("api/addTag", {
-        tagName:data.value
+        tagName:val
     },(data)=>{
-        ElMessage.success("添加成功");
         success(data);
     },()=>{
         ElMessage.error("添加失败");
@@ -23,6 +22,9 @@ function getTag(success,failure){
         failure("获取用户信息失败", 500, "api/find/Account");
     })
 }
+
+
+
 
 //分页
 function TagLimit(data,success, failure = defaultFailure) {

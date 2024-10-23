@@ -43,7 +43,6 @@ public class QiniuFileServiceImpl implements FileService {
             throw new RuntimeException("文件是空的");
         }
 
-
         // 创建上传token
         Auth auth = Auth.create(accessKey, secretKey);
         String upToken = auth.uploadToken(bucket);

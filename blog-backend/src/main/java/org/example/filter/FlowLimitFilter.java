@@ -3,8 +3,6 @@ package org.example.filter;
 import jakarta.annotation.Resource;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -91,7 +89,7 @@ public class FlowLimitFilter extends HttpFilter {
         if(Boolean.TRUE.equals(template.hasKey(Const.FLOW_LIMIT_COUNTER + ip))){
             Long increment = Optional.ofNullable(template.opsForValue().increment(Const.FLOW_LIMIT_COUNTER + ip)).orElse(0L);
             if(increment>10){
-                template.opsForValue().set(Const.FLOW_LIMIT_BLOCK+ip,"1",30,TimeUnit.SECONDS);
+                template.opsForValue().set(Const.FLOW_LIMIT_BLOCK+ip,"1",50,TimeUnit.SECONDS);
                 return false;
             }
         }else{

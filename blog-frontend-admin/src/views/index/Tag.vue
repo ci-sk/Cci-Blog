@@ -18,6 +18,7 @@ let dialogVisible = ref(false)
 const addTags = ()=>{
   dialogVisible.value = false
   insertTag(val,(res)=>{
+    ElMessage.success("添加成功");
     TagUser();
   })
 }
@@ -64,12 +65,12 @@ const search = ()=>{
 }
 
 //初始化加载数据
-onMounted(() => {
+// onMounted(() => {
   TagUser();
   getTagCount((res)=>{
     total.value = res;
   })
-})
+// })
 
 </script>
 

@@ -23,7 +23,6 @@ export const useCounterStore
         },
         //更新面包屑数据的方法
         SelectMenu(state,item){
-            console.log(item)
             const index = state.tabList.findIndex((item1)=>item1.name === item.name)
             if(index === -1){
                 state.tabList.push(item)

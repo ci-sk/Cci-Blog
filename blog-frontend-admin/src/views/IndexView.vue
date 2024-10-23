@@ -11,10 +11,13 @@ import CommonTags from "../components/CommonTags.vue";
           <el-aside width="auto">
             <CommonAside/>
           </el-aside>
-          <el-container class="common-content">
+          <el-container class="common-content" style="height: 100vh">
+            <!--头部-->
             <el-header style="padding: 0">
               <CommonHeader/>
             </el-header>
+
+            <!-- 导航标签-->
             <CommonTags/>
             <el-main>
               <router-view/>

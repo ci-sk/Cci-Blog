@@ -91,8 +91,7 @@ function currentChange(val){
           <el-button :icon="Refresh" @click="rest">重置</el-button>
         </div>
       </el-header>
-      <el-main>
-        <el-table class="el-table-user" :data="UserInfo" style="width: 100%" height="600">
+        <el-table class="el-table-user" :data="UserInfo" style="width: 100%">
           <el-table-column prop="uid" label="编号" width="180"/>
           <el-table-column prop="username" label="姓名" width="180" />
           <el-table-column prop="email" label="邮箱" width="180" />
@@ -110,7 +109,6 @@ function currentChange(val){
                          :total="total"
                          @current-change="currentChange" />
         </div>
-      </el-main>
     </el-container>
   </div>
 </template>

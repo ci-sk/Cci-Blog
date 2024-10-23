@@ -18,7 +18,7 @@ const defaultFailure = (message, code, url) => {
 // 默认的请求错误处理函数
 const defaultError = (err) => {
     // 在控制台中输出错误信息
-    console.warn(err);
+    // console.warn(err);
     // 使用 Element Plus 的 Message 组件显示警告消息
     ElMessage.warning("出错啦~~~ 请联系管理员");
 };
@@ -61,6 +61,8 @@ function deleteAccessToken() {
     sessionStorage.removeItem(authItemName);
 }
 
+
+
 // 获取请求头中的 Authorization 字段
 function accessHeader() {
     // 获取令牌，如果没有则返回空对象
@@ -70,9 +72,8 @@ function accessHeader() {
     } : {};
 }
 
-
 // 发送 GET 请求的内部函数
-function internalGet(url, header, success, failure, error = defaultError) {
+function internalGet(url, header, success, failure,error = defaultError) {
     axios.get(url, { headers: header }).then(({ data }) => {
         if (data.code === 200) {
             success(data.data);
@@ -165,13 +166,13 @@ function login(username, password, remember, success, failure = defaultFailure) 
 // 登出函数
 function logout(success, failure = defaultFailure) {
     // 调用 GET 请求函数，发送登出请求
-    get('api/auth/logout', {}, () => {
+    get('api/auth/logout', ()=>{
         // 登出成功后，删除令牌
         deleteAccessToken();
         // 使用 Element Plus 的 Message 组件显示成功消息
         ElMessage.success("退出登录成功,欢迎您再次使用");
         // 调用成功回调函数
-        success();
+        success("success");
     }, failure);
 }
 

@@ -3,10 +3,13 @@ import {Menu} from "@element-plus/icons-vue";
 import {logout} from "../net/index.js";
 import {useCounterStore} from "../store/index.js";
 import router from "../router/index.js";
-import MenuData from "../data/MenuData.js";
 import {useDark, useToggle} from "@vueuse/core";
 import {onMounted} from "vue";
 import {useRoute} from "vue-router";
+
+const isDark = useDark()
+
+const toggleDark = () =>useToggle(isDark)
 
 const route = useRoute()
 
@@ -16,14 +19,19 @@ const handleMenu = () => {
   Store.isCollapse =!Store.isCollapse
 }
 
-// const tags = Store.tabList;
-
 function  userLogout(){
-  logout(()=>router.push('/'))
-
+  logout(()=> {
+    router.push('/')
+    Store.$reset()
+  })
 }
-const isDark = useDark()
-const toggleDark = () =>useToggle(isDark)
+
+onMounted(()=>{
+  window.onresize = function () {
+    if(document.documentElement.clientWidth<=768) Store.isCollapse = true
+    else Store.isCollapse = false
+  };
+})
 
 </script>
 
@@ -89,8 +97,7 @@ const toggleDark = () =>useToggle(isDark)
       margin-left: 20px;
     }
 
-    // deep 强制生效
-    /deep/ .el-breadcrumb__item {
+    :deep (.el-breadcrumb__item) {
       .el-breadcrumb__inner {
         &.is-link {
           color: #ccc;

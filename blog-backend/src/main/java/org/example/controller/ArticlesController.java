@@ -9,10 +9,7 @@ import org.example.service.impl.ArticlesServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +27,7 @@ public class ArticlesController {
     @ResponseBody
     @PutMapping("/addArt")
     public RestBean<?> addArt(ArticleRequest reqArt) {
-
+        System.out.println("##"+reqArt);
         try {
             Articles articles = new Articles();
             if (reqArt.getAid() == null || reqArt.getAid() <= 0) {
@@ -40,7 +37,6 @@ public class ArticlesController {
                 articles.setDesc(reqArt.getDesc());
                 articles.setImg_url(reqArt.getImg_url());
                 articles.setPublish_Time(new Date());
-                System.out.println(articles);
                 if (artServer.addArt(articles) == 1) return RestBean.db_add_success(articles, "添加成功");
             } else {
                 System.out.println("修改接口");
@@ -97,16 +93,18 @@ public class ArticlesController {
         return RestBean.db_failure();
     }
 
-   @ResponseBody
-@PutMapping("/delArt")
-public RestBean<?> delArt(HttpServletResponse response, Integer aid, Integer del) {
+    @ResponseBody
+    @PutMapping("/delArt")
+    public RestBean<?> delArt(HttpServletResponse response, Integer aid) {
        response.setContentType("application/json");
        response.setCharacterEncoding("UTF-8");
 
-       if (aid == null || del == null) {
+        System.out.println("##"+aid+"@@");
+
+       if (aid == null) {
            return RestBean.db_un_failure("aid和del参数不能为空");
        }
-       int result = artServer.delFart(aid, del);
+       int result = artServer.delFart(aid);
        if (result == 1) {
            return RestBean.success();
        } else {

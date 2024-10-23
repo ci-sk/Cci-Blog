@@ -34,7 +34,7 @@
     </select>
 
     <update id="delFart" useGeneratedKeys="true" parameterType="org.example.entity.dto.Articles">
-        update db_articles set del = #{del} where aid = #{aid}
+        update db_articles set del = 1 where aid = #{aid}
     </update>
 
     <select id="findArticleAll" resultMap="ArticlesMap">

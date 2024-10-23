@@ -1,10 +1,17 @@
 <script setup>
 import {Plus, Refresh, Search} from "@element-plus/icons-vue";
 import {ref,onMounted} from "vue"
-import {getTag} from "../../net/tag.js";
-import {getArticle} from "../../net/article.js";
-import {changeTime} from "../../uilt/index.js";
+import {DelTag, getTag} from "../../net/tag.js";
+import {DeleteArticle, getArticle} from "../../net/article.js";
+import {changeTime, getTags} from "../../uilt/index.js";
 import router from "../../router/index.js";
+import {useRoute} from "vue-router";
+import {useCounterStore} from "../../store/index.js";
+import {ElMessage, ElMessageBox} from "element-plus";
+
+const route = useRoute()
+
+const Store = useCounterStore()
 
 const input = ref('');
 
@@ -14,20 +21,70 @@ const options = ref([])
 
 const ArtInfo = ref([''])
 
-function dArt(tid){
+const StatusTag = ref([
+  {id:0,name:"待处理"},
+  {id:1,name:"已删除"},
+  {id:2,name:"已发布"},
+  {idL:3,name:"草稿箱"}
+])
+
+
+function clickItem(aid){
+  router.push(`/article/write`)
+  Store.SelectMenu(Store,{
+    name:"添加文章",
+    label:"添加文章",
+    path:"/article/write"
+  })
+}
+
+const update = (item)=>{
 
 }
 
-onMounted(() => {
+function dArt(aid){
+  ElMessageBox.confirm('此操作将永久删除标签,是否继续', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    DeleteArticle(aid, (data) => {
+      console.log(aid, data, "!!");
+      getArtInfo()
+    });
+  }).catch(() => {
+    ElMessage({
+      type: 'info',
+      message: '已取消删除'
+    })
+  })
+}
+
+const currentChange = ()=>{
+
+}
+
+const UpArt = (aid)=>{
+  router.push(`/article/write/${aid}`)
+}
+
   getTag((res) => {
     options.value = res;
   });
 
+const getArtInfo =  () => {
   getArticle((res) => {
     ArtInfo.value = res;
+    ArtInfo.value =getTags(ArtInfo.value)
     ArtInfo.value = changeTime(ArtInfo.value);
+    console.log(ArtInfo.value)
   })
+}
+
+onMounted(()=>{
+  getArtInfo()
 })
+
 
 </script>
 
@@ -62,32 +119,53 @@ onMounted(() => {
   </el-form>
 
   <el-card style="max-width: 100vw">
-    <el-button type="success" :icon="Plus" @click="router.push('/article/write')">新增</el-button>
+    <el-button type="success" :icon="Plus" @click="clickItem(0)">新增</el-button>
 
     <el-table
         :data="ArtInfo"
         border
         style="width: 100%;margin-top: 20px"
     >
-      <el-table-column prop="img_url"  label="文章封面"/>
-      <el-table-column prop="title" label="文章名称"/>
-      <el-table-column prop="tags" label="标签名"/>
-      <el-table-column prop="time" label="创建时间"/>
+      <el-table-column prop="img_url"  label="文章封面" width="200" align="center">
+        <template #default="scope">
+          <img class="tup" :src="scope.row.img_url" alt="">
+        </template>
+      </el-table-column>
+      <el-table-column prop="title" label="文章名称" align="center"/>
+      <el-table-column label="标签名" align="center">
+        <template #default="scope">
+          <el-tag v-for=" item in scope.row.tags" style="margin-right: 5px;">
+            {{item}}
+          </el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column prop="time" label="创建时间" align="center"/>
+      <el-table-column label="状态" align="center">
+        <template #default="scope" >
+          <el-tag v-if="scope.row.del === 0">待处理</el-tag>
+          <el-tag v-if="scope.row.del === 1" type="danger">已删除</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center">
         <template #default="scope" >
-          <el-button type="primary" @click="UpArt(scope.row.aid)">修改</el-button>
+          <el-button type="primary" @click="update(scope.row.aid)">修改</el-button>
           <el-button type="danger" @click="dArt(scope.row.aid)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <div style="margin-top: 30px">
       <el-pagination background layout="prev, pager, next"
-                     :total="total"
+                     :total="ArtInfo.length"
                      @current-change="currentChange" />
     </div>
   </el-card>
 </template>
-
+<style>
+.tup{
+  width: 176px;
+  height: 110px;
+}
+</style>
 <style scoped>
 .Tag-header{
   margin-bottom: 20px;
@@ -99,5 +177,12 @@ onMounted(() => {
     display: flex;
     gap: 20px;
   }
+}
+
+:deep(.cell){
+  overflow: visible !important;
+}
+.el-tag{
+  height: 32px;
 }
 </style>

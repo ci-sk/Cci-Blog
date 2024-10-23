@@ -1,8 +1,9 @@
-import {defaultFailure, get, put} from "./index.js";
+import {defaultFailure, del, get, put} from "./index.js";
 
-function insertArticle(data,success,failure = defaultFailure){
+async function insertArticle(data,success,failure = defaultFailure){
     console.log(data)
-    put("api/addArt",{
+
+    await put("api/addArt",{
         title:data.title,
         content:data.content,
         desc:data.desc,
@@ -23,5 +24,16 @@ function getArticle(success,failure = defaultFailure){
     })
 }
 
+function DeleteArticle(data,success,failure){
+    console.log("@@@",data)
+    put("api/delArt",{
+        aid:data
+    },()=>{
+        success(data);
+    },()=>{
+        failure("删除失败", 500, "api/deleteArt/"+id);
+    })
+}
 
-export { insertArticle,getArticle }
+
+export { insertArticle,getArticle,DeleteArticle }

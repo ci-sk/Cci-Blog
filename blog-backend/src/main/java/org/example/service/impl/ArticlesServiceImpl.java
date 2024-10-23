@@ -37,8 +37,8 @@ public class ArticlesServiceImpl extends ServiceImpl<ArticlesMapper, Articles> i
     }
 
     @Override
-    public int delFart(Integer aid, Integer del) {
-        return mapper.delFart(aid,del);
+    public int delFart(Integer aid) {
+        return mapper.delFart(aid);
     }
 
 }

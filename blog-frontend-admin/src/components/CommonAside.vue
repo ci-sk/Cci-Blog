@@ -7,7 +7,6 @@ import {useRoute} from "vue-router";
 
 const route = useRoute()
 
-
 const Store = useCounterStore()
 
 const noChildren = computed(()=>{
@@ -68,7 +67,7 @@ function clickItem(item){
 <style lang="less" scoped>
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
-  min-height: 100vh;
+  min-height: 100%;
 }
 .el-menu{
  height:100%;

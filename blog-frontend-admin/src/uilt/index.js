@@ -19,4 +19,11 @@ const changeTime = (value)=>{
     return value;
 }
 
-export {formatTime,changeTime}
+const getTags = (value)=>{
+    value.forEach((item) => {
+        item.tags = item.tags.split(',');
+    })
+    return value
+}
+
+export {formatTime,changeTime,getTags}
