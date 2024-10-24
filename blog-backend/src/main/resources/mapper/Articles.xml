@@ -20,8 +20,8 @@
     文章标题title 文章内容content
 -->
     <insert id="addArt" parameterType="org.example.entity.dto.Articles" useGeneratedKeys="true" keyProperty="aid">
-        insert into db_articles(aid,tags,title,`desc`,img_url,content,publish_time)
-            values(#{aid,jdbcType=INTEGER},#{tags},#{title},#{desc},#{img_url},#{content},#{publish_Time})
+        insert into db_articles(aid,tags,title,`desc`,img_url,content,del,publish_time)
+            values(#{aid,jdbcType=INTEGER},#{tags},#{title},#{desc},#{img_url},#{content},#{del},#{publish_Time})
     </insert>
 
      <select id="limitArticles" resultMap="ArticlesMap">
@@ -33,9 +33,9 @@
         select * from db_articles where aid = #{aid}
     </select>
 
-    <update id="delFart" useGeneratedKeys="true" parameterType="org.example.entity.dto.Articles">
-        update db_articles set del = 1 where aid = #{aid}
-    </update>
+    <delete id="delFart" parameterType="org.example.entity.dto.Articles">
+        delete from db_articles where aid = #{aid}
+    </delete>
 
     <select id="findArticleAll" resultMap="ArticlesMap">
         select *

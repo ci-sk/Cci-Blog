@@ -21,14 +21,6 @@ const options = ref([])
 
 const ArtInfo = ref([''])
 
-const StatusTag = ref([
-  {id:0,name:"待处理"},
-  {id:1,name:"已删除"},
-  {id:2,name:"已发布"},
-  {idL:3,name:"草稿箱"}
-])
-
-
 function clickItem(aid){
   router.push(`/article/write`)
   Store.SelectMenu(Store,{
@@ -49,7 +41,6 @@ function dArt(aid){
     type: 'warning'
   }).then(() => {
     DeleteArticle(aid, (data) => {
-      console.log(aid, data, "!!");
       getArtInfo()
     });
   }).catch(() => {
@@ -143,7 +134,9 @@ onMounted(()=>{
       <el-table-column label="状态" align="center">
         <template #default="scope" >
           <el-tag v-if="scope.row.del === 0">待处理</el-tag>
-          <el-tag v-if="scope.row.del === 1" type="danger">已删除</el-tag>
+          <el-tag v-if="scope.row.del === 1" type="danger">已下架</el-tag>
+          <el-tag v-if="scope.row.del === 2" type="success">已发布</el-tag>
+          <el-tag v-if="scope.row.del === 3" type="info">草稿箱</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center">

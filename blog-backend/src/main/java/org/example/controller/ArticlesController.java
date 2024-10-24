@@ -36,6 +36,7 @@ public class ArticlesController {
                 articles.setTags(reqArt.getTags());
                 articles.setDesc(reqArt.getDesc());
                 articles.setImg_url(reqArt.getImg_url());
+                articles.setDel(reqArt.getDel());
                 articles.setPublish_Time(new Date());
                 if (artServer.addArt(articles) == 1) return RestBean.db_add_success(articles, "添加成功");
             } else {
@@ -45,6 +46,7 @@ public class ArticlesController {
                 articles.setContent(reqArt.getContent());
                 articles.setTags(reqArt.getTags());
                 articles.setDesc(reqArt.getDesc());
+                articles.setDel(reqArt.getDel());
                 articles.setImg_url(reqArt.getImg_url());
                 // 判断id是否存在
                 if (artServer.upDataArticles(articles) == 1) {
@@ -102,7 +104,7 @@ public class ArticlesController {
         System.out.println("##"+aid+"@@");
 
        if (aid == null) {
-           return RestBean.db_un_failure("aid和del参数不能为空");
+           return RestBean.db_un_failure("aid参数不能为空");
        }
        int result = artServer.delFart(aid);
        if (result == 1) {

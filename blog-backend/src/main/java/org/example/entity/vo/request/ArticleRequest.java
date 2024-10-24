@@ -10,5 +10,5 @@ public class ArticleRequest {
     private String tags;
     private String desc;
     private String img_url;
-
+    private Integer del;
 }

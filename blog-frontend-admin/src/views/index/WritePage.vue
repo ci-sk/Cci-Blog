@@ -25,12 +25,14 @@ const pTags = ref([])
 
 const Tval = ref('')
 
+
 const form = reactive({
   title:"",
   desc:"",
   img_url:"",
   tags:[],
-  content:"# Hello Editor"
+  content:"# Hello Editor",
+  del:0
 })
 
 //渲染标签
@@ -107,7 +109,6 @@ const submitUpload =  () => {
 
 //上传标签
 const submitTag =  ()=>{
-  console.log(pTags.value);
   for (let i =0;i<pTags.value.length;i++){
     if(!pTags.value[i].tid){
       console.log(pTags.value[i].tagName);
@@ -135,10 +136,10 @@ const success = ()=>{
   })
 }
 
-
 onMounted(()=>{
   TagUser();
 })
+
 </script>
 
 <template>
@@ -175,7 +176,7 @@ onMounted(()=>{
         </el-upload>
       </el-form-item>
 
-    <el-form-item label="标签" style="width: 240px">
+    <el-form-item label="标签" style="width:160px">
       <el-tag
           v-for="(item,index) in pTags"
           :key="index"
@@ -209,6 +210,16 @@ onMounted(()=>{
         </el-tag>
       </el-popover>
     </el-form-item>
+
+    <el-form-item label="状态" style="width:277px">
+      <el-radio-group v-model="form.del">
+        <el-radio :value=0 border>待处理</el-radio>
+        <el-radio :value=1 border>已删除</el-radio>
+        <el-radio :value=2 border>已发布</el-radio>
+        <el-radio :value=3 border>草稿箱</el-radio>
+      </el-radio-group>
+    </el-form-item>
+
     <el-button type="primary" plain @click="submitForm">
       提交
     </el-button>
@@ -246,5 +257,9 @@ onMounted(()=>{
   width: 176px;
   height:110px;
   text-align: center;
+}
+.el-radio{
+  background-color: var(--el-bg-color);
+  margin-bottom: 10px;
 }
 </style>
