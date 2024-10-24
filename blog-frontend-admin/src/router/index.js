@@ -25,7 +25,7 @@ const router = createRouter({
              children:[
                  {
                      path:"/index",
-                     name:"首页",
+                     name:"home",
                      component:() => import("../views/index/IndexPage.vue"),
                  },{
                     path: "/article",
@@ -39,6 +39,11 @@ const router = createRouter({
                          {
                              path: "/article/write",
                              name: "撰写",
+                             component: () => import("../views/index/WritePage.vue"),
+                         },
+                         {
+                             path:"/article/write/:item",
+                             name: "upData",
                              component: () => import("../views/index/WritePage.vue"),
                          },
                          {

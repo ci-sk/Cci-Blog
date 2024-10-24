@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, reactive, ref} from 'vue';
+import {onMounted, reactive, ref,nextTick} from 'vue';
 import {MdEditor} from 'md-editor-v3';
 
 import 'md-editor-v3/lib/style.css';
@@ -10,6 +10,13 @@ import {Plus} from "@element-plus/icons-vue";
 import {getTag, insertTag} from "../../net/tag.js";
 import {insertArticle} from "../../net/article.js";
 import {ElMessage} from "element-plus";
+import {useRoute} from "vue-router";
+import {useUpDataArt} from "../../store/index.js";
+import router from "../../router/index.js";
+
+const route = useRoute()
+
+const Art = useUpDataArt()
 
 const imgBase = ref();
 
@@ -24,7 +31,6 @@ const tags = ref([]);
 const pTags = ref([])
 
 const Tval = ref('')
-
 
 const form = reactive({
   title:"",
@@ -76,7 +82,6 @@ const onUploadImg = async (files, callback) => {
 const add = (item)=>{
   pTags.value = [...new Set([...pTags.value, item])];
   form.tags = [...new Set([...form.tags, item.tagName])];
-  console.log(form);
 }
 
 // 上传图片(不进云存储)
@@ -95,7 +100,6 @@ function uploadRequest (req)  {
     formData.append("file", req.file);
      uploadFile(formData.get("file"),(res)=>{
       form.img_url  = res;
-      console.log("存入表单",form);
       resolve(res);
     })
   })
@@ -104,41 +108,78 @@ function uploadRequest (req)  {
 //表单提交上传图片
 const submitUpload =  () => {
     uploadRef.value.submit();
-    console.log("上传完",form)
 }
 
 //上传标签
 const submitTag =  ()=>{
+  console.log("上传前",pTags.value);
   for (let i =0;i<pTags.value.length;i++){
-    if(!pTags.value[i].tid){
-      console.log(pTags.value[i].tagName);
+    if(!pTags.value[i].tid ){
+      console.log(pTags.value[i])
        insertTag(pTags.value[i].tagName,(res)=>{
-        ElMessage.success("添加成功");
+        // ElMessage.success("添加成功");
       })
     }
   }
 }
 
+const InsertArt = ()=>{
+  insertArticle(form,(res)=>{
+    if(res.message==="添加成功"){
+      ElMessage.success("添加成功");
+      console.log(res);
+    }else{
+      ElMessage.success("修改成功")
+      router.push("/article")
+      Art.$reset()
+    }
+  })
+}
+
 //提交表单
 const submitForm = ()=>{
+  console.log(form);
   submitUpload()
+
+  if(form.img_url === ""){
+    console.log("不曾修改图片")
+    InsertArt();
+  }
 }
 
 //图片上传成功后上传到数据库
 const success = ()=>{
-  console.log("上传成功",form);
-
   submitTag();
 
-  insertArticle(form,(res)=>{
-    ElMessage.success("添加成功");
-    console.log(res);
-  })
+  InsertArt();
 }
+
+const upDataArt = ()=>{
+  if(Art.ArtForm.aid){
+    form.aid = Art.ArtForm.aid;
+    form.title = Art.ArtForm.title;
+    form.desc = Art.ArtForm.desc;
+    imgBase.value = Art.ArtForm.img_url;
+    form.content = Art.ArtForm.content;
+    form.del = Art.ArtForm.del;
+    form.tags = Art.ArtForm.tags;
+    for (let i =0;i<Art.ArtForm.tags.length;i++){
+      pTags.value = [...new Set([...pTags.value, {tid:i+1,tagName:Art.ArtForm.tags[i]}])];
+    }
+  }
+}
+
 
 onMounted(()=>{
   TagUser();
+  //修改文章
+  upDataArt();
 })
+
+const closeTag= (index)=>{
+  pTags.value.splice(index,1)
+  form.tags = pTags.value.map(item=>item.tagName)
+}
 
 </script>
 
@@ -181,7 +222,7 @@ onMounted(()=>{
           v-for="(item,index) in pTags"
           :key="index"
           closable
-          @close="pTags.splice(index,1)"
+          @close="closeTag(index)"
           style="margin-right: 2px"
       >
         {{item.tagName}}
@@ -226,7 +267,7 @@ onMounted(()=>{
 
   </el-form>
 
-  <MdEditor
+  <MdEditor  ref="editorRef"
             :theme="isDark?'dark':'light'"
             v-model="form.content"
             @onUploadImg="onUploadImg"

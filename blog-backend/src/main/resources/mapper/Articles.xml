@@ -44,7 +44,7 @@
 
     <update id="upDataArticles" parameterType="org.example.entity.dto.Articles">
         update db_articles
-        set title = #{title},content = #{content}
+        set title = #{title},content = #{content},`desc` = #{desc},tags = #{tags},img_url = #{img_url},del = #{del}
         where aid = #{aid}
     </update>
 

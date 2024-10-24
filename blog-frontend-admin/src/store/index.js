@@ -5,7 +5,6 @@ export const useCounterStore
     = defineStore("Collapse",{
     state:()=>({
         isCollapse:false, //导航栏是否折叠
-
         // 面包屑导航
         tabList:[
             {
@@ -35,5 +34,14 @@ export const useCounterStore
     },
     persist:{
         enabled:true,
+    }
+})
+
+
+export const useUpDataArt = defineStore("UpDataArt",{
+    state:()=>({
+        ArtForm:[]
+    }),
+    actions:{
     }
 })

@@ -27,7 +27,7 @@ function handleClose(item, index) {
 }
 
 function changeMenu(item){
-  console.log("ssss",item)
+  console.log("@@",route.path)
   router.push(item.path)
 }
 </script>

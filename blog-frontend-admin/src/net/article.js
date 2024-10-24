@@ -4,6 +4,7 @@ async function insertArticle(data,success,failure = defaultFailure){
     console.log(data)
 
     await put("api/addArt",{
+        aid:data.aid,
         title:data.title,
         content:data.content,
         desc:data.desc,

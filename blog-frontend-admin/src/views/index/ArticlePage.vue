@@ -5,13 +5,12 @@ import {DelTag, getTag} from "../../net/tag.js";
 import {DeleteArticle, getArticle} from "../../net/article.js";
 import {changeTime, getTags} from "../../uilt/index.js";
 import router from "../../router/index.js";
-import {useRoute} from "vue-router";
-import {useCounterStore} from "../../store/index.js";
+import {useCounterStore, useUpDataArt} from "../../store/index.js";
 import {ElMessage, ElMessageBox} from "element-plus";
 
-const route = useRoute()
-
 const Store = useCounterStore()
+
+const Art = useUpDataArt()
 
 const input = ref('');
 
@@ -31,7 +30,17 @@ function clickItem(aid){
 }
 
 const update = (item)=>{
+  Art.ArtForm = item;
 
+  // console.log(Art.ArtForm)
+  router.push({
+    path:"/article/write",
+})
+  Store.SelectMenu(Store,{
+    name:"修改文章",
+    label:"修改文章",
+    path:`/article/write`
+  })
 }
 
 function dArt(aid){
@@ -68,7 +77,7 @@ const getArtInfo =  () => {
     ArtInfo.value = res;
     ArtInfo.value =getTags(ArtInfo.value)
     ArtInfo.value = changeTime(ArtInfo.value);
-    console.log(ArtInfo.value)
+    // console.log(ArtInfo.value)
   })
 }
 
@@ -134,14 +143,14 @@ onMounted(()=>{
       <el-table-column label="状态" align="center">
         <template #default="scope" >
           <el-tag v-if="scope.row.del === 0">待处理</el-tag>
-          <el-tag v-if="scope.row.del === 1" type="danger">已下架</el-tag>
+          <el-tag v-if="scope.row.del === 1" type="warning">已下架</el-tag>
           <el-tag v-if="scope.row.del === 2" type="success">已发布</el-tag>
           <el-tag v-if="scope.row.del === 3" type="info">草稿箱</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template #default="scope" >
-          <el-button type="primary" @click="update(scope.row.aid)">修改</el-button>
+          <el-button type="primary" @click="update(scope.row)">修改</el-button>
           <el-button type="danger" @click="dArt(scope.row.aid)">删除</el-button>
         </template>
       </el-table-column>
