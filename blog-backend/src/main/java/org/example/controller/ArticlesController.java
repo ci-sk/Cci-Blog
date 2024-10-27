@@ -113,4 +113,55 @@ public class ArticlesController {
            return RestBean.db_failure();
        }
    }
+
+   @ResponseBody
+   @RequestMapping("/getArticleLimit")
+   public RestBean<?> getArticleLimit(HttpServletResponse response,String text,Integer page, Integer limit) {
+       response.setContentType("application/json");
+       response.setCharacterEncoding("UTF-8");
+
+       page--;
+       if (page >= 1) {
+           page = (page) * 10;
+           limit += page;
+       }
+
+       List<Articles> articles = artServer.limitArticles(text,page, limit);
+
+
+       if (articles != null) {
+           ArrayList<ArticlesVO> vo = new ArrayList<>();
+           for (Articles article : articles) {
+               ArticlesVO vo1 = (article.asViewObject(ArticlesVO.class, v -> {
+                   v.setAid(article.getAid());
+                   v.setTitle(article.getTitle());
+                   v.setContent(article.getContent());
+                   v.setDesc(article.getDesc());
+                   v.setTags(article.getTags());
+                   v.setImg_url(article.getImg_url());
+                   v.setTime(article.getPublish_Time());
+                   v.setDel(article.getDel());
+               }));
+               vo.add(vo1);
+           }
+           return RestBean.success(vo);
+       }else {
+        return RestBean.db_failure();
+       }
+   }
+
+
+   @ResponseBody
+    @RequestMapping("/getArtCount")
+    public RestBean<?> getArticleCount(HttpServletResponse response) {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        int count = artServer.getArtCount();
+        if (count > 0) {
+            return RestBean.success(count);
+        } else {
+            return RestBean.db_failure();
+        }
+    }
 }

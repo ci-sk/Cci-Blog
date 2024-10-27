@@ -25,7 +25,9 @@
     </insert>
 
      <select id="limitArticles" resultMap="ArticlesMap">
-        select * from db_articles limit ${start},${size}
+        select * from db_articles where
+            title like '%${text}%' or tags like '%${text}%'
+            limit ${start},${size}
     </select>
 
 
@@ -47,7 +49,6 @@
         set title = #{title},content = #{content},`desc` = #{desc},tags = #{tags},img_url = #{img_url},del = #{del}
         where aid = #{aid}
     </update>
-
 
 </mapper>
 

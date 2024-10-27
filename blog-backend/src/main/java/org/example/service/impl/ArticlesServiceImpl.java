@@ -22,8 +22,8 @@ public class ArticlesServiceImpl extends ServiceImpl<ArticlesMapper, Articles> i
     }
 
     @Override
-    public List<Articles> limitArticles(Integer start, Integer size) {
-        return mapper.limitArticles(start,size);
+    public List<Articles> limitArticles(String text,Integer start, Integer size) {
+        return mapper.limitArticles(text,start,size);
     }
 
     @Override
@@ -39,6 +39,11 @@ public class ArticlesServiceImpl extends ServiceImpl<ArticlesMapper, Articles> i
     @Override
     public int delFart(Integer aid) {
         return mapper.delFart(aid);
+    }
+
+    @Override
+    public int getArtCount() {
+        return mapper.getArtCount();
     }
 
 }

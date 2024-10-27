@@ -303,4 +303,7 @@ const closeTag= (index)=>{
   background-color: var(--el-bg-color);
   margin-bottom: 10px;
 }
+.md-editor{
+  height: 60vh;
+}
 </style>

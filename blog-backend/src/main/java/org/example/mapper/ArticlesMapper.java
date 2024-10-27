@@ -11,7 +11,7 @@ import java.util.List;
 public interface ArticlesMapper extends BaseMapper<Articles> {
     Integer addArt(Articles articles);
 
-    List<Articles> limitArticles(Integer start,Integer size);
+    List<Articles> limitArticles(String text,Integer start, Integer size);
 
     List<Articles> findArticleAll();
 
@@ -20,5 +20,5 @@ public interface ArticlesMapper extends BaseMapper<Articles> {
     int  delFart(Integer aid);
 
     @Select("select count(*) from db_articles")
-    public Integer getCount();
+    Integer getArtCount();
 }

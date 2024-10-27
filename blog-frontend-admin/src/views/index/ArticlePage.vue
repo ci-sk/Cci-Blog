@@ -1,12 +1,13 @@
 <script setup>
 import {Plus, Refresh, Search} from "@element-plus/icons-vue";
 import {ref,onMounted} from "vue"
-import {DelTag, getTag} from "../../net/tag.js";
-import {DeleteArticle, getArticle} from "../../net/article.js";
+import {getTag} from "../../net/tag.js";
+import {ArticleLimit, DeleteArticle, getArticle, getArticleCount} from "../../net/article.js";
 import {changeTime, getTags} from "../../uilt/index.js";
 import router from "../../router/index.js";
 import {useCounterStore, useUpDataArt} from "../../store/index.js";
 import {ElMessage, ElMessageBox} from "element-plus";
+import {getAccountText} from "../../net/account.js";
 
 const Store = useCounterStore()
 
@@ -14,13 +15,17 @@ const Art = useUpDataArt()
 
 const input = ref('');
 
-const value = ref('');
+const tag = ref('');
 
 const options = ref([])
 
 const ArtInfo = ref([''])
 
-function clickItem(aid){
+const page = ref(1)
+
+const total = ref(0)
+
+function clickItem(){
   router.push(`/article/write`)
   Store.SelectMenu(Store,{
     name:"添加文章",
@@ -31,8 +36,6 @@ function clickItem(aid){
 
 const update = (item)=>{
   Art.ArtForm = item;
-
-  // console.log(Art.ArtForm)
   router.push({
     path:"/article/write",
 })
@@ -60,29 +63,58 @@ function dArt(aid){
   })
 }
 
-const currentChange = ()=>{
-
-}
-
-const UpArt = (aid)=>{
-  router.push(`/article/write/${aid}`)
-}
-
-  getTag((res) => {
-    options.value = res;
-  });
-
-const getArtInfo =  () => {
-  getArticle((res) => {
+const currentChange = (val)=>{
+  page.value = val;
+  ArticleLimit({text:input.value,page:page.value},(res) => {
     ArtInfo.value = res;
     ArtInfo.value =getTags(ArtInfo.value)
     ArtInfo.value = changeTime(ArtInfo.value);
-    // console.log(ArtInfo.value)
+  })
+}
+
+getTag((res) => {
+    options.value = res;
+  });
+
+const getArtInfo = async  () => {
+  ArticleLimit({text:"",page:1},(res) => {
+    ArtInfo.value = res;
+    ArtInfo.value =getTags(ArtInfo.value)
+    ArtInfo.value = changeTime(ArtInfo.value);
+  })
+}
+
+
+const search = (val) => {
+  ArticleLimit({text:val,page:page.value}, (res) => {
+    ArtInfo.value = res;
+    ArtInfo.value =getTags(ArtInfo.value)
+    ArtInfo.value = changeTime(ArtInfo.value);
+    total.value = ArtInfo.value.length;
+    console.log(res)
+  });
+}
+
+const searchText = ()=>{
+  search(input.value)
+}
+
+
+const searchTag = ()=>{
+  search(tag.value)
+}
+
+const init = () => {
+  tag.value = '';
+  input.value = '';
+  getArtInfo()
+  getArticleCount((res)=>{
+    total.value = res;
   })
 }
 
 onMounted(()=>{
-  getArtInfo()
+  init()
 })
 
 
@@ -101,25 +133,26 @@ onMounted(()=>{
         />
       </el-form-item>
       <el-form-item label="标签名">
-        <el-select v-model="value" placeholder="标签名" style="width: 240px">
+        <el-select v-model="tag" placeholder="标签名" style="width: 240px" >
           <el-option
               v-for="item in options"
               :key="item.tid"
               :label="item.tagName"
               :value="item.tagName"
+              @click="searchTag"
           />
         </el-select>
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" :icon="Search" >搜索</el-button>
-        <el-button :icon="Refresh" @click="input = ''">重置</el-button>
+        <el-button type="primary" :icon="Search" @click="searchText">搜索</el-button>
+        <el-button :icon="Refresh" @click="init">重置</el-button>
       </el-form-item>
     </div>
   </el-form>
 
   <el-card style="max-width: 100vw">
-    <el-button type="success" :icon="Plus" @click="clickItem(0)">新增</el-button>
+    <el-button type="success" :icon="Plus" @click="clickItem()">新增</el-button>
 
     <el-table
         :data="ArtInfo"
@@ -157,7 +190,7 @@ onMounted(()=>{
     </el-table>
     <div style="margin-top: 30px">
       <el-pagination background layout="prev, pager, next"
-                     :total="ArtInfo.length"
+                     :total="total"
                      @current-change="currentChange" />
     </div>
   </el-card>

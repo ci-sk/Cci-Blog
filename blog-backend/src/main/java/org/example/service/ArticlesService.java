@@ -7,7 +7,7 @@ import java.util.List;
 public interface ArticlesService {
     Integer addArt(Articles articles);
 
-    List<Articles> limitArticles(Integer start,Integer size);
+    List<Articles> limitArticles(String text,Integer start,Integer size);
 
     List<Articles> findArticleAll();
 
@@ -15,4 +15,5 @@ public interface ArticlesService {
 
     int  delFart(Integer aid);
 
+    int getArtCount();
 }
