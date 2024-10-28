@@ -18,9 +18,11 @@ public class Comments implements BaseData {
     @TableId(type = IdType.AUTO)
     private Integer cid;
     private Integer uid;
+    private Integer reply_uid;
     private Integer aid;
     private String content;
     private Date c_time;
     private Account account;
+    private Account replyAccount;
     private Articles article;
 }

@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 评论配置类，处理与评论相关的 HTTP 请求
+ */
 @Controller
 @RequestMapping("/api")
 public class CommentsConfiguration  {
@@ -22,16 +25,23 @@ public class CommentsConfiguration  {
     @Autowired
     CommentsServiceImpl server;
 
-
+    /**
+     * 添加评论
+     * @param response HttpServletResponse 对象，用于设置响应内容类型和字符编码
+     * @param request HttpServletRequest 对象，用于获取请求中的用户 ID
+     * @param aid 文章 ID
+     * @param content 评论内容
+     * @return RestBean<?> 对象，包含添加评论的结果
+     */
     @ResponseBody
     @RequestMapping("/addCom")
-    public RestBean<?> add(HttpServletResponse response, HttpServletRequest request, Integer aid, String content){
+    public RestBean<?> add(HttpServletResponse response, HttpServletRequest request, Integer aid, String content)
+    {
         response.setContentType("application/json;charset=utf-8");
 
         int uid = (int) request.getAttribute("id");
 
         System.out.println(uid);
-
 
         Comments comments = new Comments();
         comments.setAid(aid);
@@ -46,9 +56,16 @@ public class CommentsConfiguration  {
         return RestBean.db_un_failure("评论失败");
     }
 
+    /**
+     * 根据文章 ID 获取评论
+     * @param response HttpServletResponse 对象，用于设置响应内容类型和字符编码
+     * @param aid 文章 ID
+     * @return RestBean<?> 对象，包含获取评论的结果
+     */
     @ResponseBody
     @RequestMapping("/getAid")
-    public RestBean<?> getAid(HttpServletResponse response,int  aid){
+    public RestBean<?> getAid(HttpServletResponse response,int  aid)
+    {
         response.setContentType("application/json;charset=utf-8");
 
         System.out.println(aid);
@@ -66,7 +83,7 @@ public class CommentsConfiguration  {
                     v.setAid(comments.getAid());
                     v.setUsername(comments.getAccount().getUsername());
                     v.setContent(comments.getContent());
-                    v.setC_time(new Date());
+                    v.setTime(comments.getC_time());
                 }));
                 vo.add(vo1);
             }
@@ -77,12 +94,20 @@ public class CommentsConfiguration  {
         }
     }
 
+    /**
+     * 获取所有评论
+     * @param response HttpServletResponse 对象，用于设置响应内容类型和字符编码
+     * @return RestBean<?> 对象，包含获取所有评论的结果
+     */
     @ResponseBody
     @RequestMapping("/find/Comments")
-    public RestBean<?> getAll(HttpServletResponse response){
+    public RestBean<?> getAll(HttpServletResponse response)
+    {
         response.setContentType("application/json;charset=utf-8");
 
         List<Comments> commentsList = server.getCommentsAll();
+
+        System.out.println(commentsList);
 
         if(commentsList!= null){
 
@@ -93,8 +118,10 @@ public class CommentsConfiguration  {
                     v.setCid(comments.getCid());
                     v.setTitle(comments.getArticle().getTitle());
                     v.setUsername(comments.getAccount().getUsername());
+                    if(comments.getReplyAccount() != null)
+                        v.setReply_username(comments.getReplyAccount().getUsername());
                     v.setContent(comments.getContent());
-                    v.setC_time(new Date());
+                    v.setTime(new Date());
                 }));
                 vo.add(vo1);
             }
@@ -106,9 +133,16 @@ public class CommentsConfiguration  {
         }
     }
 
+    /**
+     * 删除评论
+     * @param response HttpServletResponse 对象，用于设置响应内容类型和字符编码
+     * @param cid 评论 ID
+     * @return RestBean<?> 对象，包含删除评论的结果
+     */
     @ResponseBody
     @RequestMapping("/delCom")
-    public RestBean<?> delete(HttpServletResponse response,int  cid){
+    public RestBean<?> delete(HttpServletResponse response,int  cid)
+    {
         response.setContentType("application/json;charset=utf-8");
 
         System.out.println(cid);

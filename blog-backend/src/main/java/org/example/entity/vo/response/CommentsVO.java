@@ -11,6 +11,7 @@ public class CommentsVO{
     private Integer aid;
     private String title;
     private String username;
+    private String reply_username;
     private String content;
-    private Date c_time;
+    private Date time;
 }
