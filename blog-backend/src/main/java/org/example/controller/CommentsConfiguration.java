@@ -107,8 +107,6 @@ public class CommentsConfiguration  {
 
         List<Comments> commentsList = server.getCommentsAll();
 
-        System.out.println(commentsList);
-
         if(commentsList!= null){
 
             ArrayList<CommentsVO> vo = new ArrayList<>();
