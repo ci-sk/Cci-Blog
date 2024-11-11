@@ -13,4 +13,8 @@ public interface CommentsService {
     List<Comments> getCommentsAll();
 
     List<Comments> getCommentsByAid(Integer aid);
+
+    List<Comments> getCommentsLimit(String content, Integer page, Integer limit);
+
+    int getCommentsCount();
 }

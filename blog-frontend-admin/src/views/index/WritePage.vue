@@ -95,14 +95,18 @@ const changeUpload = (file,fileList)=>{
 
 //自定义图片上传
 function uploadRequest (req)  {
-  return new Promise((resolve)=>{
-    const formData = new FormData();
-    formData.append("file", req.file);
-     uploadFile(formData.get("file"),(res)=>{
-      form.img_url  = res;
-      resolve(res);
+  console.log(form);
+    console.log("上传图片",Art.ArtForm)
+  if(form.img_url !== imgBase.value){
+    return new Promise((resolve) => {
+      const formData = new FormData();
+      formData.append("file", req.file);
+      uploadFile(formData.get("file"), (res) => {
+        form.img_url = res;
+        resolve(res);
+      })
     })
-  })
+  }
 }
 
 //表单提交上传图片
@@ -138,10 +142,10 @@ const InsertArt = ()=>{
 
 //提交表单
 const submitForm = ()=>{
-  console.log(form);
   submitUpload()
 
-  if(form.img_url === ""){
+  console.log("上传图片",form.img_url,imgBase)
+  if(form.img_url === imgBase.value){
     console.log("不曾修改图片")
     InsertArt();
   }
@@ -159,7 +163,7 @@ const upDataArt = ()=>{
     form.aid = Art.ArtForm.aid;
     form.title = Art.ArtForm.title;
     form.desc = Art.ArtForm.desc;
-    imgBase.value = Art.ArtForm.img_url;
+    form.img_url= imgBase.value = Art.ArtForm.img_url;
     form.content = Art.ArtForm.content;
     form.del = Art.ArtForm.del;
     form.tags = Art.ArtForm.tags;

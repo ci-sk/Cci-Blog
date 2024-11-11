@@ -23,6 +23,7 @@
     "pinia-plugin-persist": "^1.0.0",
     "sass": "^1.79.4",
     "scss": "^0.2.4",
+    "tdesign-vue-next": "^1.10.3",
     "vite-plugin-prismjs": "^0.0.11",
     "vue": "^3.4.37",
     "vue-router": "^4.4.5"

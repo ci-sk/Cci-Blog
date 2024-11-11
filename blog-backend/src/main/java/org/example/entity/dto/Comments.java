@@ -17,12 +17,11 @@ import java.util.Date;
 public class Comments implements BaseData {
     @TableId(type = IdType.AUTO)
     private Integer cid;
-    private Integer uid;
-    private Integer reply_uid;
+    private String username;
+    private Integer reply_cid;
     private Integer aid;
     private String content;
     private Date c_time;
-    private Account account;
-    private Account replyAccount;
+    private Comments reply;
     private Articles article;
 }

@@ -35,7 +35,7 @@ public class CommentsConfiguration  {
      */
     @ResponseBody
     @RequestMapping("/addCom")
-    public RestBean<?> add(HttpServletResponse response, HttpServletRequest request, Integer aid, String content)
+    public RestBean<?> add(HttpServletResponse response, HttpServletRequest request, Integer aid, String content,String username)
     {
         response.setContentType("application/json;charset=utf-8");
 
@@ -45,7 +45,7 @@ public class CommentsConfiguration  {
 
         Comments comments = new Comments();
         comments.setAid(aid);
-        comments.setUid(uid);
+        comments.setUsername(username);
         comments.setContent(content);
         comments.setC_time(new Date());
 
@@ -81,7 +81,7 @@ public class CommentsConfiguration  {
                 CommentsVO vo1 = (comments.asViewObject(CommentsVO.class, v -> {
                     v.setCid(comments.getCid());
                     v.setAid(comments.getAid());
-                    v.setUsername(comments.getAccount().getUsername());
+                    v.setUsername(comments.getUsername());
                     v.setContent(comments.getContent());
                     v.setTime(comments.getC_time());
                 }));
@@ -115,9 +115,8 @@ public class CommentsConfiguration  {
                 CommentsVO vo1 = (comments.asViewObject(CommentsVO.class, v -> {
                     v.setCid(comments.getCid());
                     v.setTitle(comments.getArticle().getTitle());
-                    v.setUsername(comments.getAccount().getUsername());
-                    if(comments.getReplyAccount() != null)
-                        v.setReply_username(comments.getReplyAccount().getUsername());
+                    v.setUsername(comments.getUsername());
+                    v.setReply_username(comments.getReply().getUsername());
                     v.setContent(comments.getContent());
                     v.setTime(new Date());
                 }));
@@ -151,4 +150,65 @@ public class CommentsConfiguration  {
         return RestBean.db_un_failure("删除失败");
     }
 
+
+    @ResponseBody
+    @RequestMapping("/getLimit/Comments")
+    public RestBean<?> getLimit(HttpServletResponse response,String text,Integer page, Integer limit)
+    {
+        response.setContentType("application/json;charset=utf-8");
+
+        page--;
+        if (page >= 1) {
+            page = (page) * 10;
+            limit += page;
+        }
+
+        System.out.println("分页查询"+text);
+
+        List<Comments> commentsList = server.getCommentsLimit(text,page,limit);
+        System.out.println(commentsList);
+
+        if(commentsList!= null){
+
+            ArrayList<CommentsVO> vo = new ArrayList<>();
+            for (Comments comments : commentsList) {
+                CommentsVO vo1 = (comments.asViewObject(CommentsVO.class, v -> {
+                    v.setCid(comments.getCid());
+                    v.setAid(comments.getAid());
+                    v.setUsername(comments.getUsername());
+                    v.setTitle(comments.getArticle().getTitle());
+                    v.setReply_cid(comments.getReply_cid());
+                    if(comments.getReply() !=null)
+                        v.setReply_username(comments.getReply().getUsername());
+                    v.setContent(comments.getContent());
+                    v.setTime(comments.getC_time());
+                }));
+                vo.add(vo1);
+            }
+            return RestBean.success(vo);
+        }
+        else{
+            return RestBean.db_un_failure("获取失败");
+        }
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/getCount/Comments")
+    public RestBean<?> getCount(HttpServletResponse response)
+    {
+        response.setContentType("application/json;charset=utf-8");
+
+        int count = server.getCommentsCount();
+
+        if(count!= 0){
+            return RestBean.success(count);
+        }
+        else{
+            return RestBean.db_un_failure("获取失败");
+        }
+    }
 }
+
+
+

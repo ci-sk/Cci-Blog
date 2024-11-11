@@ -7,16 +7,12 @@
     <resultMap id="comMap" type="org.example.entity.dto.Comments">
         <id column="cid" property="cid" javaType="INTEGER"/>
         <result column="aid" property="aid" javaType="INTEGER"/>
-        <result column="uid" property="uid" javaType="INTEGER"/>
-        <result column="reply_uid" property="reply_uid" javaType="INTEGER"/>
+        <result column="username" property="username"/>
+        <result column="reply_cid" property="reply_cid" javaType="INTEGER"/>
         <result column="content" property="content" jdbcType="VARCHAR"/>
         <result column="c_time" property="c_time" jdbcType="TIMESTAMP"/>
-        <association property="account" javaType="org.example.entity.dto.Account">
-            <id column="uid" property="uid"/>
-            <result column="author_username" property="username"/>
-        </association>
-        <association property="replyAccount" javaType="org.example.entity.dto.Account">
-            <id column="reply_uid" property="uid"/>
+        <association property="reply" javaType="org.example.entity.dto.Comments">
+            <id column="cid" property="cid"/>
             <result column="reply_username" property="username"/>
         </association>
         <association property="article" javaType="org.example.entity.dto.Articles">
@@ -28,24 +24,37 @@
 
 
     <select id="getCommentsByAid" resultMap="comMap">
-        select c.*, u.username,u.email
+        select c.*
         from db_comments c
-                 join db_account u on c.uid = u.uid
+#                  join db_account u on c.uid = u.uid
         where c.aid = #{aid}
     </select>
 
 
     <insert id="insertComments" parameterType="org.example.entity.dto.Comments" useGeneratedKeys="true" keyProperty="cid">
-        insert into db_comments (cid,aid,uid,content,c_time)
-        values (#{cid},#{aid},#{uid},#{content},#{c_time})
+        insert into db_comments (cid,aid,username,content,c_time)
+        values (#{cid},#{aid},#{username},#{content},#{c_time})
     </insert>
 
     <select id="getCommentsAll" parameterType="int" resultMap="comMap">
-        select c.*, u.username as author_username,ru.username as reply_username, a.title
+        select c.* ,a.title,r.username
         from db_comments c
-                 join db_account u on c.uid = u.uid
-                 left join db_account ru on c.reply_uid = ru.uid
                  join db_articles a on c.aid = a.aid
+                join db_comments r on c.cid = r.reply_cid
+    </select>
+
+    <select id="getCommentsLimit" resultMap="comMap">
+        select c.*,a.title,r.username as reply_username
+        from db_comments c
+                 join db_articles a on c.aid = a.aid
+                 left join db_comments r on c.cid = r.reply_cid
+          where c.content like '%${text}%'
+          limit #{page},#{limit}
+    </select>
+
+    <select id="getCommentsCount" resultType="java.lang.Integer">
+        select count(*)
+        from db_comments
     </select>
 
     <delete id="deleteComments" parameterType="int">

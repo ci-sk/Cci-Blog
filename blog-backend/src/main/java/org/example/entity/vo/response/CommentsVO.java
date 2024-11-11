@@ -9,6 +9,7 @@ import java.util.Date;
 public class CommentsVO{
     private Integer cid;
     private Integer aid;
+    private Integer reply_cid;
     private String title;
     private String username;
     private String reply_username;

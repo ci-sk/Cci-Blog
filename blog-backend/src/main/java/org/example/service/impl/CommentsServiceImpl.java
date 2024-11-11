@@ -36,5 +36,15 @@ public class CommentsServiceImpl extends ServiceImpl<CommentsMapper, Comments> i
         return mapper.getCommentsByAid(aid);
     }
 
+    @Override
+    public List<Comments> getCommentsLimit(String content, Integer page, Integer limit) {
+        return mapper.getCommentsLimit(content,page,limit);
+    }
+
+    @Override
+    public int getCommentsCount() {
+        return mapper.getCommentsCount();
+    }
+
 
 }
