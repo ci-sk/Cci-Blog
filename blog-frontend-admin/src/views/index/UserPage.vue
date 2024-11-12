@@ -44,7 +44,6 @@ const delAccount = (uid) => {
     type: 'warning'
   }).then(() => {
       DelAccount(uid, (data) => {
-        console.log(uid,data,"!!");
           userLogin();
       });
     }).catch(() => {
@@ -67,13 +66,11 @@ const search = (text) => {
 function currentChange(val){
   page.value = val;
   if(text.value === ''){
-    console.log("寻常分页")
   AccountLimit((val),(data)=>{
     UserInfo.value = data;
     UserInfo.value = changeTime(UserInfo.value);
   })
   }else {
-    console.log("查询分页")
     search(text.value)
   }
 }

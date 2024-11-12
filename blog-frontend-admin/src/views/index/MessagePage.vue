@@ -47,7 +47,6 @@ const currentChange = (val)=>{
 const init = ()=>{
   SelectComment()
   getCountComment((data)=>{
-    console.log(data)
     total.value = data
   })
   input.value = ''

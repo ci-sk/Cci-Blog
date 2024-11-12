@@ -33,44 +33,8 @@ const SelectComment =()=> {
     CommentInfo.value  = res
     CommentInfo.value = changeTime(CommentInfo.value)
     CommentInfo.value= CommentInfo.value.filter((item)=>{
-      console.log(item)
           return item.reply_cid === null
         })
-  })
-}
-
-
-const fun = (arr) =>{
-  let  reply = []
-  let id;
-  arr.forEach((item)=>{
-    if(item.reply_cid !== null){
-      id = item.aid;
-      console.log("id",item)
-      reply.push(item)
-    }
-    console.log("@@@",reply)
-
-  })
-  // reply = reply.filter((item)=>{
-  //   return item.aid === id
-  // })
-  arr.forEach((item)=>{
-    reply.forEach((item1)=>{
-      if(item.cid === item1.reply_cid){
-
-        if(item.children === undefined){
-          item.children = []
-        }
-        item.children.push(item1)
-        item.hasChildren = true
-      }
-    })
-  })
-  console.log("arr!!!",arr)
-  return arr
-      .filter((item)=>{
-    return item.reply_cid === null
   })
 }
 
@@ -84,34 +48,9 @@ const currentChange = (val)=>{
   })
 }
 
-const load = (tree,treeNode,resolve)=>{
-  tree.children.map((item)=>{
-    console.log(item)
-  })
-  setTimeout(()=>{
-    resolve([
-      {
-        cid: 31,
-        time: '2016-05-01',
-        name: 'wangxiaohu',
-        address: 'No. 189, Grove St, Los Angeles',
-      },
-      {
-        id: 32,
-        date: '2016-05-01',
-        name: 'wangxiaohu',
-        address: 'No. 189, Grove St, Los Angeles',
-      },
-
-    ])
-  },222)
-}
-
-
 const init = ()=>{
   SelectComment()
   getCountComment((data)=>{
-    console.log(data)
     total.value = data
   })
   input.value = ''

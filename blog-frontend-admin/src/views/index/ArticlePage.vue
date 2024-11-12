@@ -7,8 +7,6 @@ import {changeTime, getTags} from "../../uilt/index.js";
 import router from "../../router/index.js";
 import {useCounterStore, useUpDataArt} from "../../store/index.js";
 import {ElMessage, ElMessageBox} from "element-plus";
-import {getAccountText} from "../../net/account.js";
-
 const Store = useCounterStore()
 
 const Art = useUpDataArt()
@@ -91,7 +89,6 @@ const search = (val) => {
     ArtInfo.value =getTags(ArtInfo.value)
     ArtInfo.value = changeTime(ArtInfo.value);
     total.value = ArtInfo.value.length;
-    console.log(res)
   });
 }
 

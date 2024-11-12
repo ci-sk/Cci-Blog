@@ -1,6 +1,8 @@
 package org.example.entity.vo.response;
 
 import lombok.Data;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,21 +28,17 @@ public class CommentsVO{
                 replies.add(vo);
             }
         }
-//        System.out.println("获取某个评论的所有回复"+replies);
-
         return replies;
     }
 
     // 新增方法，用于获取某个评论的所有子评论
-    public static List<CommentsVO> getSubComments(Integer cid,List<CommentsVO> comments) {
+    public static List<CommentsVO> getSubComments(Integer cid, List<CommentsVO> comments) {
         List<CommentsVO> subComments = new ArrayList<>();
         List<CommentsVO> replies = getReplies(cid,comments);
         for (CommentsVO reply : replies) {
             subComments.add(reply);
             subComments.addAll(getSubComments(reply.getCid(),comments));
         }
-//        System.out.println("获取某个评论的所有子评论"+subComments);
-
         return subComments;
     }
 
@@ -54,10 +52,7 @@ public class CommentsVO{
                 }
             }
         }
-
         return comments;
     }
 
 }
-
-

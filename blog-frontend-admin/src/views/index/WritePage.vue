@@ -62,7 +62,6 @@ const onUploadImg = async (files, callback) => {
   const formData = new FormData();
   formData.append("file", files[0]);
   uploadFile(formData.get("file"),(res)=>{
-    console.log(res);
     const data = [
       { url: res,
         alt: "Image",
@@ -96,7 +95,7 @@ const changeUpload = (file,fileList)=>{
 //自定义图片上传
 function uploadRequest (req)  {
   console.log(form);
-    console.log("上传图片",Art.ArtForm)
+    // console.log("上传图片",Art.ArtForm)
   if(form.img_url !== imgBase.value){
     return new Promise((resolve) => {
       const formData = new FormData();
@@ -144,9 +143,9 @@ const InsertArt = ()=>{
 const submitForm = ()=>{
   submitUpload()
 
-  console.log("上传图片",form.img_url,imgBase)
+  // console.log("上传图片",form.img_url,imgBase)
   if(form.img_url === imgBase.value){
-    console.log("不曾修改图片")
+    // console.log("不曾修改图片")
     InsertArt();
   }
 }

@@ -6,7 +6,6 @@ import org.example.entity.RestBean;
 import org.example.entity.dto.Comments;
 import org.example.entity.vo.response.CommentsVO;
 import org.example.service.impl.CommentsServiceImpl;
-import org.example.utils.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,9 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-import static org.example.utils.Comment.getSubComments;
 
 /**
  * 评论配置类，处理与评论相关的 HTTP 请求
@@ -195,11 +192,8 @@ public class CommentsConfiguration  {
             List<CommentsVO> vo2 = new ArrayList<>();
             for (CommentsVO vo1 : vo) {
                 int cid = vo1.getCid();
-
                 vo2  = CommentsVO.setSubComments(cid,vo,CommentsVO.getSubComments(cid,vo));
-
             }
-
             return RestBean.success(vo2);
         }
         else{

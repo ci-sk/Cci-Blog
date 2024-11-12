@@ -25,7 +25,6 @@ const addTags = ()=>{
 
 const TagUser = () => {
   TagLimit(1,(res) => {
-    console.log(res);
     TagInfo.value = res;
     TagInfo.value = changeTime(TagInfo.value);
   });
@@ -38,7 +37,6 @@ const dTag = (uid)=>{
     type: 'warning'
   }).then(() => {
     DelTag(uid, (data) => {
-      console.log(uid, data, "!!");
       TagUser();
     });
   }).catch(() => {
@@ -58,7 +56,6 @@ const currentChange = (val) => {
 
 const search = ()=>{
   TagSearch(input,(data)=>{
-    console.log(data);
     TagInfo.value = data;
     TagInfo.value = changeTime(TagInfo.value);
   })
