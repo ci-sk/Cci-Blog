@@ -6,19 +6,24 @@
 
     <resultMap id="MessageMap" type="org.example.entity.dto.Message">
         <id property="mid" column="mid"/>
-        <result property="uid" column="uid"/>
+        <result property="username" column="username"/>
         <result property="content" column="content"/>
-        <result property="m_time" column="m_time"/>
+        <result property="time" column="m_time"/>
     </resultMap>
 
     <insert id="addMessage" parameterType="org.example.entity.dto.Message" useGeneratedKeys="true" keyProperty="mid">
-        insert into db_message(mid,uid,content,m_time) values (#{mid},#{uid},#{content},#{m_time})
+        insert into db_message(mid,username,content,m_time) values (#{mid},#{username},#{content},#{time})
     </insert>
 
     <select id="getMessage" resultMap="MessageMap">
         select * from db_message
+                 where db_message.content like '%${text}%'
+                 limit #{page},#{limit}
     </select>
-    
+    <select id="getMessageCount" resultType="java.lang.Integer">
+        select count(*) from db_message
+    </select>
+
     <delete id="deleteMessage" parameterType="int">
         delete from db_message where mid = #{mid}
     </delete>

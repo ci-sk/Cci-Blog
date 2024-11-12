@@ -8,8 +8,9 @@ import java.util.List;
 public interface MessageService {
     int  addMessage(Message message);
 
-    List<Message> getMessage();
+    List<Message> getMessage(String content, Integer page, Integer limit);;
 
     int deleteMessage(int mid);
 
+    int getMessageCount();
 }

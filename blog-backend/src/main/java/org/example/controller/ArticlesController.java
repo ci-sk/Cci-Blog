@@ -17,16 +17,26 @@ import java.util.List;
 import java.io.IOException;
 import java.util.Date;
 
+/**
+ * 文章控制器
+ * 该类负责处理与文章相关的HTTP请求，包括添加、查询、删除和分页查询文章等操作。
+ */
 @Controller
 @RequestMapping("/api")
 public class ArticlesController {
+
     @Autowired
     ArticlesServiceImpl artServer;
 
-
+    /**
+     * 添加或更新文章
+     * @param reqArt 文章请求对象
+     * @return RestBean<?> 对象，包含添加或更新文章的结果
+     */
     @ResponseBody
     @PutMapping("/addArt")
-    public RestBean<?> addArt(ArticleRequest reqArt) {
+    public RestBean<?> addArt(ArticleRequest reqArt)
+    {
         System.out.println("##"+reqArt);
         try {
             Articles articles = new Articles();
@@ -60,10 +70,15 @@ public class ArticlesController {
         }
     }
 
-
+    /**
+     * 查询所有文章
+     * @param response HttpServletResponse 对象，用于设置响应内容类型和字符编码
+     * @return RestBean<?> 对象，包含查询所有文章的结果
+     */
     @ResponseBody
     @GetMapping("/find/Art")
-    public RestBean<?> findArticles(HttpServletResponse response){
+    public RestBean<?> findArticles(HttpServletResponse response)
+    {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         try{
@@ -95,9 +110,16 @@ public class ArticlesController {
         return RestBean.db_failure();
     }
 
+    /**
+     * 删除文章
+     * @param response HttpServletResponse 对象，用于设置响应内容类型和字符编码
+     * @param aid 文章 ID
+     * @return RestBean<?> 对象，包含删除文章的结果
+     */
     @ResponseBody
     @PutMapping("/delArt")
-    public RestBean<?> delArt(HttpServletResponse response, Integer aid) {
+    public RestBean<?> delArt(HttpServletResponse response, Integer aid)
+    {
        response.setContentType("application/json");
        response.setCharacterEncoding("UTF-8");
 
@@ -114,9 +136,18 @@ public class ArticlesController {
        }
    }
 
+   /**
+    * 分页查询文章
+    * @param response HttpServletResponse 对象，用于设置响应内容类型和字符编码
+    * @param text 搜索文本
+    * @param page 页码
+    * @param limit 每页数量
+    * @return RestBean<?> 对象，包含分页查询文章的结果
+    */
    @ResponseBody
    @RequestMapping("/getArticleLimit")
-   public RestBean<?> getArticleLimit(HttpServletResponse response,String text,Integer page, Integer limit) {
+   public RestBean<?> getArticleLimit(HttpServletResponse response,String text,Integer page, Integer limit)
+   {
        response.setContentType("application/json");
        response.setCharacterEncoding("UTF-8");
 
@@ -129,7 +160,7 @@ public class ArticlesController {
        List<Articles> articles = artServer.limitArticles(text,page, limit);
 
 
-       if (articles != null) {
+       if (articles!= null) {
            ArrayList<ArticlesVO> vo = new ArrayList<>();
            for (Articles article : articles) {
                ArticlesVO vo1 = (article.asViewObject(ArticlesVO.class, v -> {
@@ -150,10 +181,15 @@ public class ArticlesController {
        }
    }
 
-
+   /**
+    * 获取文章数量
+    * @param response HttpServletResponse 对象，用于设置响应内容类型和字符编码
+    * @return RestBean<?> 对象，包含获取文章数量的结果
+    */
    @ResponseBody
     @RequestMapping("/getArtCount")
-    public RestBean<?> getArticleCount(HttpServletResponse response) {
+    public RestBean<?> getArticleCount(HttpServletResponse response)
+   {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 

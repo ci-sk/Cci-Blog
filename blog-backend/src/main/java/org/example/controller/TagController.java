@@ -12,12 +12,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 标签控制器
+ * 该类负责处理与标签相关的HTTP请求，包括添加、查询、删除和分页查询标签等操作。
+ */
 @Controller
 @RequestMapping("/api")
 public class TagController {
+
     @Autowired
     TagServiceImpl server;
 
+    /**
+     * 添加标签
+     * @param response 响应
+     * @param tagName 标签名
+     * @return 响应结果
+     */
     @ResponseBody
     @RequestMapping("/addTag")
     public RestBean<?> add(HttpServletResponse response,String tagName){
@@ -35,6 +46,11 @@ public class TagController {
         else return RestBean.db_un_failure("添加失败");
     }
 
+    /**
+     * 查询标签
+     * @param response 响应
+     * @return 响应结果
+     */
     @ResponseBody
     @RequestMapping("/find/tag")
     public RestBean<?> get(HttpServletResponse response){
@@ -47,6 +63,12 @@ public class TagController {
         else return RestBean.db_un_failure("获取失败");
     }
 
+    /**
+     * 删除标签
+     * @param response 响应
+     * @param tid 标签id
+     * @return 响应结果
+     */
     @ResponseBody
     @RequestMapping("/delTag")
     public RestBean<?> delete(HttpServletResponse response,Integer tid){
@@ -60,6 +82,13 @@ public class TagController {
         else return RestBean.db_un_failure("删除失败");
     }
 
+    /**
+     * 分页查询标签
+     * @param response 响应
+     * @param page 页码
+     * @param limit 每页数量
+     * @return 响应结果
+     */
     @ResponseBody
     @RequestMapping("/limitTag")
     public RestBean<?> limit(HttpServletResponse response,Integer page,Integer limit){
@@ -78,6 +107,12 @@ public class TagController {
         else return RestBean.db_un_failure("获取失败");
     }
 
+    /**
+     * 标签搜索
+     * @param response 响应
+     * @param text 搜索文本
+     * @return 响应结果
+     */
     @ResponseBody
     @RequestMapping("/TagSearch")
     public RestBean<?> find(HttpServletResponse response,String text){
@@ -90,6 +125,11 @@ public class TagController {
         else return RestBean.db_un_failure("获取失败");
     }
 
+    /**
+     * 获取标签数量
+     * @param response 响应
+     * @return 响应结果
+     */
     @ResponseBody
     @RequestMapping("/getTagCount")
     public RestBean<?> count(HttpServletResponse response){

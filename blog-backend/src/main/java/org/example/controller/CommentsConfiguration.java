@@ -6,6 +6,7 @@ import org.example.entity.RestBean;
 import org.example.entity.dto.Comments;
 import org.example.entity.vo.response.CommentsVO;
 import org.example.service.impl.CommentsServiceImpl;
+import org.example.utils.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
+import static org.example.utils.Comment.getSubComments;
 
 /**
  * 评论配置类，处理与评论相关的 HTTP 请求
@@ -151,6 +155,14 @@ public class CommentsConfiguration  {
     }
 
 
+    /**
+     * 分页评论
+     * @param response HttpServletResponse 对象，用于设置响应内容类型和字符编码
+     * @param text 评论内容
+     * @param page 页码
+     * @param limit 每页显示的数量
+     * @return RestBean<?> 对象，包含分页查询的结果
+     * */
     @ResponseBody
     @RequestMapping("/getLimit/Comments")
     public RestBean<?> getLimit(HttpServletResponse response,String text,Integer page, Integer limit)
@@ -163,13 +175,8 @@ public class CommentsConfiguration  {
             limit += page;
         }
 
-        System.out.println("分页查询"+text);
-
         List<Comments> commentsList = server.getCommentsLimit(text,page,limit);
-        System.out.println(commentsList);
-
         if(commentsList!= null){
-
             ArrayList<CommentsVO> vo = new ArrayList<>();
             for (Comments comments : commentsList) {
                 CommentsVO vo1 = (comments.asViewObject(CommentsVO.class, v -> {
@@ -185,14 +192,26 @@ public class CommentsConfiguration  {
                 }));
                 vo.add(vo1);
             }
-            return RestBean.success(vo);
+            List<CommentsVO> vo2 = new ArrayList<>();
+            for (CommentsVO vo1 : vo) {
+                int cid = vo1.getCid();
+
+                vo2  = CommentsVO.setSubComments(cid,vo,CommentsVO.getSubComments(cid,vo));
+
+            }
+
+            return RestBean.success(vo2);
         }
         else{
             return RestBean.db_un_failure("获取失败");
         }
     }
 
-
+    /**
+     * 获取数量
+     * @param response 响应
+     * @return 响应结果
+     */
     @ResponseBody
     @RequestMapping("/getCount/Comments")
     public RestBean<?> getCount(HttpServletResponse response)

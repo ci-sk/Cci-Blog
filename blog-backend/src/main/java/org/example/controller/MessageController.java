@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
 
+/**
+ * 消息控制器
+ */
 @Controller
 @RequestMapping("/api")
 public class MessageController {
@@ -19,16 +22,22 @@ public class MessageController {
     @Autowired
     MessageServiceImpl service;
 
-
+    /**
+     * 添加消息
+     * @param response 响应
+     * @param request 请求
+     * @param content 内容
+     * @return 响应结果
+     */
     @ResponseBody
     @RequestMapping("/addMsg")
-    public RestBean<?> add(HttpServletResponse response, HttpServletRequest request, String content){
+    public RestBean<?> add(HttpServletResponse response, HttpServletRequest request,String username, String content){
         response.setContentType("application/json;charset=utf-8");
 
         Message message = new Message();
-        message.setUid((int) request.getAttribute("id"));
+        message.setUsername(username);
         message.setContent(content);
-        message.setM_time(new Date());
+        message.setTime(new Date());
 
         if(service.addMessage(message) ==1){
             return RestBean.success(message);
@@ -37,14 +46,26 @@ public class MessageController {
         }
     }
 
+    /**
+     * 查询消息
+     * @param response 响应
+     * @param request 请求
+     * @return 响应结果
+     */
     @ResponseBody
-    @RequestMapping("/find/msg")
-    public RestBean<?> find(HttpServletResponse response, HttpServletRequest request){
+    @RequestMapping("/getLimit/Message")
+    public RestBean<?> find(HttpServletResponse response, HttpServletRequest request,String content,Integer page,Integer limit){
         response.setContentType("application/json;charset=utf-8");
 
-        return RestBean.success(service.getMessage());
+        return RestBean.success(service.getMessage(content,page,limit));
     }
 
+    /**
+     * 删除消息
+     * @param response 响应
+     * @param mid 消息id
+     * @return 响应结果
+     */
     @ResponseBody
     @RequestMapping("/delMsg")
     public RestBean<?> delete(HttpServletResponse response,Integer mid){
@@ -55,6 +76,20 @@ public class MessageController {
         }else{
             return RestBean.db_un_failure("删除失败");
         }
+    }
+
+
+    /**
+     * 获取数量
+     * @param response 响应
+     * @return 响应结果
+     */
+    @ResponseBody
+    @RequestMapping("/getMsgCount")
+    public RestBean<?> getMsgCount(HttpServletResponse response){
+        response.setContentType("application/json;charset=utf-8");
+
+        return RestBean.success(service.getMessageCount());
     }
 
 }

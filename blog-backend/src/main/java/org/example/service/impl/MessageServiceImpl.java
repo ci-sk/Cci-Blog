@@ -21,12 +21,17 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
     }
 
     @Override
-    public List<Message> getMessage() {
-        return mapper.getMessage();
+    public List<Message> getMessage(String content, Integer page, Integer limit) {
+        return mapper.getMessage(content, page, limit);
     }
 
     @Override
     public int deleteMessage(int mid) {
         return mapper.deleteMessage(mid);
+    }
+
+    @Override
+    public int getMessageCount() {
+        return mapper.getMessageCount();
     }
 }

@@ -16,7 +16,7 @@ import java.util.Date;
 public class Message {
     @TableId(type = IdType.AUTO)
     private Integer mid;
-    private Integer uid;
+    private String username;
     private String content;
-    private Date m_time;
+    private Date time;
 }

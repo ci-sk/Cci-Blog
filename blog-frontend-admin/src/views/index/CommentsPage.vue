@@ -1,10 +1,9 @@
 <script setup>
-import {Plus, Refresh, Search} from "@element-plus/icons-vue";
-import {getComment, getCountComment, getLimitComment} from "../../net/comment.js";
-import {ref,onMounted,reactive} from "vue";
+import { Refresh, Search} from "@element-plus/icons-vue";
+import {getCountComment, getLimitComment} from "../../net/comment.js";
+import {ref,onMounted} from "vue";
 import {changeTime, getTags} from "../../uilt/index.js";
 import {ArticleLimit} from "../../net/article.js";
-import DemoPage from "./DemoPage.vue";
 
 const CommentInfo = ref([])
 
@@ -33,6 +32,10 @@ const SelectComment =()=> {
   },(res) => {
     CommentInfo.value  = res
     CommentInfo.value = changeTime(CommentInfo.value)
+    CommentInfo.value= CommentInfo.value.filter((item)=>{
+      console.log(item)
+          return item.reply_cid === null
+        })
   })
 }
 
@@ -40,7 +43,6 @@ const SelectComment =()=> {
 const fun = (arr) =>{
   let  reply = []
   let id;
-  console.log("arr",arr)
   arr.forEach((item)=>{
     if(item.reply_cid !== null){
       id = item.aid;
@@ -50,22 +52,26 @@ const fun = (arr) =>{
     console.log("@@@",reply)
 
   })
-  reply = reply.filter((item)=>{
-    return item.aid === id
-  })
+  // reply = reply.filter((item)=>{
+  //   return item.aid === id
+  // })
   arr.forEach((item)=>{
     reply.forEach((item1)=>{
       if(item.cid === item1.reply_cid){
-        item.reply = item1
 
+        if(item.children === undefined){
+          item.children = []
+        }
+        item.children.push(item1)
         item.hasChildren = true
       }
     })
   })
+  console.log("arr!!!",arr)
   return arr
-  //     .filter((item)=>{
-  //   return item.reply_cid === null
-  // })
+      .filter((item)=>{
+    return item.reply_cid === null
+  })
 }
 
 
@@ -141,6 +147,7 @@ const init = ()=>{
                 border
                 row-key="cid"
                 style="width: 100%;margin-top: 20px"
+                :tree-props="{ children: 'children'}"
       >
         <el-table-column prop="cid" label="序号" align="center"/>
         <el-table-column prop="username" label="评论用户" align="center"/>
@@ -149,19 +156,6 @@ const init = ()=>{
         <el-table-column prop="content" label="内容" align="center"/>
         <el-table-column prop="time" label="时间" align="center"/>
       </el-table>
-
-<!--      <el-table-->
-<!--          :data="tableData"-->
-<!--          style="width: 100%; margin-bottom: 20px"-->
-<!--          row-key="id"-->
-<!--          border-->
-<!--          default-expand-all-->
-<!--      >-->
-<!--        <el-table-column prop="date" label="Date" sortable />-->
-<!--        <el-table-column prop="name" label="Name" sortable />-->
-<!--        <el-table-column prop="address" label="Address" sortable />-->
-<!--      </el-table>-->
-
 
       <div style="margin-top: 30px">
         <el-pagination background layout="prev, pager, next"
