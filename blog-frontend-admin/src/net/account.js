@@ -3,7 +3,7 @@ import {defaultFailure, del, get, put} from "./index.js";
 
 function getUserInfo(success, failure = defaultFailure) {
     // 调用 GET 请求函数，获取用户信息
-    get('api/find/Account', (data)=>{
+    get('api/getAll/Account', (data)=>{
         // 调用成功回调函数，传递用户信息数据
         success(data);
     }, () => {
@@ -27,7 +27,7 @@ function getAccountText(data, success, failure = defaultFailure) {
 }
 
 function AccountLimit(data,success, failure = defaultFailure) {
-    put('api/getAccountLimit',{
+    put('api/getLimit/Account',{
         page:data,
         limit:10
     },(data)=>{
@@ -51,7 +51,7 @@ function DelAccount(data,success,failure = defaultFailure) {
 }
 
 function getAccountCount(success,failure = defaultFailure){
-    get('api/getAccountCount',
+    get('api/getCount/Account',
         (res)=>{
             success(res);
         },(res)=>{

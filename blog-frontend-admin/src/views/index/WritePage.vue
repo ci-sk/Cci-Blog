@@ -1,11 +1,11 @@
 <script setup>
-import {onMounted, reactive, ref,nextTick} from 'vue';
+import {onMounted, reactive, ref} from 'vue';
 import {MdEditor} from 'md-editor-v3';
 
 import 'md-editor-v3/lib/style.css';
 
 import {useDark} from "@vueuse/core";
-import {get, uploadFile} from "../../net/index.js";
+import {uploadFile} from "../../net/index.js";
 import {Plus} from "@element-plus/icons-vue";
 import {getTag, insertTag} from "../../net/tag.js";
 import {insertArticle} from "../../net/article.js";
@@ -14,7 +14,6 @@ import {useRoute} from "vue-router";
 import {useUpDataArt} from "../../store/index.js";
 import router from "../../router/index.js";
 
-const route = useRoute()
 
 const Art = useUpDataArt()
 

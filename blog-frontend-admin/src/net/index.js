@@ -2,7 +2,6 @@
 import axios from "axios";
 // 导入 Element Plus 的 Message 组件用于显示消息
 import { ElMessage } from "element-plus";
-import data from "bootstrap/js/src/dom/data.js";
 
 // 定义存储认证令牌的名称
 const authItemName = "access_token";

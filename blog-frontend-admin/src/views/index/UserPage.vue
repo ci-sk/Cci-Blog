@@ -1,7 +1,6 @@
 <script setup>
 import {ref,onMounted} from "vue";
 import {AccountLimit, DelAccount, getAccountCount, getAccountText, getUserInfo} from "../../net/account.js";
-import data from "bootstrap/js/src/dom/data.js";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {changeTime, formatTime} from "../../uilt/index.js";
 import {Refresh} from "@element-plus/icons-vue";

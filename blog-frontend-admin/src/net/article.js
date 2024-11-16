@@ -2,7 +2,7 @@ import {defaultFailure, del, get, put} from "./index.js";
 
 async function insertArticle(data,success,failure = defaultFailure){
     console.log(data)
-    await put("api/addArt",{
+    await put("api/addArticle",{
         aid:data.aid,
         title:data.title,
         content:data.content,
@@ -18,7 +18,7 @@ async function insertArticle(data,success,failure = defaultFailure){
 }
 
 function getArticle(success,failure = defaultFailure){
-    get("api/find/Art",(data)=>{
+    get("api/getAll/Article",(data)=>{
         success(data);
     },()=>{
         failure("获取失败", 500, "api/getArt");
@@ -27,7 +27,7 @@ function getArticle(success,failure = defaultFailure){
 
 function DeleteArticle(data,success,failure){
     console.log("@@@",data)
-    put("api/delArt",{
+    put("api/delArticle",{
         aid:data
     },()=>{
         success(data);
@@ -38,7 +38,7 @@ function DeleteArticle(data,success,failure){
 
 function ArticleLimit(data,success,failure){
     console.log("@@@",data)
-    put("api/getArticleLimit",{
+    put("api/getLimit/Article",{
         text:data.text,
         page:data.page,
         limit:10
@@ -50,7 +50,7 @@ function ArticleLimit(data,success,failure){
 }
 
 function getArticleCount(success,failure){
-    get("api/getArtCount",(data)=>{
+    get("api/getCount/Article",(data)=>{
         success(data);
     },()=>{
         failure("获取失败", 500, "api/getArt");

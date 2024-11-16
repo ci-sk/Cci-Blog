@@ -83,7 +83,7 @@ public class AccountController {
      * @return RestBean<?> 对象，包含查询账户的结果
      */
     @ResponseBody
-    @GetMapping("/find/Account")
+    @GetMapping("/getAll/Account")
     public RestBean<?> findAccount(HttpServletResponse response)
     {
         response.setContentType("application/json");
@@ -138,7 +138,7 @@ public class AccountController {
      * @return RestBean<?> 对象，包含分页查询账户的结果
      */
     @ResponseBody
-    @RequestMapping("/getAccountLimit")
+    @RequestMapping("/getLimit/Account")
     public RestBean<?> getAccountLimit(HttpServletResponse response, HttpServletRequest request, Integer page, Integer limit)
     {
         response.setContentType("application/json");
@@ -161,7 +161,7 @@ public class AccountController {
      * @return RestBean<?> 对象，包含获取账户数量的结果
      */
     @ResponseBody
-    @RequestMapping("/getAccountCount")
+    @RequestMapping("/getCount/Account")
     public RestBean<?> getAccountCount(HttpServletResponse response)
     {
         response.setContentType("application/json");

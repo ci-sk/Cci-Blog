@@ -35,7 +35,7 @@ public class CommentsConfiguration  {
      * @return RestBean<?> 对象，包含添加评论的结果
      */
     @ResponseBody
-    @RequestMapping("/addCom")
+    @RequestMapping("/addComments")
     public RestBean<?> add(HttpServletResponse response, HttpServletRequest request, Integer aid, String content,String username)
     {
         response.setContentType("application/json;charset=utf-8");
@@ -101,7 +101,7 @@ public class CommentsConfiguration  {
      * @return RestBean<?> 对象，包含获取所有评论的结果
      */
     @ResponseBody
-    @RequestMapping("/find/Comments")
+    @RequestMapping("/getAll/Comments")
     public RestBean<?> getAll(HttpServletResponse response)
     {
         response.setContentType("application/json;charset=utf-8");
@@ -138,7 +138,7 @@ public class CommentsConfiguration  {
      * @return RestBean<?> 对象，包含删除评论的结果
      */
     @ResponseBody
-    @RequestMapping("/delCom")
+    @RequestMapping("/delComments")
     public RestBean<?> delete(HttpServletResponse response,int  cid)
     {
         response.setContentType("application/json;charset=utf-8");

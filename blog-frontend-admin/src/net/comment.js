@@ -1,7 +1,7 @@
 import {defaultFailure, get, put} from "./index.js";
 
 function getComment(success,failure = defaultFailure){
-    get("api/find/Comments",(data)=>{
+    get("api/getAll/Comments",(data)=>{
         console.log("@@")
         success(data)
     },failure)

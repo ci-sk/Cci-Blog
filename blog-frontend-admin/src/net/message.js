@@ -1,7 +1,8 @@
 import {defaultFailure, get, put} from "./index.js";
 
 function getLimitMessage(data,success,failure = defaultFailure){
-    put("api/getLimit/Comments",{
+    console.log(data)
+    put("api/getLimit/Message",{
         text:data.text,
         page:data.page,
         limit:10
@@ -11,9 +12,17 @@ function getLimitMessage(data,success,failure = defaultFailure){
 }
 
 function getCountMessage(success,failure = defaultFailure){
-    get("api/getCount/Comments",(data)=>{
+    get("api/getCount/Message",(data)=>{
         success(data)
     },failure)
 }
 
-export {getCountMessage,getLimitMessage}
+function DeleteMessage(data,success,failure = defaultFailure){
+    put("api/delMessage",{
+        id:data.id
+    },(data)=>{
+        success(data)
+    },failure)
+}
+
+export {getCountMessage,getLimitMessage,DeleteMessage}

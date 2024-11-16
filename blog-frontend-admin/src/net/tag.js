@@ -1,6 +1,5 @@
 import {ElMessage} from "element-plus";
 import {defaultFailure, del, get, put} from "./index.js";
-import data from "bootstrap/js/src/dom/data.js";
 
 //添加
 function insertTag(data,success,failure){
@@ -16,7 +15,7 @@ function insertTag(data,success,failure){
 
 //获取标签列表
 function getTag(success,failure){
-    get('api/find/tag',(data)=>{
+    get('api/getAll/tag',(data)=>{
         success(data);
     }, () => {
         failure("获取用户信息失败", 500, "api/find/Account");
@@ -28,7 +27,7 @@ function getTag(success,failure){
 
 //分页
 function TagLimit(data,success, failure = defaultFailure) {
-    put('api/limitTag',{
+    put('api/getLimit/Tag',{
         page:data,
         limit:10
     },(data)=>{
@@ -54,7 +53,7 @@ function DelTag(data,success,failure){
 //查找
 function TagSearch(data, success, failure = defaultFailure) {
 
-    put('/api/TagSearch', {
+    put('/api/getSearch/Tag', {
         text: data.value
     }, (data) => {
         ElMessage.success("获取成功");
@@ -67,7 +66,7 @@ function TagSearch(data, success, failure = defaultFailure) {
 
 //获取标签数量
 function getTagCount(success,failure = defaultFailure){
-    get('api/getTagCount',
+    get('api/getCount/Tag',
         (res)=>{
             success(res);
         },(res)=>{

@@ -5,7 +5,6 @@ import 'element-plus/theme-chalk/dark/css-vars.css'
 import 'element-plus/theme-chalk/display.css'
 import router from "./router/index.js";
 import "./assets/css/base-admin.scss"
-import 'tdesign-vue-next/es/style/index.css';
 import axios from "axios";
 
 // 引入pinia仓库

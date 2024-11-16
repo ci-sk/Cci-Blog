@@ -2,6 +2,11 @@ import {createRouter, createWebHashHistory} from 'vue-router'
 
 import {unauthorized} from "../net/index.js";
 import {ElMessage} from "element-plus";
+import NProgress from 'nprogress'   // 导入 nprogress
+import 'nprogress/nprogress.css'   // 导入样式，否则看不到效果
+
+// NProgress.configure({ showSpinner: true })   // 显示右上角螺旋加载提示
+
 
 const router = createRouter({
      history:createWebHashHistory(import.meta.env.BASE_URL),
@@ -113,7 +118,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to,from,next) =>{
-    console.log(to)
+    NProgress.start()   // 开始加载
     const isUnauthorized = unauthorized()
     if(to.name.startsWith("welcome-")&&!isUnauthorized){
         next("/index")
@@ -124,6 +129,7 @@ router.beforeEach((to,from,next) =>{
     }else {
         next()
     }
+    NProgress.done()
 })
 
 export default router

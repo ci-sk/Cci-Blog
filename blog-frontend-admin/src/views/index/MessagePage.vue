@@ -1,9 +1,9 @@
 <script setup>
 import {Refresh, Search} from "@element-plus/icons-vue";
-import {getCountComment, getLimitComment} from "../../net/comment.js";
 import {ref,onMounted} from "vue";
-import {changeTime, getTags} from "../../uilt/index.js";
+import {changeTime} from "../../uilt/index.js";
 import {ArticleLimit} from "../../net/article.js";
+import {getCountMessage, getLimitMessage} from "../../net/message.js";
 
 const MessageInfo = ref([])
 
@@ -14,7 +14,7 @@ const total = ref(1)
 const page = ref(1)
 
 const search = ()=>{
-  getLimitComment({
+  getLimitMessage({
     text:input.value,
     page:page.value
   }, (res) => {
@@ -26,10 +26,11 @@ const search = ()=>{
 
 
 const SelectComment =()=> {
-  getLimitComment({
+  getLimitMessage({
     text:input.value,
     page:page.value
   },(res) => {
+  console.log(res)
     MessageInfo.value  = res
     MessageInfo.value = changeTime(MessageInfo.value)
   })
@@ -39,14 +40,13 @@ const currentChange = (val)=>{
   page.value = val;
   ArticleLimit({text:input.value,page:page.value},(res) => {
     MessageInfo.value = res;
-    MessageInfo.value =getTags(MessageInfo.value)
     MessageInfo.value = changeTime(MessageInfo.value);
   })
 }
 
 const init = ()=>{
   SelectComment()
-  getCountComment((data)=>{
+  getCountMessage((data)=>{
     total.value = data
   })
   input.value = ''
@@ -83,7 +83,7 @@ onMounted(()=>{
                 row-key="cid"
                 style="width: 100%;margin-top: 20px"
       >
-        <el-table-column prop="cid" label="序号" align="center"/>
+        <el-table-column prop="mid" label="序号" align="center"/>
         <el-table-column prop="username" label="评论用户" align="center"/>
         <el-table-column prop="content" label="内容" align="center"/>
         <el-table-column prop="time" label="时间" align="center"/>

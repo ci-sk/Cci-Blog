@@ -52,7 +52,7 @@ public class TagController {
      * @return 响应结果
      */
     @ResponseBody
-    @RequestMapping("/find/tag")
+    @RequestMapping("/getAll/tag")
     public RestBean<?> get(HttpServletResponse response){
         response.setContentType("application/json;charset=utf-8");
 
@@ -90,7 +90,7 @@ public class TagController {
      * @return 响应结果
      */
     @ResponseBody
-    @RequestMapping("/limitTag")
+    @RequestMapping("/getLimit/Tag")
     public RestBean<?> limit(HttpServletResponse response,Integer page,Integer limit){
         response.setContentType("application/json;charset=utf-8");
 
@@ -114,7 +114,7 @@ public class TagController {
      * @return 响应结果
      */
     @ResponseBody
-    @RequestMapping("/TagSearch")
+    @RequestMapping("/getSearch/Tag")
     public RestBean<?> find(HttpServletResponse response,String text){
         response.setContentType("application/json;charset=utf-8");
 
@@ -131,7 +131,7 @@ public class TagController {
      * @return 响应结果
      */
     @ResponseBody
-    @RequestMapping("/getTagCount")
+    @RequestMapping("/getCount/Tag")
     public RestBean<?> count(HttpServletResponse response){
         response.setContentType("application/json;charset=utf-8");
 

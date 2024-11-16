@@ -8,16 +8,17 @@
         <id property="mid" column="mid"/>
         <result property="username" column="username"/>
         <result property="content" column="content"/>
-        <result property="time" column="m_time"/>
+        <result property="time" column="time"/>
     </resultMap>
 
     <insert id="addMessage" parameterType="org.example.entity.dto.Message" useGeneratedKeys="true" keyProperty="mid">
-        insert into db_message(mid,username,content,m_time) values (#{mid},#{username},#{content},#{time})
+        insert into db_message(mid,username,content,time) values (#{mid},#{username},#{content},#{time})
     </insert>
+
 
     <select id="getMessage" resultMap="MessageMap">
         select * from db_message
-                 where db_message.content like '%${text}%'
+                 where db_message.content like '%${content}%'
                  limit #{page},#{limit}
     </select>
     <select id="getMessageCount" resultType="java.lang.Integer">

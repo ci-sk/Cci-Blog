@@ -34,7 +34,7 @@ public class ArticlesController {
      * @return RestBean<?> 对象，包含添加或更新文章的结果
      */
     @ResponseBody
-    @PutMapping("/addArt")
+    @PutMapping("/addArticle")
     public RestBean<?> addArt(ArticleRequest reqArt)
     {
         System.out.println("##"+reqArt);
@@ -76,7 +76,7 @@ public class ArticlesController {
      * @return RestBean<?> 对象，包含查询所有文章的结果
      */
     @ResponseBody
-    @GetMapping("/find/Art")
+    @GetMapping("/getAll/Article")
     public RestBean<?> findArticles(HttpServletResponse response)
     {
         response.setContentType("application/json");
@@ -117,7 +117,7 @@ public class ArticlesController {
      * @return RestBean<?> 对象，包含删除文章的结果
      */
     @ResponseBody
-    @PutMapping("/delArt")
+    @PutMapping("/delArticle")
     public RestBean<?> delArt(HttpServletResponse response, Integer aid)
     {
        response.setContentType("application/json");
@@ -145,7 +145,7 @@ public class ArticlesController {
     * @return RestBean<?> 对象，包含分页查询文章的结果
     */
    @ResponseBody
-   @RequestMapping("/getArticleLimit")
+   @RequestMapping("/getLimit/Article")
    public RestBean<?> getArticleLimit(HttpServletResponse response,String text,Integer page, Integer limit)
    {
        response.setContentType("application/json");
@@ -187,7 +187,7 @@ public class ArticlesController {
     * @return RestBean<?> 对象，包含获取文章数量的结果
     */
    @ResponseBody
-    @RequestMapping("/getArtCount")
+    @RequestMapping("/getCount/Article")
     public RestBean<?> getArticleCount(HttpServletResponse response)
    {
         response.setContentType("application/json");

@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
+import java.util.List;
 
 /**
- * 消息控制器
+ * 留言控制器
  */
 @Controller
 @RequestMapping("/api")
@@ -23,15 +24,14 @@ public class MessageController {
     MessageServiceImpl service;
 
     /**
-     * 添加消息
+     * 留言消息
      * @param response 响应
-     * @param request 请求
      * @param content 内容
      * @return 响应结果
      */
     @ResponseBody
-    @RequestMapping("/addMsg")
-    public RestBean<?> add(HttpServletResponse response, HttpServletRequest request,String username, String content){
+    @RequestMapping("/addMessage")
+    public RestBean<?> add(HttpServletResponse response,String username, String content){
         response.setContentType("application/json;charset=utf-8");
 
         Message message = new Message();
@@ -47,27 +47,34 @@ public class MessageController {
     }
 
     /**
-     * 查询消息
+     * 查询留言
      * @param response 响应
-     * @param request 请求
      * @return 响应结果
      */
     @ResponseBody
     @RequestMapping("/getLimit/Message")
-    public RestBean<?> find(HttpServletResponse response, HttpServletRequest request,String content,Integer page,Integer limit){
+    public RestBean<?> find(HttpServletResponse response,String content,Integer page,Integer limit){
         response.setContentType("application/json;charset=utf-8");
 
-        return RestBean.success(service.getMessage(content,page,limit));
+        page--;
+        if (page >= 1) {
+            page = (page) * 10;
+            limit += page;
+        }
+
+        List<Message> message = service.getMessage(content, page, limit);
+
+        return RestBean.db_success(message,"请求成功");
     }
 
     /**
-     * 删除消息
+     * 删除留言
      * @param response 响应
      * @param mid 消息id
      * @return 响应结果
      */
     @ResponseBody
-    @RequestMapping("/delMsg")
+    @RequestMapping("/delMessage")
     public RestBean<?> delete(HttpServletResponse response,Integer mid){
         response.setContentType("application/json;charset=utf-8");
 
@@ -85,7 +92,7 @@ public class MessageController {
      * @return 响应结果
      */
     @ResponseBody
-    @RequestMapping("/getMsgCount")
+    @RequestMapping("/getCount/Message")
     public RestBean<?> getMsgCount(HttpServletResponse response){
         response.setContentType("application/json;charset=utf-8");
 
