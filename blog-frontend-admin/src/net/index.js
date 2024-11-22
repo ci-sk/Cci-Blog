@@ -144,6 +144,18 @@ function del(url,data,success, failure = defaultFailure) {
     internalDel(url, data,accessHeader(), success, failure);
 }
 
+function getPromise(url){
+    return new Promise((resolve, reject) =>{
+        axios.get(url,{
+            headers: accessHeader()
+        }).then(res => {
+            resolve(res.data.data);
+        }).catch(err =>{
+            reject(err)
+        })
+    })
+}
+
 // 登录函数
 function login(username, password, remember, success, failure = defaultFailure) {
     // 调用内部 POST 请求函数，发送登录请求
@@ -196,5 +208,5 @@ function unauthorized() {
 }
 
 // 导出函数
-export { login, logout, get, post,put,del,defaultFailure,unauthorized,uploadFile};
+export { login, logout, get, post,put,del,defaultFailure,unauthorized,uploadFile,takeAccessToken,getPromise};
 

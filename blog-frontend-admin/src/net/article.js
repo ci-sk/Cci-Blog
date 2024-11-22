@@ -1,4 +1,5 @@
-import {defaultFailure, del, get, put} from "./index.js";
+import {defaultFailure, del, get, getPromise, put, takeAccessToken} from "./index.js";
+import axios from "axios";
 
 async function insertArticle(data,success,failure = defaultFailure){
     console.log(data)
@@ -17,13 +18,11 @@ async function insertArticle(data,success,failure = defaultFailure){
     })
 }
 
-function getArticle(success,failure = defaultFailure){
-    get("api/getAll/Article",(data)=>{
-        success(data);
-    },()=>{
-        failure("获取失败", 500, "api/getArt");
-    })
+async function  getArticle() {
+    return  getPromise("api/getAll/Article")
+
 }
+
 
 function DeleteArticle(data,success,failure){
     console.log("@@@",data)

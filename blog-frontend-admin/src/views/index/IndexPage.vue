@@ -1,11 +1,23 @@
 <script setup>
+import HotMap  from "../../components/home/HotMap.vue";
+
+import HomeTop from "../../components/home/HomeTop.vue";
 
 </script>
 
 <template>
-  <h2 style="color: var(--cci-zw-text-color)">main</h2>
+    <div class="home">
+      <HomeTop/>
+      <HotMap/>
+
+    </div>
+
 </template>
 
 <style scoped>
-
+.home{
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
 </style>
