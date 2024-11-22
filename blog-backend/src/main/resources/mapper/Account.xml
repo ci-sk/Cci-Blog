@@ -24,7 +24,7 @@
         values (#{uid},#{username},#{password},#{email},#{role},#{time})
     </insert>
 
-    <delete id="deleteAccount" parameterType="org.example.entity.dto.Account">
+    <delete id="deleteAccount" parameterType="int">
         delete from db_account where uid = #{uid}
     </delete>
 
@@ -34,8 +34,6 @@
             limit #{page},#{limit}
     </select>
 
-    <select id="limitAccount" resultMap="AccountMap">
-        select * from db_account limit #{page},#{limit}
-    </select>
+
 
 </mapper>

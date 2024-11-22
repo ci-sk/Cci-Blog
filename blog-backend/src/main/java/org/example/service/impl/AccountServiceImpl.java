@@ -1,6 +1,7 @@
 package org.example.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
 import org.example.entity.dto.Account;
 import org.example.mapper.AccountMapper;
 import org.example.service.AccountService;
@@ -16,9 +17,16 @@ import java.util.List;
 @Service
 public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> implements AccountService {
 
-    @Autowired
+    @Resource
     AccountMapper mapper;
 
+    /**
+     * 根据用户名加载用户详细信息
+     *
+     * @param username 用户名
+     * @return 用户详细信息
+     * @throws UsernameNotFoundException 如果用户名不存在
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account account = this.findAccountByNameOrEmail(username);
@@ -28,45 +36,88 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
             throw new UsernameNotFoundException("用户名或者密码错误");
         }
         return User
-                .withUsername(username)
-                .roles(account.getRole())
-                .password(account.getPassword())
-                .build();
+               .withUsername(username)
+               .password(account.getPassword())
+               .roles(account.getRole())
+               .build();
     }
 
+    /**
+     * 根据用户名或邮箱查找账户
+     *
+     * @param text 用户名或邮箱
+     * @return 账户信息
+     */
     public Account findAccountByNameOrEmail(String text) {
 //        return this.query()
-//                .eq("username",text).or()
-//                .eq("email",text)
-//                .one();
+//               .eq("username",text).or()
+//               .eq("email",text)
+//               .one();
         return mapper.findAccountByNameOrEmail(text);
     }
 
+    /**
+     * 插入新账户
+     *
+     * @param account 账户信息
+     * @return 插入结果
+     */
     @Override
     public int insertAccount(Account account) {
        return mapper.insertAccount(account);
     }
 
+    /**
+     * 根据用户 ID 删除账户
+     *
+     * @param uid 用户 ID
+     * @return 删除结果
+     */
     @Override
     public int deleteAccount(Integer uid) {
         return mapper.deleteAccount(uid);
     }
 
+    /**
+     * 获取账户数量
+     *
+     * @return 账户数量
+     */
     @Override
     public List<Account> getAccountCount() {
         return mapper.getAccountCount();
     }
 
+    /**
+     * 根据关键词分页查询账户
+     *
+     * @param text 关键词
+     * @param page 页码
+     * @param limit 每页限制
+     * @return 账户列表
+     */
     @Override
     public List<Account> getAccountByText(String text, Integer page, Integer limit) {
         return mapper.getAccountByText(text, page, limit);
     }
 
+    /**
+     * 分页查询账户
+     *
+     * @param page 页码
+     * @param limit 每页限制
+     * @return 账户列表
+     */
     @Override
     public List<Account> limitAccount(Integer page, Integer limit) {
         return mapper.limitAccount(page, limit);
     }
 
+    /**
+     * 获取账户总数
+     *
+     * @return 账户总数
+     */
     @Override
     public Integer getCount() {
         return mapper.getCount();

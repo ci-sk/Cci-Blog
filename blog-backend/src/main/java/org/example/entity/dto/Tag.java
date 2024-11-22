@@ -6,11 +6,12 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.util.Date;
-
-@TableName("db_tag")
 @Data
+@TableName("db_tag")
+@Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
 public class Tag {

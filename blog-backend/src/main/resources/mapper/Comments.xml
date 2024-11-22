@@ -3,6 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.mapper.CommentsMapper">
+    <cache
+            eviction="FIFO"
+            flushInterval="60000"
+            size="512"
+            readOnly="true"/>
 
     <resultMap id="comMap" type="org.example.entity.dto.Comments">
         <id column="cid" property="cid" javaType="INTEGER"/>
@@ -36,7 +41,7 @@
         values (#{cid},#{aid},#{username},#{content},#{c_time})
     </insert>
 
-    <select id="getCommentsAll" parameterType="int" resultMap="comMap">
+    <select id="getCommentsAll" resultMap="comMap">
         select c.* ,a.title,r.username
         from db_comments c
                  join db_articles a on c.aid = a.aid

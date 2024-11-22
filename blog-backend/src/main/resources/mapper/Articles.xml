@@ -2,7 +2,14 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="org.example.mapper.ArticlesMapper">
+    <cache
+            eviction="FIFO"
+            flushInterval="60000"
+            size="512"
+            readOnly="true"/>
+
 
     <resultMap id="ArticlesMap" type="org.example.entity.dto.Articles">
         <id property="aid" column="aid" jdbcType="INTEGER"/>
@@ -35,7 +42,7 @@
         select * from db_articles where aid = #{aid}
     </select>
 
-    <delete id="delFart" parameterType="org.example.entity.dto.Articles">
+    <delete id="delFart" parameterType="int">
         delete from db_articles where aid = #{aid}
     </delete>
 
@@ -44,7 +51,7 @@
         from db_articles;
     </select>
 
-    <update id="upDataArticles" parameterType="org.example.entity.dto.Articles">
+    <update id="upDataArticles">
         update db_articles
         set title = #{title},content = #{content},`desc` = #{desc},tags = #{tags},img_url = #{img_url},del = #{del}
         where aid = #{aid}

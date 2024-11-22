@@ -43,11 +43,11 @@ public class AccountController {
         response.setCharacterEncoding("UTF-8");
 
         Account account = new Account();
-        account.setUsername(username);
-        account.setPassword(passwordEncoder.encode("123456"));
-        account.setEmail(email);
-        account.setRole("user");
-        account.setTime(new Date());
+        account.setUsername(username)
+                .setUsername(passwordEncoder.encode("123456"))
+                .setEmail(email)
+                .setRole("user")
+                .setTime(new Date());
 
         if (service.insertAccount(account) == 1) {
             return RestBean.db_add_success(account, "添加成功");

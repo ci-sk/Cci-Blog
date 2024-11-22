@@ -1,6 +1,7 @@
 package org.example.entity.vo.response;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 
@@ -9,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
+@Accessors(chain = true)
 public class CommentsVO{
     private Integer cid;
     private Integer aid;

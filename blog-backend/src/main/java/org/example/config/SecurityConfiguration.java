@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -52,7 +53,7 @@ public class SecurityConfiguration {
             return http
                     .authorizeHttpRequests(conf -> conf
                             .requestMatchers("/api/auth/**").permitAll()
-                            .requestMatchers("/api/getAll/**").hasAnyRole("user", "admin")
+                            .requestMatchers("/api/getAll/**").hasAnyRole("user","admin")
 //                            //其他所有路径必须角色为admin才能访问
                             .anyRequest().hasRole("admin")
 //                            .anyRequest().authenticated()
@@ -76,6 +77,7 @@ public class SecurityConfiguration {
                     .build();
     }
 
+
     /**
      * 处理登录成功事件
      *
@@ -95,7 +97,9 @@ public class SecurityConfiguration {
         String token = utils.createJwt(user,account.getUid(),user.getUsername());
         AuthorizeVO vo = account.asViewObject(AuthorizeVO.class,v->{
             v.setExpire(utils.expireTime());
+            v.setRole(account.getRole());
             v.setToken(token);
+            v.setUsername(account.getUsername());
         });
         response.getWriter().write(RestBean.success(vo).asJsonString());
     }

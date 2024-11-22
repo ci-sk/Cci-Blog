@@ -45,11 +45,10 @@ public class CommentsConfiguration  {
         System.out.println(uid);
 
         Comments comments = new Comments();
-        comments.setAid(aid);
-        comments.setUsername(username);
-        comments.setContent(content);
-        comments.setC_time(new Date());
-
+        comments.setAid(aid)
+                .setUsername(username)
+                .setContent(content)
+                .setC_time(new Date());
 
         if(server.insertComments(comments) ==1){
             return RestBean.success(comments);
@@ -80,11 +79,11 @@ public class CommentsConfiguration  {
             for (Comments comments : commentsList) {
 
                 CommentsVO vo1 = (comments.asViewObject(CommentsVO.class, v -> {
-                    v.setCid(comments.getCid());
-                    v.setAid(comments.getAid());
-                    v.setUsername(comments.getUsername());
-                    v.setContent(comments.getContent());
-                    v.setTime(comments.getC_time());
+                    v.setCid(comments.getCid())
+                            .setAid(comments.getAid())
+                            .setUsername(comments.getUsername())
+                            .setContent(comments.getContent())
+                            .setTime(comments.getC_time());
                 }));
                 vo.add(vo1);
             }
@@ -114,12 +113,12 @@ public class CommentsConfiguration  {
 
             for (Comments comments : commentsList) {
                 CommentsVO vo1 = (comments.asViewObject(CommentsVO.class, v -> {
-                    v.setCid(comments.getCid());
-                    v.setTitle(comments.getArticle().getTitle());
-                    v.setUsername(comments.getUsername());
-                    v.setReply_username(comments.getReply().getUsername());
-                    v.setContent(comments.getContent());
-                    v.setTime(new Date());
+                    v.setCid(comments.getCid())
+                    .setTitle(comments.getArticle().getTitle())
+                    .setUsername(comments.getUsername())
+                    .setReply_username(comments.getReply().getUsername())
+                    .setContent(comments.getContent())
+                    .setTime(comments.getC_time());
                 }));
                 vo.add(vo1);
             }
@@ -177,15 +176,16 @@ public class CommentsConfiguration  {
             ArrayList<CommentsVO> vo = new ArrayList<>();
             for (Comments comments : commentsList) {
                 CommentsVO vo1 = (comments.asViewObject(CommentsVO.class, v -> {
-                    v.setCid(comments.getCid());
-                    v.setAid(comments.getAid());
-                    v.setUsername(comments.getUsername());
-                    v.setTitle(comments.getArticle().getTitle());
-                    v.setReply_cid(comments.getReply_cid());
+                    v.setCid(comments.getCid())
+                            .setAid(comments.getAid())
+                            .setUsername(comments.getUsername())
+                            .setTitle(comments.getArticle().getTitle())
+                            .setReply_cid(comments.getReply_cid())
+                            .setContent(comments.getContent())
+                            .setTime(comments.getC_time());
                     if(comments.getReply() !=null)
                         v.setReply_username(comments.getReply().getUsername());
-                    v.setContent(comments.getContent());
-                    v.setTime(comments.getC_time());
+
                 }));
                 vo.add(vo1);
             }

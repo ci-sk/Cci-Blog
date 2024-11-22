@@ -41,23 +41,23 @@ public class ArticlesController {
         try {
             Articles articles = new Articles();
             if (reqArt.getAid() == null || reqArt.getAid() <= 0) {
-                articles.setTitle(reqArt.getTitle());
-                articles.setContent(reqArt.getContent());
-                articles.setTags(reqArt.getTags());
-                articles.setDesc(reqArt.getDesc());
-                articles.setImg_url(reqArt.getImg_url());
-                articles.setDel(reqArt.getDel());
-                articles.setPublish_Time(new Date());
+                articles.setTitle(reqArt.getTitle())
+                        .setContent(reqArt.getContent())
+                        .setTags(reqArt.getTags())
+                        .setDesc(reqArt.getDesc())
+                        .setImg_url(reqArt.getImg_url())
+                        .setDel(reqArt.getDel())
+                        .setPublish_Time(new Date());
                 if (artServer.addArt(articles) == 1) return RestBean.db_add_success(articles, "添加成功");
             } else {
                 System.out.println("修改接口");
-                articles.setAid(reqArt.getAid());
-                articles.setTitle(reqArt.getTitle());
-                articles.setContent(reqArt.getContent());
-                articles.setTags(reqArt.getTags());
-                articles.setDesc(reqArt.getDesc());
-                articles.setDel(reqArt.getDel());
-                articles.setImg_url(reqArt.getImg_url());
+                articles.setAid(reqArt.getAid())
+                        .setTitle(reqArt.getTitle())
+                        .setContent(reqArt.getContent())
+                        .setTags(reqArt.getTags())
+                        .setDesc(reqArt.getDesc())
+                        .setDel(reqArt.getDel())
+                        .setImg_url(reqArt.getImg_url());
                 // 判断id是否存在
                 if (artServer.upDataArticles(articles) == 1) {
                     return RestBean.db_update_success(articles, "修改成功");
@@ -88,14 +88,14 @@ public class ArticlesController {
             ArrayList<ArticlesVO> vo = new ArrayList<>();
             for (Articles article : articles) {
                 ArticlesVO vo1 = (article.asViewObject(ArticlesVO.class, v -> {
-                    v.setAid(article.getAid());
-                    v.setTitle(article.getTitle());
-                    v.setContent(article.getContent());
-                    v.setDesc(article.getDesc());
-                    v.setTags(article.getTags());
-                    v.setImg_url(article.getImg_url());
-                    v.setTime(article.getPublish_Time());
-                    v.setDel(article.getDel());
+                    v.setAid(article.getAid())
+                            .setTitle(article.getTitle())
+                            .setContent(article.getContent())
+                            .setDesc(article.getDesc())
+                            .setTags(article.getTags())
+                            .setImg_url(article.getImg_url())
+                            .setTime(article.getPublish_Time())
+                            .setDel(article.getDel());
                 }));
                 vo.add(vo1);
             }
@@ -164,14 +164,14 @@ public class ArticlesController {
            ArrayList<ArticlesVO> vo = new ArrayList<>();
            for (Articles article : articles) {
                ArticlesVO vo1 = (article.asViewObject(ArticlesVO.class, v -> {
-                   v.setAid(article.getAid());
-                   v.setTitle(article.getTitle());
-                   v.setContent(article.getContent());
-                   v.setDesc(article.getDesc());
-                   v.setTags(article.getTags());
-                   v.setImg_url(article.getImg_url());
-                   v.setTime(article.getPublish_Time());
-                   v.setDel(article.getDel());
+                   v.setAid(article.getAid())
+                           .setTitle(article.getTitle())
+                           .setContent(article.getContent())
+                           .setDesc(article.getDesc())
+                           .setTags(article.getTags())
+                           .setImg_url(article.getImg_url())
+                           .setTime(article.getPublish_Time())
+                           .setDel(article.getDel());
                }));
                vo.add(vo1);
            }

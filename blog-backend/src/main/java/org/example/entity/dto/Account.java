@@ -6,15 +6,17 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import org.example.entity.BaseData;
 
 import java.util.Date;
 
 @Data
 @TableName("db_account")
+@Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Account implements BaseData {
+public class Account implements BaseData{
     @TableId(type = IdType.AUTO)
     private Integer uid;
     private String username;
