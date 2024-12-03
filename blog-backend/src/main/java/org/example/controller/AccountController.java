@@ -132,14 +132,13 @@ public class AccountController {
     /**
      * 分页查询账户
      * @param response HttpServletResponse 对象，用于设置响应内容类型和字符编码
-     * @param request HttpServletRequest 对象，用于获取请求中的用户 ID
      * @param page 页码
      * @param limit 每页数量
      * @return RestBean<?> 对象，包含分页查询账户的结果
      */
     @ResponseBody
     @RequestMapping("/getLimit/Account")
-    public RestBean<?> getAccountLimit(HttpServletResponse response, HttpServletRequest request, Integer page, Integer limit)
+    public RestBean<?> getAccountLimit(HttpServletResponse response, Integer page, Integer limit)
     {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

@@ -1,5 +1,5 @@
 import {ElMessage} from "element-plus";
-import {defaultFailure, del, get, put} from "./index.js";
+import {defaultFailure, del, get, getPromise, put} from "./index.js";
 
 //添加
 function insertTag(data,success,failure){
@@ -74,4 +74,8 @@ function getTagCount(success,failure = defaultFailure){
         })
 }
 
-export {getTag,insertTag,DelTag,TagLimit,TagSearch,getTagCount}
+async function  getAllTag() {
+    return  getPromise("api/getAll/tag")
+}
+
+export {getTag,insertTag,DelTag,TagLimit,TagSearch,getTagCount,getAllTag}

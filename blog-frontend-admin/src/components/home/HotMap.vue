@@ -5,6 +5,7 @@
  * @时间: 2023/02/17 17:22:22
  */
 import {getCurrentInstance, onMounted, ref} from 'vue'
+
 import {getArticle} from "../../net/article.js";
 
 const { proxy } = getCurrentInstance()
@@ -64,7 +65,7 @@ onMounted( async () => {
       max: 5,
       text: ['多', '少'],
       textStyle: {
-        color: 'rgb(140,140,140)',
+        color: '#ccc',
         fontSize: 12,
       },
       showLabel: false,

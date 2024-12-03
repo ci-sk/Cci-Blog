@@ -10,12 +10,12 @@ import java.util.List;
 @Data
 @Accessors(chain = true)
 public class ArticlesVO{
-    Integer aid;
-    String title;
-    String content;
-    String tags;
-    String desc;
-    String img_url;
-    Date time;
-    Integer del;
+    private Integer aid;
+    private String title;
+    private String content;
+    private String tags;
+    private String desc;
+    private String img_url;
+    private Date time;
+    private  Integer del;
 }

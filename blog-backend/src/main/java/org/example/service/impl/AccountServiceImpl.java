@@ -5,7 +5,6 @@ import jakarta.annotation.Resource;
 import org.example.entity.dto.Account;
 import org.example.mapper.AccountMapper;
 import org.example.service.AccountService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
