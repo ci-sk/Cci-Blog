@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.example.mapper.CategoryMapper">
+
+    <resultMap id="CategoryMap" type="org.example.entity.dto.Category">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="addCategory" parameterType="org.example.entity.dto.Category">
+        insert into db_category (name, description) values (#{name}, #{description})
+    </insert>
+
+    <delete id="deleteCategory" parameterType="int">
+        delete from db_category where id = #{id}
+    </delete>
+
+    <select id="getAllCategory" resultType="org.example.entity.dto.Category">
+        select * from db_category
+    </select>
+
+    <select id="getCountCategory" resultType="int">
+        select count(*) from db_category
+    </select>
+
+    <select id="getCategoryLimit" resultMap="CategoryMap">
+        select * from db_category where name like '%${text}%' limit #{page}, #{size}
+    </select>
+
+    <update id="updateCategory" parameterType="org.example.entity.dto.Category">
+        update db_category set name = #{name}, description = #{description} where id = #{id}
+    </update>
+
+</mapper> 

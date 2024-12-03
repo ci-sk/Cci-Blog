@@ -2,8 +2,6 @@ package org.example.entity.vo.response;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.EnableCaching;
 
 import java.util.ArrayList;
 import java.util.Date;
