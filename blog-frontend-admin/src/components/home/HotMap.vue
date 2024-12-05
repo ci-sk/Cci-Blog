@@ -56,7 +56,7 @@ onMounted( async () => {
         return params.value[0] + ' : ' + params.value[1]
       }
     },
-    visualMap: [  {
+    visualMap: [{
       show: true,
       type: 'piecewise',
       orient: 'horizontal',
@@ -65,55 +65,54 @@ onMounted( async () => {
       max: 5,
       text: ['多', '少'],
       textStyle: {
-        color: '#ccc',
+        color: '#ccc', 
         fontSize: 12,
       },
       showLabel: false,
       itemWidth: 16,
       itemHeight: 16,
       itemGap: 4,
-      selectedMode: false, //禁止选择
+      selectedMode: false,
       inRange: {
         color: [
-          'rgba(233,233,233)',
+          '#f0f2f5', 
+          '#d9f7be',
           '#95de64',
           '#52c41a',
-          '#237804',
-          '#092b00',
+          '#237804'
         ],
       },
-      //图例分段
       pieces: [
         { min: 5 },
         { min: 4, max: 5 },
         { min: 3, max: 4 },
         { min: 2, max: 3 },
         { min: 1, max: 2 },
-        { value: 0, color: 'rgba(233,233,233)' },
+        { value: 0, color: '#f0f2f5' },
       ],
-    },
-  ],
-
+    }],
     calendar: {
       itemStyle: {
-        //解决格子间距
-        color: '#ccc',
-        borderWidth: 3,
-        borderColor: '#fff'
+        color: '#f0f2f5', 
+        borderWidth: 2,
+        borderColor: '#e4e7ed'
       },
-      cellSize: [18, 18],  //格子尺寸
+      cellSize: [18, 18],  
       range: [formatTimestamp(time-(3600 * 24 * 30 * 12 * 1000)) ,formatTimestamp(time) ],
       splitLine: true,
+      yearLabel: {
+        show: false,
+        color: '#ccc'
+      },
       dayLabel: {
         firstDay: 7,
-        nameMap: 'ZH'
+        nameMap: 'ZH',
+        color: '#ccc'
       },
       monthLabel: {
         nameMap: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'
-        ]
-      },
-      yearLabel: {
-        show: false
+        ],
+        color: '#ccc'
       },
       silent: {
         show: false
@@ -136,8 +135,12 @@ onMounted( async () => {
   </div>
 </template>
 
+<style scoped>
+.box {
+  width: 100%;
+  height: 100%;
+}
 
-<style lang="less" scoped>
 .box {
   width: 100%;
   height: 11.5625rem;

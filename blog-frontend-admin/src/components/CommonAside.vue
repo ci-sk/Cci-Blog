@@ -85,5 +85,9 @@ function clickItem(item){
   background: var(--Aside-PageBgColor);
 }
 
+.el-menu-vertical-demo .el-menu-item:hover {
+  background-color: #3498db; /* 悬浮时的背景色 */
+  color: #ffffff; /* 悬浮时的文本颜色 */
+}
 
 </style>>

@@ -5,14 +5,11 @@ import 'echarts-wordcloud';
 import { getAllTag } from "../../net/tag.js";
 
 const getTag = async () => {
-
   const res = await getAllTag();
-
   return res.map(item => ({
-    name: item.tagName,
-    value: (10) * 1000
-  }));
-
+  name: item.tagName,
+  value: Math.floor(Math.random() * 5000) + (10 * 1000) // 随机值范围为 10000 到 15000
+}));
 };
 
 const initChart = async () => {
@@ -21,10 +18,8 @@ const initChart = async () => {
   })
   console.log(arr)
 
-
   const myChart = echarts.init(document.getElementById('mywordcloud'));
   const options = {
-    // 核心配置
     series: [
       {
         type: 'wordCloud',
@@ -36,30 +31,28 @@ const initChart = async () => {
         textStyle: {
           color: function () {
             return (
-              "rgb(" +
-              Math.round(Math.random() * 255) +
-              ", " +
-              Math.round(Math.random() * 255) +
-              ", " +
-              Math.round(Math.random() * 255) +
-              ")"
+            "rgb(" +
+            (Math.round(Math.random() * 100) + 100) + // R值在100到200之间
+            ", " +
+            (Math.round(Math.random() * 100) + 100) + // G值在100到200之间
+            ", " +
+            (Math.round(Math.random() * 100) + 100) + // B值在100到200之间
+            ")"
             );
           }
         },
-        data: arr, // 这里随便改成数组包含数据就好
+        data: arr,
         emphasis: {
           textStyle: {
-            fontWeight: 'bold',
-            color: '#000'
+            shadowBlur: 10,
+            shadowColor: '#333'
           }
         }
       }
     ]
-  }
-
+  };
   myChart.setOption(options);
-}
-
+};
 
 onMounted(() => {
   initChart();
@@ -67,7 +60,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <div id="mywordcloud" :style="{ width: '50%', height: '300px' }"></div>
+  <div id="mywordcloud" class="wordcloud"></div>
 </template>
 
-<style scoped lang="less"></style>
+<style scoped>
+.wordcloud {
+  width: 400px; /* 调整宽度以使图表更小 */
+  height: 300px; /* 调整高度以使图表更小 */
+  margin: 0 auto;
+}
+</style>

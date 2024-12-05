@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class F_Link {
+public class FriendLink {
     @TableId(type = IdType.AUTO)
     private Integer fid;
     private String fname;

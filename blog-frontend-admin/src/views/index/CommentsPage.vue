@@ -113,7 +113,7 @@ const init = ()=>{
   margin-bottom: 20px;
   padding: 20px;
   border-radius: 10px;
-  background-color: var(--cci-card-bg-color);
+  /* background-color: var(--cci-card-bg-color); */
   .Tag-header-from{
     width: 520px;
     display: flex;

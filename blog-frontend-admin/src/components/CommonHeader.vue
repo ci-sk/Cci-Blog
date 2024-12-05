@@ -70,7 +70,7 @@ onMounted(()=>{
 
 <style lang="less" scoped>
 .header-container {
-  background-color: #000;
+  background: var(--header-bg-color); /* 深蓝色 */
   height: 60px;
 
   display: flex;

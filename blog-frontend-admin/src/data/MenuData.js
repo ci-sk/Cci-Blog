@@ -37,10 +37,16 @@ export default[
                 icon:EditPen,
             },
             {
-                path:"/article/categories",
-                name:"categories",
+                path:"/article/tags",
+                name:"tags",
                 label:"标签管理",
                 icon:ElementPlus,
+            },
+            {
+                path:"/article/category",
+                name:"category",
+                label:"分类管理",
+                icon:Location,
             },
             {
                 path:"/article/picture",

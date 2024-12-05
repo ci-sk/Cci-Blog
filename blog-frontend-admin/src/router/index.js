@@ -52,9 +52,14 @@ const router = createRouter({
                              component: () => import("../views/index/WritePage.vue"),
                          },
                          {
-                             path: "/article/categories",
+                             path: "/article/tags",
                              name: "标签",
                              component: () => import("../views/index/Tag.vue"),
+                         },
+                         {
+                             path: "/article/category",
+                             name: "分类",
+                             component: () => import("../views/index/CategoryPage.vue"),
                          },
                          {
                              path: "/article/picture",
@@ -75,7 +80,7 @@ const router = createRouter({
                          {
                              path: "/webSite/friend",
                              name: "友链",
-                             component: () => import("../views/index/LinkPage.vue"),
+                             component: () => import("../views/index/FriendLinkPage.vue"),
                          },
                      ]
                  },

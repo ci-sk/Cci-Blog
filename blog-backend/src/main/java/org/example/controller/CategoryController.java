@@ -45,7 +45,7 @@ public class CategoryController {
     }
 
     @ResponseBody
-    @PutMapping("/update")
+    @PutMapping("/updateCategory")
     public RestBean<?> updateCategory(HttpServletResponse response,Integer id,Category category) {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

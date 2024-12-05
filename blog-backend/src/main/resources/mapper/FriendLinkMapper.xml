@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.example.mapper.FriendLinkMapper">
+
+    <insert id="addFriendLink" parameterType="org.example.entity.dto.FriendLink">
+        insert into db_f_link (fid,fname, describes, url, icon)
+        values (#{fid}, #{fname}, #{describes}, #{url}, #{icon})
+    </insert>
+
+    <update id="updateFriendLink" parameterType="org.example.entity.dto.FriendLink">
+        update db_f_link
+        set fname = #{fname}, describes = #{describes}, url = #{url}, icon = #{icon}
+        where fid = #{fid}
+    </update>
+
+    <delete id="deleteFriendLink" parameterType="int">
+        delete from db_f_link where fid = #{id}
+    </delete>
+
+    <!-- 根据名称模糊查询友链 -->
+    <select id="getFriendLinksWithLimit" resultType="org.example.entity.dto.FriendLink">
+        select * from db_f_link where fname like CONCAT('%', #{text}, '%') limit #{page}, #{size}
+    </select>
+
+    <select id="getAllFriendLinks" resultType="org.example.entity.dto.FriendLink">
+        select * from db_f_link
+    </select>
+
+    <select id="getCountFriendLink" resultType="int">
+        select count(*) from db_f_link
+    </select>
+
+    <select id="getFriendLinkById" parameterType="int" resultType="org.example.entity.dto.FriendLink">
+        select * from db_f_link where fid = #{id}
+    </select>
+
+    <select id="searchFriendLinks" parameterType="string" resultType="org.example.entity.dto.FriendLink">
+        select * from db_f_link where fname = #{fname}
+    </select>
+
+</mapper> 
