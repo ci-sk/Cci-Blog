@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+
 <mapper namespace="org.example.mapper.ArticlesMapper">
     <cache
             eviction="FIFO"
@@ -20,26 +21,45 @@
         <result property="img_url" column="img_url" jdbcType="VARCHAR"/>
         <result property="del" column="del" javaType="INTEGER"/>
         <result property="publish_Time" column="publish_time" jdbcType="TIMESTAMP"/>
+        <result property="categoryId" column="category_id" jdbcType="INTEGER"/>
+        <!-- 关联分类对象 -->
+        <association property="category" javaType="org.example.entity.dto.Category">
+            <id property="id" column="c_id"/>
+            <result property="name" column="category_name"/>
+            <result property="description" column="category_description"/>
+        </association>
     </resultMap>
-<!--
+
+    <!-- 公共的列定义 -->
+    <sql id="Base_Column_List">
+        a.aid, a.title, a.content, a.`desc`, a.tags, a.img_url, a.del, a.publish_time, a.category_id,
+        c.id as c_id, c.name as category_name, c.description as category_description
+    </sql>
+
+    <!--
     添加文章
     正常情况下只需要
     文章标题title 文章内容content
 -->
     <insert id="addArt" parameterType="org.example.entity.dto.Articles" useGeneratedKeys="true" keyProperty="aid">
-        insert into db_articles(aid,tags,title,`desc`,img_url,content,del,publish_time)
-            values(#{aid,jdbcType=INTEGER},#{tags},#{title},#{desc},#{img_url},#{content},#{del},#{publish_Time})
+        insert into db_articles(aid,tags,title,`desc`,img_url,content,category_id,del,publish_time)
+        values(#{aid,jdbcType=INTEGER},#{tags},#{title},#{desc},#{img_url},#{content},#{categoryId},#{del},#{publish_Time})
     </insert>
 
-     <select id="limitArticles" resultMap="ArticlesMap">
-        select * from db_articles where
-            title like '%${text}%' or tags like '%${text}%'
-            limit ${start},${size}
+    <select id="limitArticles" resultMap="ArticlesMap">
+        select <include refid="Base_Column_List"/>
+        from db_articles a
+        left join db_category c on a.category_id = c.id
+        where a.title like '%${text}%' or a.tags like '%${text}%'
+        limit ${start},${size}
     </select>
 
 
     <select id="aid" resultMap="ArticlesMap">
-        select * from db_articles where aid = #{aid}
+        select <include refid="Base_Column_List"/>
+        from db_articles a
+        left join db_category c on a.category_id = c.id
+        where a.aid = #{aid}
     </select>
 
     <delete id="delFart" parameterType="int">
@@ -47,15 +67,22 @@
     </delete>
 
     <select id="findArticleAll" resultMap="ArticlesMap">
-        select *
-        from db_articles;
+        select <include refid="Base_Column_List"/>
+        from db_articles a
+        left join db_category c on a.category_id = c.id
     </select>
 
     <update id="upDataArticles">
         update db_articles
-        set title = #{title},content = #{content},`desc` = #{desc},tags = #{tags},img_url = #{img_url},del = #{del}
+        set title = #{title},
+            content = #{content},
+            `desc` = #{desc},
+            tags = #{tags},
+            img_url = #{img_url},
+            category_id = #{categoryId},
+            del = #{del}
         where aid = #{aid}
     </update>
 
-</mapper>
 
+</mapper>

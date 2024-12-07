@@ -9,7 +9,10 @@ import org.example.service.impl.ArticlesServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +50,7 @@ public class ArticlesController {
                         .setDesc(reqArt.getDesc())
                         .setImg_url(reqArt.getImg_url())
                         .setDel(reqArt.getDel())
+                        .setCategoryId(reqArt.getCategoryId())
                         .setPublish_Time(new Date());
                 if (artServer.addArt(articles) == 1) return RestBean.db_add_success(articles, "添加成功");
             } else {
@@ -57,6 +61,7 @@ public class ArticlesController {
                         .setTags(reqArt.getTags())
                         .setDesc(reqArt.getDesc())
                         .setDel(reqArt.getDel())
+                        .setCategoryId(reqArt.getCategoryId())
                         .setImg_url(reqArt.getImg_url());
                 // 判断id是否存在
                 if (artServer.upDataArticles(articles) == 1) {
@@ -65,7 +70,6 @@ public class ArticlesController {
             }
             return RestBean.db_failure();
         } catch (DataIntegrityViolationException e) {
-//            log.error("添加或更新文章时违反数据完整性约束", e);
             return RestBean.db_add_failure(500,"添加或更新文章时违反数据完整性约束");
         }
     }
@@ -82,31 +86,33 @@ public class ArticlesController {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         try{
-        List<Articles> articles = artServer.findArticleAll();
+            List<Articles> articles = artServer.findArticleAll();
 
-        if(articles!= null){
-            ArrayList<ArticlesVO> vo = new ArrayList<>();
-            for (Articles article : articles) {
-                ArticlesVO vo1 = (article.asViewObject(ArticlesVO.class, v -> {
-                    v.setAid(article.getAid())
-                            .setTitle(article.getTitle())
-                            .setContent(article.getContent())
-                            .setDesc(article.getDesc())
-                            .setTags(article.getTags())
-                            .setImg_url(article.getImg_url())
-                            .setTime(article.getPublish_Time())
-                            .setDel(article.getDel());
-                }));
-                vo.add(vo1);
+            if(articles!= null){
+                ArrayList<ArticlesVO> vo = new ArrayList<>();
+                for (Articles article : articles) {
+                    ArticlesVO vo1 = (article.asViewObject(ArticlesVO.class, v -> {
+                        v.setAid(article.getAid())
+                                .setTitle(article.getTitle())
+                                .setContent(article.getContent())
+                                .setDesc(article.getDesc())
+                                .setTags(article.getTags())
+                                .setImg_url(article.getImg_url())
+                                .setTime(article.getPublish_Time())
+                                .setCategoryId(article.getCategoryId())
+                                .setCategory(article.getCategory())
+                                .setDel(article.getDel());
+                    }));
+                    vo.add(vo1);
+                }
+                return RestBean.success(vo);
+            } else {
+                response.getWriter().write(RestBean.db_failure().asJsonString());
             }
-           return RestBean.success(vo);
-        } else {
-            response.getWriter().write(RestBean.db_failure().asJsonString());
+        } catch (IOException e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return (RestBean.db_un_failure("Internal server error"));
         }
-    } catch (IOException e) {
-        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        return (RestBean.db_un_failure("Internal server error"));
-    }
         return RestBean.db_failure();
     }
 
@@ -120,76 +126,78 @@ public class ArticlesController {
     @PutMapping("/delArticle")
     public RestBean<?> delArt(HttpServletResponse response, Integer aid)
     {
-       response.setContentType("application/json");
-       response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
 
         System.out.println("##"+aid+"@@");
 
-       if (aid == null) {
-           return RestBean.db_un_failure("aid参数不能为空");
-       }
-       int result = artServer.delFart(aid);
-       if (result == 1) {
-           return RestBean.success();
-       } else {
-           return RestBean.db_failure();
-       }
-   }
+        if (aid == null) {
+            return RestBean.db_un_failure("aid参数不能为空");
+        }
+        int result = artServer.delFart(aid);
+        if (result == 1) {
+            return RestBean.success();
+        } else {
+            return RestBean.db_failure();
+        }
+    }
 
-   /**
-    * 分页查询文章
-    * @param response HttpServletResponse 对象，用于设置响应内容类型和字符编码
-    * @param text 搜索文本
-    * @param page 页码
-    * @param limit 每页数量
-    * @return RestBean<?> 对象，包含分页查询文章的结果
-    */
-   @ResponseBody
-   @RequestMapping("/getLimit/Article")
-   public RestBean<?> getArticleLimit(HttpServletResponse response,String text,Integer page, Integer limit)
-   {
-       response.setContentType("application/json");
-       response.setCharacterEncoding("UTF-8");
+    /**
+     * 分页查询文章
+     * @param response HttpServletResponse 对象，用于设置响应内容类型和字符编码
+     * @param text 搜索文本
+     * @param page 页码
+     * @param limit 每页数量
+     * @return RestBean<?> 对象，包含分页查询文章的结果
+     */
+    @ResponseBody
+    @RequestMapping("/getLimit/Article")
+    public RestBean<?> getArticleLimit(HttpServletResponse response,String text,Integer page, Integer limit)
+    {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
 
-       page--;
-       if (page >= 1) {
-           page = (page) * 10;
-           limit += page;
-       }
+        page--;
+        if (page >= 1) {
+            page = (page) * 10;
+            limit += page;
+        }
 
-       List<Articles> articles = artServer.limitArticles(text,page, limit);
+        List<Articles> articles = artServer.limitArticles(text,page, limit);
 
+        if (articles!= null) {
+            ArrayList<ArticlesVO> vo = new ArrayList<>();
+            for (Articles article : articles) {
+                ArticlesVO vo1 = (article.asViewObject(ArticlesVO.class, v -> {
+                    v.setAid(article.getAid())
+                            .setTitle(article.getTitle())
+                            .setContent(article.getContent())
+                            .setDesc(article.getDesc())
+                            .setTags(article.getTags())
+                            .setImg_url(article.getImg_url())
+                            .setTime(article.getPublish_Time())
+                            .setCategoryId(article.getCategoryId())
+                            .setCategory(article.getCategory())
+                            .setDel(article.getDel());
+                }));
+                vo.add(vo1);
+            }
+            System.out.println(vo);
+            return RestBean.success(vo);
+        }else {
+            return RestBean.db_failure();
+        }
+    }
 
-       if (articles!= null) {
-           ArrayList<ArticlesVO> vo = new ArrayList<>();
-           for (Articles article : articles) {
-               ArticlesVO vo1 = (article.asViewObject(ArticlesVO.class, v -> {
-                   v.setAid(article.getAid())
-                           .setTitle(article.getTitle())
-                           .setContent(article.getContent())
-                           .setDesc(article.getDesc())
-                           .setTags(article.getTags())
-                           .setImg_url(article.getImg_url())
-                           .setTime(article.getPublish_Time())
-                           .setDel(article.getDel());
-               }));
-               vo.add(vo1);
-           }
-           return RestBean.success(vo);
-       }else {
-        return RestBean.db_failure();
-       }
-   }
-
-   /**
-    * 获取文章数量
-    * @param response HttpServletResponse 对象，用于设置响应内容类型和字符编码
-    * @return RestBean<?> 对象，包含获取文章数量的结果
-    */
-   @ResponseBody
+    /**
+     * 获取文章数量
+     * @param response HttpServletResponse 对象，用于设置响应内容类型和字符编码
+     * @return RestBean<?> 对象，包含获取文章数量的结果
+     */
+    @ResponseBody
     @RequestMapping("/getCount/Article")
     public RestBean<?> getArticleCount(HttpServletResponse response)
-   {
+    {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 

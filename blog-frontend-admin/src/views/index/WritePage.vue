@@ -13,7 +13,7 @@ import {ElMessage} from "element-plus";
 import {useRoute} from "vue-router";
 import {useUpDataArt} from "../../store/index.js";
 import router from "../../router/index.js";
-
+import {getCategory} from "../../net/category.js";
 
 const Art = useUpDataArt()
 
@@ -31,11 +31,14 @@ const pTags = ref([])
 
 const Tval = ref('')
 
+const categories = ref([]);
+
 const form = reactive({
   title:"",
   desc:"",
   img_url:"",
   tags:[],
+  categoryId: null,
   content:"# Hello Editor",
   del:0
 })
@@ -49,6 +52,7 @@ const TagUser = () => {
 
 //添加标签去页面
 const addTags = ()=>{
+
   if(Tval.value){
     pTags.value = [...new Set([...pTags.value, {tagName:Tval.value}])];
     form.tags = [...new Set([...form.tags, Tval.value])];
@@ -114,7 +118,7 @@ const submitUpload =  () => {
 
 //上传标签
 const submitTag =  ()=>{
-  console.log("上传前",pTags.value);
+
   for (let i =0;i<pTags.value.length;i++){
     if(!pTags.value[i].tid ){
       console.log(pTags.value[i])
@@ -125,21 +129,26 @@ const submitTag =  ()=>{
   }
 }
 
-const InsertArt = ()=>{
-  insertArticle(form,(res)=>{
-    if(res.message==="添加成功"){
-      ElMessage.success("添加成功");
-      console.log(res);
-    }else{
-      ElMessage.success("修改成功")
-      router.push("/article")
-      Art.$reset()
-    }
-  })
-}
+const InsertArt = ()=> {
+  const formData = new FormData();
+  formData.append('file', uploadRef.value.uploadFiles[0].raw);
+  uploadFile(formData.get('file'), (res) => {
+    form.img_url = res;
+    insertArticle(form, (res) => {
+      if (res.code === 200) {
+        ElMessage.success('添加成功');
+        router.push('/article');
+        
+      } else {
+        ElMessage.error('添加失败');
+      }
+    });
+  });
+};
 
 //提交表单
 const submitForm = ()=>{
+
   submitUpload()
 
   // console.log("上传图片",form.img_url,imgBase)
@@ -151,31 +160,51 @@ const submitForm = ()=>{
 
 //图片上传成功后上传到数据库
 const success = ()=>{
+
   submitTag();
 
   InsertArt();
 }
 
-const upDataArt = ()=>{
-  if(Art.ArtForm.aid){
+const upDataArt = ()=> {
+
+  if (Art.ArtForm.aid) {
     form.aid = Art.ArtForm.aid;
     form.title = Art.ArtForm.title;
     form.desc = Art.ArtForm.desc;
-    form.img_url= imgBase.value = Art.ArtForm.img_url;
+    form.img_url = imgBase.value = Art.ArtForm.img_url;
     form.content = Art.ArtForm.content;
     form.del = Art.ArtForm.del;
     form.tags = Art.ArtForm.tags;
-    for (let i =0;i<Art.ArtForm.tags.length;i++){
-      pTags.value = [...new Set([...pTags.value, {tid:i+1,tagName:Art.ArtForm.tags[i]}])];
+    form.categoryId = Art.ArtForm.categoryId || null;
+    if (Array.isArray(Art.ArtForm.tags)) {
+      pTags.value = Art.ArtForm.tags.map((tag, index) => ({
+        tid: index + 1,
+        tagName: tag
+      }));
     }
   }
 }
 
+// 获取分类列表
+const loadCategories = () => {
+  getCategory((res) => {
+    if (Array.isArray(res)) {
+      categories.value = res;
+      console.log('加载分类:', categories.value);
+    } else {
+      categories.value = [];
+      console.warn('分类数据格式不正确');
+    }
+  });
+};
 
 onMounted(()=>{
   TagUser();
+  loadCategories();
   //修改文章
   upDataArt();
+  console.log("@@@@@",form.categoryId)
 })
 
 const closeTag= (index)=>{
@@ -254,6 +283,25 @@ const closeTag= (index)=>{
       </el-popover>
     </el-form-item>
 
+    <el-form-item label="文章分类" style="width: 240px">
+      <el-select 
+        v-model="form.categoryId" 
+        placeholder="请选择分类"
+        style="width: 100%"
+        clearable
+      >
+        <el-option
+            v-for="item in categories"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+        >
+          <span>{{ item.name }}</span>
+          <span class="option-desc">{{ item.description }}</span>
+        </el-option>
+      </el-select>
+    </el-form-item>
+
     <el-form-item label="状态" style="width:277px">
       <el-radio-group v-model="form.del">
         <el-radio :value=0 border>待处理</el-radio>
@@ -307,5 +355,38 @@ const closeTag= (index)=>{
 }
 .md-editor{
   height: 60vh;
+}
+
+.avatar-uploader .el-upload {
+  border: 1px dashed var(--el-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--el-transition-duration-fast);
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: var(--el-color-primary);
+}
+
+.el-icon.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  text-align: center;
+}
+
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+
+.option-desc {
+  font-size: 13px;
+  color: #999;
+  margin-left: 10px;
 }
 </style>

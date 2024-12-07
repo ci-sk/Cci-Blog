@@ -64,9 +64,12 @@ function dArt(aid){
 const currentChange = (val)=>{
   page.value = val;
   ArticleLimit({text:input.value,page:page.value},(res) => {
-    ArtInfo.value = res;
-    ArtInfo.value =getTags(ArtInfo.value)
-    ArtInfo.value = changeTime(ArtInfo.value);
+    if (Array.isArray(res)) {
+      ArtInfo.value = getTags(res);
+      ArtInfo.value = changeTime(ArtInfo.value);
+    } else {
+      ArtInfo.value = [];
+    }
   })
 }
 
@@ -75,27 +78,33 @@ getTag((res) => {
   });
 
 const getArtInfo = async  () => {
-  ArticleLimit({text:"",page:1},(res) => {
-    ArtInfo.value = res;
-    ArtInfo.value =getTags(ArtInfo.value)
-    ArtInfo.value = changeTime(ArtInfo.value);
+  ArticleLimit({text:"",page:1}, (res) => {
+    if (Array.isArray(res)) {
+      ArtInfo.value = getTags(res);
+      ArtInfo.value = changeTime(ArtInfo.value);
+      console.log('处理后的数据:', ArtInfo.value);
+    } else {
+      ArtInfo.value = [];
+    }
   })
 }
 
-
 const search = (val) => {
   ArticleLimit({text:val,page:page.value}, (res) => {
-    ArtInfo.value = res;
-    ArtInfo.value =getTags(ArtInfo.value)
-    ArtInfo.value = changeTime(ArtInfo.value);
-    total.value = ArtInfo.value.length;
+    if (Array.isArray(res)) {
+      ArtInfo.value = getTags(res);
+      ArtInfo.value = changeTime(ArtInfo.value);
+      total.value = ArtInfo.value.length;
+    } else {
+      ArtInfo.value = [];
+      total.value = 0;
+    }
   });
 }
 
 const searchText = ()=>{
   search(input.value)
 }
-
 
 const searchTag = ()=>{
   search(tag.value)
@@ -114,83 +123,87 @@ onMounted(()=>{
   init()
 })
 
-
 </script>
 
 <template>
-  <el-form
-      class="Tag-header"
-  >
-    <div class="Tag-header-from">
-      <el-form-item label="文章名称">
-        <el-input
-            style="width: 240px"
-            placeholder="文章名称"
-            v-model="input"
+  <div>
+    <div style="margin-bottom: 20px">
+      <el-input
+          style="width: 240px; margin-right: 20px"
+          placeholder="文章名称"
+          v-model="input"
+      />
+
+      <el-select v-model="tag" placeholder="标签名" style="width: 240px;margin-right: 20px" >
+        <el-option
+            v-for="item in options"
+            :key="item.tid"
+            :label="item.tagName"
+            :value="item.tagName"
+            @click="searchTag"
         />
-      </el-form-item>
-      <el-form-item label="标签名">
-        <el-select v-model="tag" placeholder="标签名" style="width: 240px" >
-          <el-option
-              v-for="item in options"
-              :key="item.tid"
-              :label="item.tagName"
-              :value="item.tagName"
-              @click="searchTag"
-          />
-        </el-select>
-      </el-form-item>
+      </el-select>
 
-      <el-form-item>
-        <el-button type="primary" :icon="Search" @click="searchText">搜索</el-button>
-        <el-button :icon="Refresh" @click="init">重置</el-button>
-      </el-form-item>
+      <el-button type="primary" :icon="Search" @click="searchText">搜索</el-button>
+      <el-button :icon="Refresh" @click="init">重置</el-button>
+
     </div>
-  </el-form>
 
-  <el-card style="max-width: 100vw">
-    <el-button type="success" :icon="Plus" @click="clickItem()">新增</el-button>
+    <el-card style="max-width: 100vw">
+      <el-button type="success" :icon="Plus" @click="clickItem()">新增</el-button>
 
-    <el-table
-        :data="ArtInfo"
-        border
-        style="width: 100%;margin-top: 20px"
-    >
-      <el-table-column prop="img_url"  label="文章封面" width="200" align="center">
-        <template #default="scope">
-          <img class="tup" :src="scope.row.img_url" alt="">
-        </template>
-      </el-table-column>
-      <el-table-column prop="title" label="文章名称" align="center"/>
-      <el-table-column label="标签名" align="center">
+      <el-table :data="ArtInfo" style="width: 100%;margin-top: 20px">
+      <el-table-column prop="aid" label="ID" width="80"/>
+<!--      <el-table-column prop="img_url"  label="文章封面" width="200" align="center">-->
+<!--        <template #default="scope">-->
+<!--          <img class="tup" :src="scope.row.img_url" alt="">-->
+<!--        </template>-->
+<!--      </el-table-column>-->
+      <el-table-column prop="title" label="标题" width="180"/>
+      <el-table-column prop="desc" label="简介"/>
+      <el-table-column label="标签名" align="center" width="240">
         <template #default="scope">
           <el-tag v-for=" item in scope.row.tags" style="margin-right: 5px;">
             {{item}}
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="time" label="创建时间" align="center"/>
-      <el-table-column label="状态" align="center">
-        <template #default="scope" >
+      <el-table-column prop="category.name" label="分类" width="120"/>
+      <el-table-column prop="time" label="发布时间" width="220"/>
+      <el-table-column label="状态" width="100">
+        <template #default="scope">
+
           <el-tag v-if="scope.row.del === 0">待处理</el-tag>
-          <el-tag v-if="scope.row.del === 1" type="warning">已下架</el-tag>
+          <el-tag v-if="scope.row.del === 1" type="danger">已下架</el-tag>
           <el-tag v-if="scope.row.del === 2" type="success">已发布</el-tag>
           <el-tag v-if="scope.row.del === 3" type="info">草稿箱</el-tag>
+
+<!--          <el-tag  v-if="scope.row.del !== 0" :type="scope.row.del === 3 ? 'info' : (scope.row.del === 2 ? 'success' : (scope.row.del === 1 ? 'danger' : ''))" >-->
+<!--            {{ scope.row.del === 3? '草稿箱' : scope.row.del === 2? '已发布' : scope.row.del === 1? '已删除' : '' }}-->
+<!--          </el-tag>-->
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center">
-        <template #default="scope" >
+      <el-table-column label="操作" width="180">
+        <template #default="scope">
           <el-button type="primary" @click="update(scope.row)">修改</el-button>
           <el-button type="danger" @click="dArt(scope.row.aid)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <div style="margin-top: 30px">
-      <el-pagination background layout="prev, pager, next"
-                     :total="total"
-                     @current-change="currentChange" />
+
+    <div class="demo-pagination-block" style="margin-top: 20px">
+      <el-pagination
+          v-model:current-page="page"
+          :page-size="10"
+          :total="total"
+          @current-change="currentChange"
+          background
+          layout="prev, pager, next"
+      />
     </div>
-  </el-card>
+    </el-card>
+  </div>
+
 </template>
 <style>
 .tup{

@@ -14,11 +14,17 @@ const defaultFailure = (message, code, url) => {
     ElMessage.warning(message);
 };
 
+
 // 默认的请求错误处理函数
-const defaultError = (err) => {
+const defaultError = async (err) => {
     // 在控制台中输出错误信息
-    // console.warn(err);
+    // console.warn("这是错误",err);
     // 使用 Element Plus 的 Message 组件显示警告消息
+    if(err.status === 403)  {
+        ElMessage.warning("访问频繁！！！请稍后再试")
+       
+    }
+    else
     ElMessage.warning("出错啦~~~ 请联系管理员");
 };
 
@@ -79,7 +85,10 @@ function internalGet(url, header, success, failure,error = defaultError) {
         } else {
             failure(data.message, data.code, url);
         }
-    }).catch(err => error(err));
+    }).catch(err => error(
+        err
+        // console.log(err)
+    ));
 }
 
 // 发送 PUT 请求的内部函数

@@ -10,7 +10,8 @@ async function insertArticle(data,success,failure = defaultFailure){
         desc:data.desc,
         img_url:data.img_url,
         tags:data.tags,
-        del:data.del
+        del:data.del,
+        categoryId:data.categoryId
     },(data)=>{
         success(data);
     },()=>{

@@ -1,6 +1,7 @@
 package org.example.entity.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -17,15 +18,19 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Articles implements BaseData {
-    @TableId(type = IdType.AUTO)
+    @TableId(value = "aid", type = IdType.AUTO)
     private Integer aid;
     private String title;
     private String content;
     private String desc;
     private String tags;
     private String img_url;
-    private int del;
+    private Integer del;
     private Date publish_Time;
+
+    @TableField("category_id")
+    private Integer categoryId;
+
+    @TableField(exist = false)
+    private Category category;
 }
-
-
