@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.example.entity.dto.Category;
 import org.example.entity.RestBean;
 import org.example.entity.dto.Tag;
+import org.example.entity.vo.response.CategoryStatsVO;
 import org.example.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,13 +33,13 @@ public class CategoryController {
 
     @ResponseBody
     @PutMapping("/addCategory")
-    public RestBean<?> addCategory(HttpServletResponse response,String name,String description) {
+    public RestBean<?> addCategory(HttpServletResponse response, String name) {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        boolean success = categoryService.addCategory(name,description);
+        boolean success = categoryService.addCategory(name);
         if (success) {
-            return RestBean.success(new Category().setDescription(description).setName(name));
+            return RestBean.success(new Category().setName(name));
         } else {
             return RestBean.failure(400, "分类添加失败");
         }
@@ -97,5 +98,16 @@ public class CategoryController {
         response.setCharacterEncoding("UTF-8");
         Integer count = categoryService.getCountCategory();
         return RestBean.success(count);
+    }
+
+    @ResponseBody
+    @GetMapping("/category/stats")
+    public RestBean<?> getCategoryStats(HttpServletResponse response,Integer id) {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        List<CategoryStatsVO> categoryStats = categoryService.getCategoryStats();
+
+
+        return RestBean.success(categoryStats);
     }
 } 

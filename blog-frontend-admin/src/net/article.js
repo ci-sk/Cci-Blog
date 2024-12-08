@@ -2,7 +2,6 @@ import {defaultFailure, del, get, getPromise, put, takeAccessToken} from "./inde
 import axios from "axios";
 
 async function insertArticle(data,success,failure = defaultFailure){
-    console.log(data)
     await put("api/addArticle",{
         aid:data.aid,
         title:data.title,
@@ -26,7 +25,6 @@ async function  getArticle() {
 
 
 function DeleteArticle(data,success,failure){
-    console.log("@@@",data)
     put("api/delArticle",{
         aid:data
     },()=>{
@@ -37,7 +35,6 @@ function DeleteArticle(data,success,failure){
 }
 
 function ArticleLimit(data,success,failure){
-    console.log("@@@",data)
     put("api/getLimit/Article",{
         text:data.text,
         page:data.page,

@@ -22,8 +22,14 @@ const isCollapse = computed(()=>{
 })
 
 function clickItem(item){
-  router.push(item.path)
-  Store.SelectMenu(Store,item)
+  // 如果是父菜单且有子菜单，使用第一个子菜单的路径
+  if (item.children && item.children.length > 0) {
+    router.push(item.children[0].path)
+    Store.SelectMenu(Store, item.children[0])
+  } else {
+    router.push(item.path)
+    Store.SelectMenu(Store, item)
+  }
 }
 
 </script>
@@ -38,21 +44,21 @@ function clickItem(item){
       active-text-color="#FFD700"
   >
     <h3>{{isCollapse?"后台":"通用后台管理系统"}}</h3>
-    <el-menu-item @click="clickItem(item)"  v-for="item in noChildren" :key="item.name" :index="item.path">
+    <el-menu-item @click="clickItem(item)" v-for="item in noChildren" :key="item.name + '-' + item.path" :index="item.path">
       <el-icon>
         <component :is="item.icon"/>
       </el-icon>
         <span>{{item.label}}</span>
     </el-menu-item>
-    <el-sub-menu v-for="item in hasChildren" :key="item.name" :index="item.name+''">
+    <el-sub-menu v-for="item in hasChildren" :key="item.name + '-parent'" :index="item.name+''">
       <template #title>
         <el-icon>
           <component :is="item.icon"/>
         </el-icon>
         <span slot="title">{{item.label}}</span>
       </template>
-      <el-menu-item-group class="item-group" v-for="subItem in item.children" :key="subItem.name">
-        <el-menu-item @click="clickItem(subItem)" :index="subItem.path+''">
+      <el-menu-item-group class="item-group" v-for="subItem in item.children" :key="subItem.name + '-' + subItem.path">
+        <el-menu-item @click="clickItem(subItem)" :index="subItem.path">
           <el-icon>
             <component :is="subItem.icon"/>
           </el-icon>
@@ -90,4 +96,4 @@ function clickItem(item){
   color: #ffffff; /* 悬浮时的文本颜色 */
 }
 
-</style>>
+</style>

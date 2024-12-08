@@ -8,6 +8,7 @@ import java.util.Date;
 public class AccountVO {
     String username;
     String email;
-    Date register_Time;
+
+    Date time;
     String role;
 }

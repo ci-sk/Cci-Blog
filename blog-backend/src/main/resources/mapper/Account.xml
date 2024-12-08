@@ -10,7 +10,7 @@
         <result property="password" column="password" jdbcType="VARCHAR"/>
         <result property="email" column="email" jdbcType="VARCHAR"/>
         <result property="role" column="role" jdbcType="VARCHAR"/>
-        <result property="time" column="register_Time" jdbcType="TIMESTAMP"/>
+        <result property="time" column="register_Time"/>
     </resultMap>
 
     <select id="getAccountCount" resultMap="AccountMap">
@@ -34,6 +34,8 @@
             limit #{page},#{limit}
     </select>
 
-
+    <select id="limitAccount" resultMap="AccountMap">
+        select * from db_account limit #{page},#{limit}
+    </select>
 
 </mapper>

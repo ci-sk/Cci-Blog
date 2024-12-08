@@ -16,18 +16,13 @@ const formRef = ref(null)
 
 const form = ref({
   id: null,
-  name: '',
-  description: ''
+  name: ''
 })
 
 const rules = {
   name: [
     { required: true, message: '请输入分类名称', trigger: 'blur' },
     { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
-  ],
-  description: [
-    { required: true, message: '请输入分类描述', trigger: 'blur' },
-    { max: 200, message: '最多200个字符', trigger: 'blur' }
   ]
 }
 
@@ -60,8 +55,7 @@ const handleAdd = () => {
   dialogType.value = 'add'
   form.value = {
     id: null,
-    name: '',
-    description: ''
+    name: ''
   }
   dialogVisible.value = true
 }
@@ -98,22 +92,17 @@ const handleSubmit = () => {
   formRef.value.validate((valid) => {
     if (valid) {
       const data = {
-        name: form.value.name,
-        description: form.value.description
+        name: form.value.name
       }
-
       if (dialogType.value === 'add') {
-        addCategory(data, () => {
+        addCategory(data.name, () => {
           ElMessage.success('添加成功')
           dialogVisible.value = false
           fetchCategoryList()
         })
       } else {
-        updateCategory({
-          ...data,
-          id: form.value.id
-        }, () => {
-          ElMessage.success('更新成功')
+        updateCategory(form.value.id, data, () => {
+          ElMessage.success('修改成功')
           dialogVisible.value = false
           fetchCategoryList()
         })
@@ -165,7 +154,6 @@ onMounted(() => {
     <el-table :data="categoryList" style="width: 100%" v-loading="loading">
       <el-table-column prop="id" label="ID" width="80" />
       <el-table-column prop="name" label="分类名称" />
-      <el-table-column prop="description" label="描述" />
       <el-table-column label="操作" width="200">
         <template #default="scope">
           <el-button type="primary" link @click="handleEdit(scope.row)">
@@ -204,13 +192,6 @@ onMounted(() => {
       >
         <el-form-item label="分类名称" prop="name">
           <el-input v-model="form.name" placeholder="请输入分类名称" />
-        </el-form-item>
-        <el-form-item label="描述" prop="description">
-          <el-input
-            v-model="form.description"
-            type="textarea"
-            placeholder="请输入分类描述"
-          />
         </el-form-item>
       </el-form>
       <template #footer>

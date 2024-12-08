@@ -14,5 +14,4 @@ import lombok.experimental.Accessors;
 public class Category {
     private Integer id; // 分类ID
     private String name; // 分类名称
-    private String description; // 分类描述
 }

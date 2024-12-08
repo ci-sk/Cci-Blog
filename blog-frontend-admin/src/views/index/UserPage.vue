@@ -30,6 +30,7 @@ onMounted(() => {
 //获取用户列表
 const userLogin = () => {
   AccountLimit(1,(res) => {
+    console.log(res)
     UserInfo.value = res;
     UserInfo.value = changeTime(UserInfo.value);
   });

@@ -2,6 +2,7 @@ package org.example.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.example.entity.dto.Category;
+import org.example.entity.vo.response.CategoryStatsVO;
 import org.example.mapper.CategoryMapper;
 import org.example.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     }
 
     @Override
-    public boolean addCategory(String name,String description) {
-        return mapper.addCategory(name,description) > 0;
+    public boolean addCategory(String name) {
+        return mapper.addCategory(name) > 0;
     }
 
     @Override
@@ -45,4 +46,11 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     public boolean deleteCategory(Integer id) {
         return mapper.deleteCategory(id) > 0;
     }
+
+    @Override
+    public List<CategoryStatsVO> getCategoryStats() {
+        System.out.println("CategoryServiceImpl.getCategoryStats"+mapper.getCategoryStats());
+        return mapper.getCategoryStats();
+    }
+
 } 

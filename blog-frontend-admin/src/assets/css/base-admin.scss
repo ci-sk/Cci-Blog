@@ -1,11 +1,38 @@
+//:root {
+//  --Aside-PageBgColor:#434a50;
+//  --cci-card-bg-color:#fff;
+//  --cci-bg-color:#e6e7e9
+//}
+//
+//html.dark {
+//  --Aside-PageBgColor:#1A1A1A;
+//  --cci-card-bg-color:#1e1f22;
+//  --cci-bg-color:#232427
+//}
+
+
 :root {
-  --Aside-PageBgColor:#434a50;
-  --cci-card-bg-color:#fff;
-  --cci-bg-color:#e6e7e9
+  --Aside-PageBgColor: #2c3e50; /* 深蓝色 */
+  --cci-card-bg-color: #ecf0f1; /* 浅灰色 */
+  --cci-bg-color: #ffffff; /* 白色 */
+
+  /* 卡片和组件颜色 */
+  --cci-component-bg: #ffffff;
+  --cci-component-border: #bdc3c7;
+  --cci-component-shadow: rgba(0, 0, 0, 0.1);
+
+  --header-bg-color: #ecf0f1; /* 原始颜色 */
 }
 
 html.dark {
   --Aside-PageBgColor:#1A1A1A;
   --cci-card-bg-color:#1e1f22;
-  --cci-bg-color:#232427
+  --cci-bg-color:#232427; /* 深蓝色 */
+
+  /* 深色模式卡片和组件颜色 */
+  --cci-component-bg: #1A1A1A;
+  --cci-component-border: #1e1f22;
+  --cci-component-shadow: rgba(0, 0, 0, 0.3);
+
+  --header-bg-color: #1A1A1A; /* 深色模式背景 */
 }

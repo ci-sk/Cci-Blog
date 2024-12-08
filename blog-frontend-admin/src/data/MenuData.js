@@ -25,7 +25,7 @@ export default[
         name:"article",
         children:[
             {
-                path:"/article",
+                path:"/article/index",
                 name:"article",
                 label:"博客管理",
                 icon:Document,
@@ -62,7 +62,7 @@ export default[
         icon:Key,
         children:[
             {
-                path: "/webSite",
+                path: "/webSite/index",
                 name: "webSite",
                 label: "网站设置",
                 icon: Key,
@@ -84,7 +84,7 @@ export default[
         url:"/message",
         children: [
             {
-                path:"/message",
+                path:"/message/index",
                 name:"message",
                 label:"留言管理",
                 icon:Message,

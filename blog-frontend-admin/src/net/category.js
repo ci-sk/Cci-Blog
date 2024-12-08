@@ -1,4 +1,4 @@
-import { get, post, put, del, defaultFailure } from './index'
+import {get, post, put, del, defaultFailure, getPromise} from './index'
 
 /**
  * 获取分类列表
@@ -40,14 +40,13 @@ function getCountCategory(success, failure = defaultFailure) {
 
 /**
  * 添加分类
- * @param {Object} data 分类信息 {name: string, description: string}
+ * @param {string} name 分类名称
  * @param {Function} success 成功回调
  * @param {Function} failure 失败回调
  */
-function addCategory(data, success, failure = defaultFailure) {
+function addCategory(name, success, failure = defaultFailure) {
     put('/api/addCategory', {
-        name: data.name,
-        description: data.description
+        name: name
     }, (data) => {
         success(data)
     }, failure)
@@ -55,15 +54,15 @@ function addCategory(data, success, failure = defaultFailure) {
 
 /**
  * 更新分类
- * @param {Object} data 分类信息 {id: number, name: string, description: string}
+ * @param {number} id 分类ID
+ * @param {Object} data 分类信息 {name: string}
  * @param {Function} success 成功回调
  * @param {Function} failure 失败回调
  */
-function updateCategory(data, success, failure = defaultFailure) {
+function updateCategory(id, data, success, failure = defaultFailure) {
     put('/api/updateCategory', {
-        id: data.id,
-        name: data.name,
-        description: data.description
+        id: id,
+        name: data.name
     }, (data) => {
         success(data)
     }, failure)
@@ -81,11 +80,28 @@ function deleteCategory(id, success, failure = defaultFailure) {
     }, failure)
 }
 
+/**
+ * 获取分类统计信息
+ * @param {Function} success 成功回调
+ * @param {Function} failure 失败回调
+ */
+// function getCategoryStats(success, failure = defaultFailure) {
+//     get('/api/category/stats', (data) => {
+//         console.log("返回",data)
+//         success(data)
+//     }, failure)
+// }
+
+async function getCategoryStats(){
+    return getPromise("api/category/stats")
+}
+
 export {
     getCategory,
     getLimitCategory,
     getCountCategory,
     addCategory,
     updateCategory,
-    deleteCategory
+    deleteCategory,
+    getCategoryStats
 }

@@ -11,7 +11,7 @@ const val = ref('')
 
 const TagInfo = ref([]);
 
-const total = ref('')
+const total = ref(0)
 
 let dialogVisible = ref(false)
 

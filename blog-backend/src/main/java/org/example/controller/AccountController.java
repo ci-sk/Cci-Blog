@@ -97,6 +97,7 @@ public class AccountController {
                 v.setUsername(a.getUsername());
                 v.setEmail(a.getEmail());
                 v.setRole(a.getRole());
+                v.setTime(a.getTime());
             }));
             vo.add(vo1);
         }
@@ -126,6 +127,8 @@ public class AccountController {
 
         List<Account> account = service.getAccountByText(text, page, limit);
 
+        System.out.println("sss"+account);
+
         return RestBean.success(account);
     }
 
@@ -150,6 +153,9 @@ public class AccountController {
         }
 
         List<Account> account = service.limitAccount(page, limit);
+
+
+        System.out.println("43"+account);
 
         return RestBean.success(account);
     }

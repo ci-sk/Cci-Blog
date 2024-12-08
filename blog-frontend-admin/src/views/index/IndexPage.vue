@@ -6,15 +6,24 @@ import WordCloud from "../../components/home/WordCloud.vue";
 import CategoryPieChart from "../../components/home/CategoryPieChart.vue";
 import * as echarts from 'echarts';
 import { ElMessage } from 'element-plus';
+import { getCategoryStats } from '../../net/category';
 
-const totalPosts = ref(0);
-const totalUsers = ref(0);
 const newsFeed = ref([]);
+const categoryData = ref([]);
 
-// 模拟获取统计信息
-const fetchStatistics = () => {
-  totalPosts.value = 120; // 假设有120篇文章
-  totalUsers.value = 45;  // 假设有45个用户
+// 获取分类统计数据
+const fetchCategoryStats = () => {
+  getCategoryStats((res) => {
+    if (res.code === 200 && Array.isArray(res.data)) {
+      console.log("@@@",res.data);
+      categoryData.value = res.data.map(item => ({
+        value: item.count,
+        name: item.name
+      }));
+    } else {
+      ElMessage.warning('获取分类统计失败');
+    }
+  });
 };
 
 // 模拟获取最新动态
@@ -25,16 +34,8 @@ const fetchNewsFeed = () => {
   ];
 };
 
-// 模拟分类数据
-const categoryData = [
-  { value: 40, name: '技术' },
-  { value: 30, name: '生活' },
-  { value: 20, name: '旅行' },
-  { value: 10, name: '其他' }
-];
-
 onMounted(() => {
-  fetchStatistics();
+  fetchCategoryStats();
   fetchNewsFeed();
 });
 </script>
@@ -44,7 +45,7 @@ onMounted(() => {
     <HomeTop />
     <HotMap class="hotmap" />
     <div class="flex-container">
-      <CategoryPieChart class="flex-item" />
+      <CategoryPieChart :data="categoryData" class="flex-item" />
       <WordCloud class="flex-item" />
     </div>
 

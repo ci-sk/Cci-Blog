@@ -52,7 +52,6 @@ const TagUser = () => {
 
 //添加标签去页面
 const addTags = ()=>{
-
   if(Tval.value){
     pTags.value = [...new Set([...pTags.value, {tagName:Tval.value}])];
     form.tags = [...new Set([...form.tags, Tval.value])];
@@ -118,7 +117,7 @@ const submitUpload =  () => {
 
 //上传标签
 const submitTag =  ()=>{
-
+  console.log("上传前",pTags.value);
   for (let i =0;i<pTags.value.length;i++){
     if(!pTags.value[i].tid ){
       console.log(pTags.value[i])
@@ -129,22 +128,35 @@ const submitTag =  ()=>{
   }
 }
 
-const InsertArt = ()=> {
-  const formData = new FormData();
-  formData.append('file', uploadRef.value.uploadFiles[0].raw);
-  uploadFile(formData.get('file'), (res) => {
-    form.img_url = res;
-    insertArticle(form, (res) => {
-      if (res.code === 200) {
-        ElMessage.success('添加成功');
-        router.push('/article');
-        
-      } else {
-        ElMessage.error('添加失败');
-      }
-    });
-  });
-};
+// const InsertArt = ()=> {
+//   const formData = new FormData();
+//   formData.append('file', uploadRef.value.uploadFiles[0].raw);
+//   uploadFile(formData.get('file'), (res) => {
+//     form.img_url = res;
+//     insertArticle(form, (res) => {
+//       if (res.code === 200) {
+//         ElMessage.success('添加成功');
+//         router.push('/article');
+//
+//       } else {
+//         ElMessage.error('添加失败');
+//       }
+//     });
+//   });
+// };
+
+const InsertArt = ()=>{
+  insertArticle(form,(res)=>{
+    if(res.message==="添加成功"){
+      ElMessage.success("添加成功");
+      console.log(res);
+    }else{
+      ElMessage.success("修改成功")
+      router.push("/article")
+      Art.$reset()
+    }
+  })
+}
 
 //提交表单
 const submitForm = ()=>{
@@ -160,14 +172,12 @@ const submitForm = ()=>{
 
 //图片上传成功后上传到数据库
 const success = ()=>{
-
   submitTag();
 
   InsertArt();
 }
 
 const upDataArt = ()=> {
-
   if (Art.ArtForm.aid) {
     form.aid = Art.ArtForm.aid;
     form.title = Art.ArtForm.title;
@@ -204,7 +214,6 @@ onMounted(()=>{
   loadCategories();
   //修改文章
   upDataArt();
-  console.log("@@@@@",form.categoryId)
 })
 
 const closeTag= (index)=>{

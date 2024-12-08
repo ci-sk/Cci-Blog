@@ -37,7 +37,7 @@ const router = createRouter({
                      name:"文章管理",
                      children:[
                          {
-                             path:"/article",
+                             path:"/article/index",
                              name:"博客管理",
                              component: () => import("../views/index/ArticlePage.vue"),
                          },
@@ -73,7 +73,7 @@ const router = createRouter({
                      name:"网站",
                      children:[
                          {
-                             path: "/webSite",
+                             path: "/webSite/index",
                              name: "系统",
                              component: () => import("../views/index/SystemPage.vue"),
                          },
@@ -89,7 +89,7 @@ const router = createRouter({
                    name:"消息管理",
                    children:[
                        {
-                         path: "/message",
+                         path: "/message/index",
                          name: "消息",
                          component: () => import("../views/index/MessagePage.vue"),
                        },

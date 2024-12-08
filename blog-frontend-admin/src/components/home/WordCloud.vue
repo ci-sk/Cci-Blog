@@ -16,7 +16,6 @@ const initChart = async () => {
   const arr = await getTag().then((res) => {
     return res
   })
-  console.log(arr)
 
   const myChart = echarts.init(document.getElementById('mywordcloud'));
   const options = {
