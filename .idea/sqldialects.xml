@@ -3,7 +3,7 @@
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/blog-backend/src/main/java/org/example/mapper/ArticlesMapper.java" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/blog-backend/src/main/resources/mapper/Account.xml" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/blog-backend/src/main/resources/mapper/Articles.xml" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/blog-backend/src/main/resources/mapper/Articles.xml" dialect="GenericSQL" />
     <file url="PROJECT" dialect="MySQL" />
   </component>
 </project>

@@ -26,14 +26,13 @@
         <association property="category" javaType="org.example.entity.dto.Category">
             <id property="id" column="c_id"/>
             <result property="name" column="category_name"/>
-            <result property="description" column="category_description"/>
         </association>
     </resultMap>
 
     <!-- 公共的列定义 -->
     <sql id="Base_Column_List">
         a.aid, a.title, a.content, a.`desc`, a.tags, a.img_url, a.del, a.publish_time, a.category_id,
-        c.id as c_id, c.name as category_name, c.description as category_description
+        c.id as c_id, c.name as category_name
     </sql>
 
     <!--

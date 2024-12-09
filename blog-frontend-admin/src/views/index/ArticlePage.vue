@@ -82,7 +82,7 @@ const getArtInfo = async  () => {
     if (Array.isArray(res)) {
       ArtInfo.value = getTags(res);
       ArtInfo.value = changeTime(ArtInfo.value);
-      // console.log('处理后的数据:', ArtInfo.value);
+      console.log('处理后的数据:', ArtInfo.value);
     } else {
       ArtInfo.value = [];
     }
