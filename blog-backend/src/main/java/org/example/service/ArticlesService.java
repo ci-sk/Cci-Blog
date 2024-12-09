@@ -11,9 +11,13 @@ public interface ArticlesService {
 
     List<Articles> findArticleAll();
 
+    Articles getArticleById(Integer aid);
+
     int upDataArticles(Articles articles);
 
     int  delFart(Integer aid);
 
     int getArtCount();
+    
+    void incrementViewCount(Integer articleId);
 }

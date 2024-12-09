@@ -21,6 +21,7 @@
         <result property="img_url" column="img_url" jdbcType="VARCHAR"/>
         <result property="del" column="del" javaType="INTEGER"/>
         <result property="publish_Time" column="publish_time" jdbcType="TIMESTAMP"/>
+        <result property="viewCount" column="view_count"/>
         <result property="categoryId" column="category_id" jdbcType="INTEGER"/>
         <!-- 关联分类对象 -->
         <association property="category" javaType="org.example.entity.dto.Category">
@@ -31,7 +32,7 @@
 
     <!-- 公共的列定义 -->
     <sql id="Base_Column_List">
-        a.aid, a.title, a.content, a.`desc`, a.tags, a.img_url, a.del, a.publish_time, a.category_id,
+        a.aid, a.title, a.content, a.`desc`, a.tags, a.img_url, a.del, a.publish_time, a.category_id,a.view_count,
         c.id as c_id, c.name as category_name
     </sql>
 
@@ -54,7 +55,7 @@
     </select>
 
 
-    <select id="aid" resultMap="ArticlesMap">
+    <select id="getArticleById" resultMap="ArticlesMap">
         select <include refid="Base_Column_List"/>
         from db_articles a
         left join db_category c on a.category_id = c.id
@@ -81,6 +82,10 @@
             category_id = #{categoryId},
             del = #{del}
         where aid = #{aid}
+    </update>
+
+    <update id="incrementViewCount">
+        update db_articles set view_count = view_count + 1 where aid= #{aid}
     </update>
 
 

@@ -32,6 +32,11 @@ public class ArticlesServiceImpl extends ServiceImpl<ArticlesMapper, Articles> i
     }
 
     @Override
+    public Articles getArticleById(Integer aid) {
+        return mapper.getArticleById(aid);
+    }
+
+    @Override
     public int upDataArticles(Articles articles){
         return mapper.upDataArticles(articles);
     }
@@ -44,6 +49,11 @@ public class ArticlesServiceImpl extends ServiceImpl<ArticlesMapper, Articles> i
     @Override
     public int getArtCount() {
         return mapper.getArtCount();
+    }
+
+    @Override
+    public void incrementViewCount(Integer articleId) {
+        mapper.incrementViewCount(articleId);
     }
 
 }

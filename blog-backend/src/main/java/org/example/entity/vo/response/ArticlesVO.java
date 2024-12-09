@@ -24,4 +24,5 @@ public class ArticlesVO{
     private Date time;
     private Integer categoryId;
     private Category category;
+    private Integer viewCount;
 }

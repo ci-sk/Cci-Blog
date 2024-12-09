@@ -8,9 +8,11 @@ import org.example.entity.vo.response.ArticlesVO;
 import org.example.service.impl.ArticlesServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -101,7 +103,8 @@ public class ArticlesController {
                                 .setTime(article.getPublish_Time())
                                 .setCategoryId(article.getCategoryId())
                                 .setCategory(article.getCategory())
-                                .setDel(article.getDel());
+                                .setDel(article.getDel())
+                                .setViewCount(article.getViewCount());
                     }));
                     vo.add(vo1);
                 }
@@ -172,6 +175,7 @@ public class ArticlesController {
                             .setTime(article.getPublish_Time())
                             .setCategoryId(article.getCategoryId())
                             .setCategory(article.getCategory())
+                            .setViewCount(article.getViewCount())
                             .setDel(article.getDel());
                 }));
                 vo.add(vo1);
@@ -201,5 +205,20 @@ public class ArticlesController {
         } else {
             return RestBean.db_failure();
         }
+    }
+
+    @ResponseBody
+    @GetMapping("/get/article/{aid}")
+    public ResponseEntity<?> getArticle(HttpServletResponse response,@PathVariable Integer aid)
+    {
+        response.setContentType("application/json");
+        System.out.println("@@"+aid);
+
+        // 更新阅读量
+        artServer.incrementViewCount(aid);
+
+        // 获取文章详情
+        Articles article = artServer.getArticleById(aid);
+        return ResponseEntity.ok(article);
     }
 }

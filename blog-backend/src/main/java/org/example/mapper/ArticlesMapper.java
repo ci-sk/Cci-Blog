@@ -15,10 +15,15 @@ public interface ArticlesMapper extends BaseMapper<Articles> {
 
     List<Articles> findArticleAll();
 
+    Articles getArticleById(Integer aid);
+
     int upDataArticles(Articles articles);
 
     int  delFart(Integer aid);
 
     @Select("select count(*) from db_articles")
     Integer getArtCount();
+
+//    @Update("UPDATE db_articles SET view_count = view_count + 1 WHERE aid= #{aid}")
+    void incrementViewCount(Integer aid);
 }

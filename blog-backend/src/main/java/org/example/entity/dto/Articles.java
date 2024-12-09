@@ -27,6 +27,7 @@ public class Articles implements BaseData {
     private String tags;
     private String img_url;
     private Integer del;
+    private Integer viewCount;
     
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date publish_Time;

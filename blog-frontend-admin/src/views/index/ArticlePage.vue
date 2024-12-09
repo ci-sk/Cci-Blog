@@ -167,6 +167,7 @@ onMounted(()=>{
       </el-table-column>
       <el-table-column prop="category.name" label="分类" width="120"/>
       <el-table-column prop="time" label="发布时间" width="220"/>
+        <el-table-column prop="viewCount" label="浏览量" width="120" />
       <el-table-column label="状态" width="100">
         <template #default="scope">
           <el-tag v-if="scope.row.del === 0">待处理</el-tag>
