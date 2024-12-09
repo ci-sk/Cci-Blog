@@ -19,10 +19,7 @@ public interface AccountMapper extends BaseMapper<Account> {
 
     List<Account> getAccountCount();
 
-    List<Account> getAccountByText(String text,Integer page,Integer limit);
-
-//    @Select("select * from db_account limit #{page},#{limit}")
-    List<Account> limitAccount(Integer page,Integer limit);
+    List<Account> limitAccount(String text,Integer page,Integer limit);
 
     @Select("select count(*) from db_account")
     Integer getCount();

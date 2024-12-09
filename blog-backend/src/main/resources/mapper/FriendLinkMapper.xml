@@ -22,7 +22,7 @@
 
     <!-- 根据名称模糊查询友链 -->
     <select id="getFriendLinksWithLimit" resultType="org.example.entity.dto.FriendLink">
-        select * from db_f_link where fname like CONCAT('%', #{text}, '%') limit #{page}, #{size}
+        select * from db_f_link where fname like CONCAT('%', #{text}, '%') limit #{page}, #{limit}
     </select>
 
     <select id="getAllFriendLinks" resultType="org.example.entity.dto.FriendLink">

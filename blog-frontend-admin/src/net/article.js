@@ -37,8 +37,8 @@ function DeleteArticle(data,success,failure){
 function ArticleLimit(data,success,failure){
     put("api/getLimit/Article",{
         text:data.text,
-        page:data.page,
-        limit:10
+        page:(data.page-1) * 10,
+        limit:10*data.page
     },(data)=>{
         success(data);
     },()=>{

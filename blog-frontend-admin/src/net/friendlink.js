@@ -20,8 +20,8 @@ function getFriendLinks(success, failure = defaultFailure) {
 function getLimitFriendLinks(data, success, failure = defaultFailure) {
     put('api/getLimit/FriendLink?' + new URLSearchParams({
         text: data.text || '',
-        page: data.page || 0,
-        size: data.size || 10
+        page:(data.page-1) * 10,
+        limit:10*data.page
     }).toString(), null, (data) => {
         success(data)
     }, failure)

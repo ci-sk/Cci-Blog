@@ -10,8 +10,8 @@ function getComment(success,failure = defaultFailure){
 function getLimitComment(data,success,failure = defaultFailure){
     put("api/getLimit/Comments",{
         text:data.text,
-        page:data.page,
-        limit:10
+        page:(data.page-1) * 10,
+        limit:10*data.page
     },(data)=>{
         success(data)
     })

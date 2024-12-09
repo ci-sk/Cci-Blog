@@ -46,4 +46,6 @@ qiniu:
   directory: img/
   # 配置域名
   domain: sl1dlcz2s.hn-bkt.clouddn.com
-
+mybatis-plus:
+  configuration:
+    cache-enabled: true

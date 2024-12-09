@@ -42,9 +42,9 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper,FriendLi
     }
 
     @Override
-    public List<FriendLink> getFriendLinksWithLimit(String text,int page, int size) {
+    public List<FriendLink> getFriendLinksWithLimit(String text,int page, int limit) {
         // 实现分页逻辑
-        return mapper.getFriendLinksWithLimit(text,page, size);
+        return mapper.getFriendLinksWithLimit(text,page, limit);
     }
 
     @Override
@@ -56,6 +56,6 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper,FriendLi
     @Override
     public List<FriendLink> searchFriendLinks(String keyword) {
         // 实现搜索逻辑
-        return List.of();
+        return mapper.searchFriendLinks(keyword);
     }
 } 

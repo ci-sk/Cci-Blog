@@ -15,16 +15,7 @@ const saveSettings = () => {
     description: description.value,
     siteUrl: siteUrl.value
   };
-  // 发送请求保存设置
-  // axios.post('/api/saveSettings', settings)
-  //  .then(response => {
-  //     // 处理保存成功的逻辑
-  //     console.log('设置保存成功');
-  //   })
-  //  .catch(error => {
-  //     // 处理保存失败的逻辑
-  //     console.error('设置保存失败', error);
-  //   });
+
 };
 // 初始化设置
 const initSettings = () => {

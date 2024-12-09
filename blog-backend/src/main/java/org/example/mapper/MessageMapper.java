@@ -18,8 +18,7 @@ public interface MessageMapper extends BaseMapper<Message> {
 
     int getMessageCount();
 
-
-     @Select("SELECT COUNT(*) FROM db_message WHERE is_read = #{isRead}")
+    @Select("SELECT COUNT(*) FROM db_message WHERE is_read = #{isRead}")
     int countByIsRead(int isRead);
     
     @Select("SELECT * FROM db_message ORDER BY time DESC LIMIT #{limit}")

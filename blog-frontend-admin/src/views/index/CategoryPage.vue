@@ -31,7 +31,7 @@ const fetchCategoryList = () => {
   loading.value = true
   getLimitCategory({
     text: searchText.value,
-    page: currentPage.value - 1
+    page: currentPage.value
   }, (data) => {
     categoryList.value = data
     // 获取总数
@@ -151,31 +151,25 @@ onMounted(() => {
       </el-button>
     </div>
 
-    <el-table :data="categoryList" style="width: 100%" v-loading="loading">
-      <el-table-column prop="id" label="ID" width="80" />
+    <el-table :data="categoryList" v-loading="loading" table-layout='fixed'>
+      <el-table-column prop="id" label="ID"/>
       <el-table-column prop="name" label="分类名称" />
-      <el-table-column label="操作" width="200">
+      <el-table-column label="操作" width="200" align="center">
         <template #default="scope">
-          <el-button type="primary" link @click="handleEdit(scope.row)">
-            <el-icon><Edit /></el-icon>编辑
+          <el-button type="primary" @click="handleEdit(scope.row)">
+            编辑
           </el-button>
-          <el-button type="danger" link @click="handleDelete(scope.row)">
-            <el-icon><Delete /></el-icon>删除
+          <el-button type="danger" @click="handleDelete(scope.row)">
+           删除
           </el-button>
         </template>
       </el-table-column>
     </el-table>
 
-    <div class="pagination">
-      <el-pagination
-        v-model:current-page="currentPage"
-        v-model:page-size="pageSize"
-        :page-sizes="[10, 20, 30, 50]"
-        layout="total, sizes, prev, pager, next"
-        :total="total"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      />
+    <div style="margin-top: 30px">
+      <el-pagination background layout="prev, pager, next"
+                     :total="total"
+                     @current-change="handleCurrentChange" />
     </div>
 
     <!-- 新增/编辑对话框 -->

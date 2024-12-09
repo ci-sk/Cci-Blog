@@ -28,14 +28,12 @@
         delete from db_account where uid = #{uid}
     </delete>
 
-    <select id="getAccountByText" resultMap="AccountMap">
+    <select id="limitAccount" resultMap="AccountMap">
         select * from db_account where
             uid = '${text}' or username like '%${text}%' or email like '%${text}%'
             limit #{page},#{limit}
     </select>
 
-    <select id="limitAccount" resultMap="AccountMap">
-        select * from db_account limit #{page},#{limit}
-    </select>
+    
 
 </mapper>

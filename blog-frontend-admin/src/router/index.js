@@ -61,11 +61,7 @@ const router = createRouter({
                              name: "分类",
                              component: () => import("../views/index/CategoryPage.vue"),
                          },
-                         {
-                             path: "/article/picture",
-                             name: "图片",
-                             component: () => import("../views/index/PicturePage.vue"),
-                         },
+
                      ]
                  },
                  {
@@ -108,11 +104,6 @@ const router = createRouter({
                              path: "/root/user",
                              name: "用户",
                              component: () => import("../views/index/UserPage.vue"),
-                         },
-                         {
-                             path: "/root/menu",
-                             name: "菜单",
-                             component: () => import("../views/index/MenuPage.vue"),
                          },
                      ]
                  },

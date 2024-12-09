@@ -21,6 +21,7 @@ const defaultError = async (err) => {
     // console.warn("这是错误",err);
     // 使用 Element Plus 的 Message 组件显示警告消息
     if(err.status === 403)  {
+        console.log("403",err)
         ElMessage.warning("访问频繁！！！请稍后再试")
        
     }

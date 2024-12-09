@@ -33,13 +33,14 @@ public class MessageController {
      */
     @ResponseBody
     @RequestMapping("/addMessage")
-    public RestBean<?> add(HttpServletResponse response,String username, String content){
+    public RestBean<?> add(HttpServletResponse response,String username, String content)
+    {
         response.setContentType("application/json;charset=utf-8");
 
         Message message = new Message();
-        message.setUsername(username);
-        message.setContent(content);
-        message.setTime(new Date());
+        message.setUsername(username)
+                .setContent(content)
+                .setTime(new Date());
 
         if(service.addMessage(message) ==1){
             return RestBean.success(message);
@@ -55,14 +56,9 @@ public class MessageController {
      */
     @ResponseBody
     @RequestMapping("/getLimit/Message")
-    public RestBean<?> find(HttpServletResponse response,String content,Integer page,Integer limit){
+    public RestBean<?> find(HttpServletResponse response,String content,Integer page,Integer limit)
+    {
         response.setContentType("application/json;charset=utf-8");
-
-        page--;
-        if (page >= 1) {
-            page = (page) * 10;
-            limit += page;
-        }
 
         List<Message> message = service.getMessage(content, page, limit);
 
@@ -77,7 +73,8 @@ public class MessageController {
      */
     @ResponseBody
     @RequestMapping("/delMessage")
-    public RestBean<?> delete(HttpServletResponse response,Integer mid){
+    public RestBean<?> delete(HttpServletResponse response,Integer mid)
+    {
         response.setContentType("application/json;charset=utf-8");
 
         if(service.deleteMessage(mid) ==1){
@@ -95,30 +92,57 @@ public class MessageController {
      */
     @ResponseBody
     @RequestMapping("/getCount/Message")
-    public RestBean<?> getMsgCount(HttpServletResponse response){
+    public RestBean<?> getMsgCount(HttpServletResponse response)
+    {
         response.setContentType("application/json;charset=utf-8");
 
         return RestBean.success(service.getMessageCount());
     }
 
 
-     @GetMapping("/message/unread/count")
+
+    /**
+     * 获取最近的留言消息
+     *
+     * @param response HttpServletResponse 对象，用于设置响应内容类型和字符编码
+     * @return RestBean<?> 对象，包含获取最近留言消息的结果
+     */
+    @GetMapping("/message/unread/count")
     @ResponseBody
-    public RestBean<Integer> getUnreadCount() {
+    public RestBean<Integer> getUnreadCount(HttpServletResponse response)
+    {
+        response.setContentType("application/json;charset=utf-8");
         return RestBean.success(service.countUnreadMessages());
     }
 
+
+    /**
+     * 获取最近的留言消息
+     * 默认获取10条
+     * @param response HttpServletResponse 对象，用于设置响应内容类型和字符编码
+     * @return RestBean<?> 对象，包含获取最近留言消息的结果
+     */
     @GetMapping("/message/recent")
     @ResponseBody
-    public RestBean<List<Message>> getRecentMessages() {
+    public RestBean<List<Message>> getRecentMessages(HttpServletResponse response)
+    {
+        response.setContentType("application/json;charset=utf-8");
+
         List<Message> recentMessages = service.getRecentMessages(10);
 
         return RestBean.success(recentMessages); // 获取最近10条
     }
 
+    /**
+     * 消息全部已读
+     * @param response HttpServletResponse 对象，用于设置响应内容类型和字符编码
+     * @return RestBean<?> 对象，包含获取最近留言消息的结果
+     * */
     @PostMapping("/message/read/all")
     @ResponseBody
-    public RestBean<Void> markAllAsRead() {
+    public RestBean<Void> markAllAsRead(HttpServletResponse response)
+    {
+        response.setContentType("application/json;charset=utf-8");
         service.markAllAsRead();
         return RestBean.success();
     }

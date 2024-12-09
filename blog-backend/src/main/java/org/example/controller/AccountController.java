@@ -105,32 +105,7 @@ public class AccountController {
         return RestBean.success(accounts);
     }
 
-    /**
-     * 根据文本搜索账户
-     * @param response HttpServletResponse 对象，用于设置响应内容类型和字符编码
-     * @param text 搜索文本
-     * @param page 页码
-     * @param limit 每页数量
-     * @return RestBean<?> 对象，包含搜索账户的结果
-     */
-    @ResponseBody
-    @RequestMapping("/getAccountByText")
-    public RestBean<?> getAccountByText(HttpServletResponse response, String text, Integer page, Integer limit)
-    {
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        page--;
-        if (page >= 1) {
-            page = (page) * 10;
-            limit += page;
-        }
 
-        List<Account> account = service.getAccountByText(text, page, limit);
-
-        System.out.println("sss"+account);
-
-        return RestBean.success(account);
-    }
 
     /**
      * 分页查询账户
@@ -141,21 +116,12 @@ public class AccountController {
      */
     @ResponseBody
     @RequestMapping("/getLimit/Account")
-    public RestBean<?> getAccountLimit(HttpServletResponse response, Integer page, Integer limit)
+    public RestBean<?> getAccountLimit(HttpServletResponse response, String text,Integer page, Integer limit)
     {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        page--;
-        if (page >= 1) {
-            page = (page) * 10;
-            limit += page;
-        }
-
-        List<Account> account = service.limitAccount(page, limit);
-
-
-        System.out.println("43"+account);
+        List<Account> account = service.limitAccount(text,page, limit);
 
         return RestBean.success(account);
     }

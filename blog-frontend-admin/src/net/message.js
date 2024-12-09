@@ -4,8 +4,8 @@ function getLimitMessage(data,success,failure = defaultFailure){
     console.log(data)
     put("api/getLimit/Message",{
         text:data.text,
-        page:data.page,
-        limit:10
+        page:(data.page-1) * 10,
+        limit:10*data.page
     },(data)=>{
         success(data)
     })

@@ -1,6 +1,6 @@
 <script setup>
 import {ref,onMounted} from "vue";
-import {AccountLimit, DelAccount, getAccountCount, getAccountText, getUserInfo} from "../../net/account.js";
+import {AccountLimit, DelAccount, getAccountCount} from "../../net/account.js";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {Refresh} from "@element-plus/icons-vue";
 
@@ -11,6 +11,7 @@ const UserInfo = ref([{}]);
 const page = ref(1)
 
 const total = ref(0)
+
 
 function rest(){
   text.value = '';
@@ -28,7 +29,10 @@ onMounted(() => {
 
 //获取用户列表
 const userLogin = () => {
-  AccountLimit(1,(res) => {
+  AccountLimit({
+    text:text.value,
+    page:page.value
+  },(res) => {
     console.log(res)
     UserInfo.value = res;
   });
@@ -54,7 +58,9 @@ const delAccount = (uid) => {
 
 //查询
 const search = (text) => {
-  getAccountText({text:text,page:page.value}, (res) => {
+  AccountLimit({
+    text:text,
+    page:page.value}, (res) => {
       UserInfo.value = res;
   });
 }
@@ -62,13 +68,12 @@ const search = (text) => {
 //翻页
 function currentChange(val){
   page.value = val;
-  if(text.value === ''){
-  AccountLimit((val),(data)=>{
+  AccountLimit({
+    text:text.value,
+    page:page.value
+  },(data)=>{
     UserInfo.value = data;
   })
-  }else {
-    search(text.value)
-  }
 }
 
 
@@ -85,14 +90,14 @@ function currentChange(val){
         </div>
       </el-header>
         <el-table class="el-table-user" :data="UserInfo" style="width: 100%">
-          <el-table-column prop="uid" label="编号" width="180"/>
-          <el-table-column prop="username" label="姓名" width="180" />
-          <el-table-column prop="email" label="邮箱" width="180" />
+          <el-table-column prop="uid" label="编号" width="240"/>
+          <el-table-column prop="username" label="姓名" width="240" />
+          <el-table-column prop="email" label="邮箱" width="240" />
           <el-table-column prop="time" label="注册时间" width="240"/>
-          <el-table-column prop="role" label="用户角色" width="180" />
-          <el-table-column fixed="right" label="操作" min-width="120">
+          <el-table-column prop="role" label="用户角色" width="240" />
+          <el-table-column fixed="right" label="操作" min-width="120" align="center">
             <template #default="scope">
-              <el-button type="danger" size="small" @click="delAccount(scope.row.uid)">删除</el-button>
+              <el-button type="danger" @click="delAccount(scope.row.uid)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>

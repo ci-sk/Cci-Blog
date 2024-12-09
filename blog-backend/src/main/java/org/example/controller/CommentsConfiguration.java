@@ -45,8 +45,6 @@ public class CommentsConfiguration  {
 
         int uid = (int) request.getAttribute("id");
 
-        System.out.println(uid);
-
         Comments comments = new Comments();
         comments.setAid(aid)
                 .setUsername(username)
@@ -70,8 +68,6 @@ public class CommentsConfiguration  {
     public RestBean<?> getAid(HttpServletResponse response,int  aid)
     {
         response.setContentType("application/json;charset=utf-8");
-
-        System.out.println(aid);
 
         List<Comments> commentsList = server.getCommentsByAid(aid);
 
@@ -165,15 +161,7 @@ public class CommentsConfiguration  {
     {
         response.setContentType("application/json;charset=utf-8");
 
-        page--;
-        if (page >= 1) {
-            page = (page) * 10;
-            limit += page;
-        }
-
         List<Comments> commentsList = server.getCommentsLimit(text,page,limit);
-
-        System.out.println(commentsList);
 
         if(commentsList!= null){
             ArrayList<CommentsVO> vo = new ArrayList<>();
@@ -226,33 +214,48 @@ public class CommentsConfiguration  {
     }
 
 
+    /**
+     * 获取最近的评论消息
+     *
+     * @param response HttpServletResponse 对象，用于设置响应内容类型和字符编码
+     * @return RestBean<?> 对象，包含获取最近评论消息的结果
+     */
     @GetMapping("/comments/unread/count")
     @ResponseBody
-    public RestBean<Integer> getUnreadCount(HttpServletResponse response) {
+    public RestBean<Integer> getUnreadCount(HttpServletResponse response)
+    {
         response.setContentType("application/json;charset=utf-8");
-
 
         return RestBean.success(server.countUnreadMessages());
     }
 
 
+    /**
+     * 获取最近的评论消息
+     * 默认获取10条
+     * @param response HttpServletResponse 对象，用于设置响应内容类型和字符编码
+     * @return RestBean<?> 对象，包含获取最近评论消息的结果
+     */
     @GetMapping("/comments/recent")
     @ResponseBody
-    public RestBean<List<Comments>> getRecentMessages(HttpServletResponse response) {
+    public RestBean<List<Comments>> getRecentMessages(HttpServletResponse response)
+    {
         response.setContentType("application/json;charset=utf-8");
 
         List<Comments> recentMessages = server.getRecentMessages(10);
-        System.out.println(recentMessages);
 
         return RestBean.success(recentMessages); // 获取最近10条
-
-
-
     }
 
+    /**
+     * 消息全部已读
+     * @param response HttpServletResponse 对象，用于设置响应内容类型和字符编码
+     * @return RestBean<?> 对象，包含获取最近评论消息的结果
+     * */
     @PostMapping("/comments/read/all")
     @ResponseBody
-    public RestBean<Void> markAllAsRead(HttpServletResponse response) {
+    public RestBean<Void> markAllAsRead(HttpServletResponse response)
+    {
         response.setContentType("application/json;charset=utf-8");
 
         server.markAllAsRead();

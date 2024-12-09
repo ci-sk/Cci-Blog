@@ -20,8 +20,8 @@ function getCategory(success, failure = defaultFailure) {
 function getLimitCategory(data, success, failure = defaultFailure) {
     put('api/getLimit/Category', {
         text: data.text || '',
-        page: data.page + 1,  // 后端会自动减1
-        size: 10
+        page:(data.page-1) * 10,
+        limit:10*data.page
     }, (data) => {
         success(data)
     }, failure)

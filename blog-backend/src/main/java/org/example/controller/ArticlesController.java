@@ -157,12 +157,6 @@ public class ArticlesController {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        page--;
-        if (page >= 1) {
-            page = (page) * 10;
-            limit += page;
-        }
-
         List<Articles> articles = artServer.limitArticles(text,page, limit);
 
         if (articles!= null) {
@@ -182,7 +176,7 @@ public class ArticlesController {
                 }));
                 vo.add(vo1);
             }
-            System.out.println(vo);
+//            System.out.println(vo);
             return RestBean.success(vo);
         }else {
             return RestBean.db_failure();

@@ -112,7 +112,6 @@ const search = ()=>{
 
     <el-table
         :data="TagInfo"
-        border
         style="width: 100%;margin-top: 20px"
     >
       <el-table-column

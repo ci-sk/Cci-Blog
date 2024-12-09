@@ -27,9 +27,10 @@ function getTag(success,failure){
 
 //分页
 function TagLimit(data,success, failure = defaultFailure) {
+    console.log(data)
     put('api/getLimit/Tag',{
-        page:data,
-        limit:10
+        page:(data-1) * 10,
+        limit:10*data
     },(data)=>{
         success(data);
     }, () => {

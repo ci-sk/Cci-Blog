@@ -48,10 +48,6 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
      * @return 账户信息
      */
     public Account findAccountByNameOrEmail(String text) {
-//        return this.query()
-//               .eq("username",text).or()
-//               .eq("email",text)
-//               .one();
         return mapper.findAccountByNameOrEmail(text);
     }
 
@@ -88,19 +84,6 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     }
 
     /**
-     * 根据关键词分页查询账户
-     *
-     * @param text 关键词
-     * @param page 页码
-     * @param limit 每页限制
-     * @return 账户列表
-     */
-    @Override
-    public List<Account> getAccountByText(String text, Integer page, Integer limit) {
-        return mapper.getAccountByText(text, page, limit);
-    }
-
-    /**
      * 分页查询账户
      *
      * @param page 页码
@@ -108,8 +91,8 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
      * @return 账户列表
      */
     @Override
-    public List<Account> limitAccount(Integer page, Integer limit) {
-        return mapper.limitAccount(page, limit);
+    public List<Account> limitAccount(String text,Integer page, Integer limit) {
+        return mapper.limitAccount(text,page, limit);
     }
 
     /**

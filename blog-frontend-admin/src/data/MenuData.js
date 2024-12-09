@@ -48,12 +48,6 @@ export default[
                 label:"分类管理",
                 icon:Location,
             },
-            {
-                path:"/article/picture",
-                name:"picture",
-                label:"图片管理",
-                icon:Picture,
-            },
         ],
     },
     {
@@ -109,13 +103,6 @@ export default[
                 label:"用户管理",
                 icon:User,
                 url:"/user"
-            },
-            {
-                path: '/root/menu',
-                name: 'menu',
-                label: '菜单管理',
-                icon: Menu,
-                url: 'Power/Menu'
             },
         ]
     },

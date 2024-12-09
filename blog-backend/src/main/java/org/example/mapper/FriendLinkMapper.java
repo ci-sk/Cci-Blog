@@ -11,7 +11,7 @@ public interface FriendLinkMapper extends BaseMapper<FriendLink>{
 
     List<FriendLink> getAllFriendLinks();
 
-    List<FriendLink> getFriendLinksWithLimit(String text,int page, int size);
+    List<FriendLink> getFriendLinksWithLimit(String text,int page, int limit);
 
     List<FriendLink> searchFriendLinks(String keyword);
 

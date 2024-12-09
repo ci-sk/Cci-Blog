@@ -11,25 +11,11 @@ function getUserInfo(success, failure = defaultFailure) {
     }, failure)
 }
 
-function getAccountText(data, success, failure = defaultFailure) {
-    console.log(data)
-    put('/api/getAccountByText',{
-        text:data.text,
-        page:data.page,
-        limit:10
-    },(data)=>{
-        ElMessage.success("获取成功");
-        success(data);
-    }, () => {
-        // 调用失败回调函数，传递错误信息
-        failure("获取失败", 500, "api/getAccountText");
-    })
-}
-
 function AccountLimit(data,success, failure = defaultFailure) {
     put('api/getLimit/Account',{
-        page:data,
-        limit:10
+        text:data.text,
+        page:(data.page-1) * 10,
+        limit:10*data.page
     },(data)=>{
         success(data);
     }, () => {
@@ -59,4 +45,4 @@ function getAccountCount(success,failure = defaultFailure){
         })
 }
 
-export {getAccountCount,getUserInfo,DelAccount,getAccountText,AccountLimit}
+export {getAccountCount,getUserInfo,DelAccount,AccountLimit}

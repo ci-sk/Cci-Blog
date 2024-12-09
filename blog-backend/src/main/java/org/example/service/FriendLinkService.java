@@ -15,7 +15,7 @@ public interface FriendLinkService {
 
     boolean deleteFriendLink(Integer id);
 
-    List<FriendLink> getFriendLinksWithLimit(String text,int page, int size);
+    List<FriendLink> getFriendLinksWithLimit(String text,int page, int limit);
 
     int getFriendLinkCount();
 

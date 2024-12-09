@@ -1,8 +1,8 @@
 <script setup>
-import {Plus, Refresh, Search} from "@element-plus/icons-vue";
+import {Delete, Edit, Plus, Refresh, Search} from "@element-plus/icons-vue";
 import {ref,onMounted} from "vue"
 import {getTag} from "../../net/tag.js";
-import {ArticleLimit, DeleteArticle, getArticle, getArticleCount} from "../../net/article.js";
+import {ArticleLimit, DeleteArticle, getArticleCount} from "../../net/article.js";
 import {getTags} from "../../uilt/index.js";
 import router from "../../router/index.js";
 import {useCounterStore, useUpDataArt} from "../../store/index.js";
@@ -66,7 +66,6 @@ const currentChange = (val)=>{
   ArticleLimit({text:input.value,page:page.value},(res) => {
     if (Array.isArray(res)) {
       ArtInfo.value = getTags(res);
-      ArtInfo.value = changeTime(ArtInfo.value);
     } else {
       ArtInfo.value = [];
     }
@@ -81,7 +80,6 @@ const getArtInfo = async  () => {
   ArticleLimit({text:"",page:1}, (res) => {
     if (Array.isArray(res)) {
       ArtInfo.value = getTags(res);
-      ArtInfo.value = changeTime(ArtInfo.value);
       console.log('处理后的数据:', ArtInfo.value);
     } else {
       ArtInfo.value = [];
@@ -93,7 +91,6 @@ const search = (val) => {
   ArticleLimit({text:val,page:page.value}, (res) => {
     if (Array.isArray(res)) {
       ArtInfo.value = getTags(res);
-      // ArtInfo.value = changeTime(ArtInfo.value);
       total.value = ArtInfo.value.length;
     } else {
       ArtInfo.value = [];
@@ -152,7 +149,7 @@ onMounted(()=>{
     <el-card style="max-width: 100vw">
       <el-button type="success" :icon="Plus" @click="clickItem()">新增</el-button>
 
-      <el-table :data="ArtInfo" style="width: 100%;margin-top: 20px">
+      <el-table  :data="ArtInfo" style="width: 100%;margin-top: 20px">
       <el-table-column prop="aid" label="ID" width="80"/>
 <!--      <el-table-column prop="img_url"  label="文章封面" width="200" align="center">-->
 <!--        <template #default="scope">-->
@@ -172,21 +169,20 @@ onMounted(()=>{
       <el-table-column prop="time" label="发布时间" width="220"/>
       <el-table-column label="状态" width="100">
         <template #default="scope">
-
           <el-tag v-if="scope.row.del === 0">待处理</el-tag>
           <el-tag v-if="scope.row.del === 1" type="danger">已下架</el-tag>
           <el-tag v-if="scope.row.del === 2" type="success">已发布</el-tag>
           <el-tag v-if="scope.row.del === 3" type="info">草稿箱</el-tag>
-
-<!--          <el-tag  v-if="scope.row.del !== 0" :type="scope.row.del === 3 ? 'info' : (scope.row.del === 2 ? 'success' : (scope.row.del === 1 ? 'danger' : ''))" >-->
-<!--            {{ scope.row.del === 3? '草稿箱' : scope.row.del === 2? '已发布' : scope.row.del === 1? '已删除' : '' }}-->
-<!--          </el-tag>-->
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="180">
+      <el-table-column fixed="right" label="操作" width="240" align="center">
         <template #default="scope">
-          <el-button type="primary" @click="update(scope.row)">修改</el-button>
-          <el-button type="danger" @click="dArt(scope.row.aid)">删除</el-button>
+          <el-button type="primary" @click="update(scope.row)">
+            编辑
+          </el-button>
+          <el-button type="danger" @click="dArt(scope.row.aid)">
+            删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>

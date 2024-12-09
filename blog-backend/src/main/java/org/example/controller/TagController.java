@@ -31,7 +31,8 @@ public class TagController {
      */
     @ResponseBody
     @RequestMapping("/addTag")
-    public RestBean<?> add(HttpServletResponse response,String tagName){
+    public RestBean<?> add(HttpServletResponse response,String tagName)
+    {
         response.setContentType("application/json;charset=utf-8");
         if(tagName.equals("")){
             return RestBean.db_un_failure("标签名不能为空");
@@ -53,7 +54,8 @@ public class TagController {
      */
     @ResponseBody
     @RequestMapping("/getAll/tag")
-    public RestBean<?> get(HttpServletResponse response){
+    public RestBean<?> get(HttpServletResponse response)
+    {
         response.setContentType("application/json;charset=utf-8");
 
         List<Tag> list = server.getTagList();
@@ -71,10 +73,9 @@ public class TagController {
      */
     @ResponseBody
     @RequestMapping("/delTag")
-    public RestBean<?> delete(HttpServletResponse response,Integer tid){
+    public RestBean<?> delete(HttpServletResponse response,Integer tid)
+    {
         response.setContentType("application/json;charset=utf-8");
-
-        System.out.println(tid);
 
         if(server.deleteTagByTid(tid) ==1 ){
             return RestBean.success("删除成功");
@@ -91,14 +92,9 @@ public class TagController {
      */
     @ResponseBody
     @RequestMapping("/getLimit/Tag")
-    public RestBean<?> limit(HttpServletResponse response,Integer page,Integer limit){
+    public RestBean<?> limit(HttpServletResponse response,Integer page,Integer limit)
+    {
         response.setContentType("application/json;charset=utf-8");
-
-        page--;
-        if(page>=1){
-            page = (page) * 10;
-            limit += page;
-        }
 
         List<Tag> list = server.limitTag(page,limit);
         if(list!= null){
@@ -115,7 +111,8 @@ public class TagController {
      */
     @ResponseBody
     @RequestMapping("/getSearch/Tag")
-    public RestBean<?> find(HttpServletResponse response,String text){
+    public RestBean<?> find(HttpServletResponse response,String text)
+    {
         response.setContentType("application/json;charset=utf-8");
 
         List<Tag> list = server.getTagText(text);
@@ -132,7 +129,8 @@ public class TagController {
      */
     @ResponseBody
     @RequestMapping("/getCount/Tag")
-    public RestBean<?> count(HttpServletResponse response){
+    public RestBean<?> count(HttpServletResponse response)
+    {
         response.setContentType("application/json;charset=utf-8");
 
         Integer count = server.getTagCount();

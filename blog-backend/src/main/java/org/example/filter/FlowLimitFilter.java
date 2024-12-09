@@ -86,6 +86,7 @@ public class FlowLimitFilter extends HttpFilter {
      */
 
     private boolean limitPeriodCheck(String ip){
+        System.out.println(ip);
         if(Boolean.TRUE.equals(template.hasKey(Const.FLOW_LIMIT_COUNTER + ip))){
             Long increment = Optional.ofNullable(template.opsForValue().increment(Const.FLOW_LIMIT_COUNTER + ip)).orElse(0L);
             if(increment>30){

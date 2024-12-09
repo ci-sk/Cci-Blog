@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * 分类控制器，处理与分类相关的请求
+ */
 @Controller
 @RequestMapping("/api")
 public class CategoryController {
@@ -18,20 +21,33 @@ public class CategoryController {
     @Resource
     private CategoryService categoryService;
 
+    /**
+     * 获取所有分类
+     *
+     * @param response HTTP 响应对象
+     * @return 包含所有分类的响应对象
+     */
     @ResponseBody
     @GetMapping("/getAll/Category")
-    public RestBean<?> getAllCategories(HttpServletResponse response) {
+    public RestBean<?> getAllCategories(HttpServletResponse response)
+    {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        List<Category> categories = categoryService.getAllCategories();
-
-        return RestBean.success(categories);
+        return RestBean.success(categoryService.getAllCategories());
     }
 
+    /**
+     * 添加分类
+     *
+     * @param response HTTP 响应对象
+     * @param name     分类名称
+     * @return 添加分类的结果
+     */
     @ResponseBody
     @PutMapping("/addCategory")
-    public RestBean<?> addCategory(HttpServletResponse response, String name) {
+    public RestBean<?> addCategory(HttpServletResponse response, String name)
+    {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
@@ -43,9 +59,18 @@ public class CategoryController {
         }
     }
 
+    /**
+     * 更新分类
+     *
+     * @param response HTTP 响应对象
+     * @param id       分类 ID
+     * @param category 分类对象
+     * @return 更新分类的结果
+     */
     @ResponseBody
     @PutMapping("/updateCategory")
-    public RestBean<?> updateCategory(HttpServletResponse response,Integer id,Category category) {
+    public RestBean<?> updateCategory(HttpServletResponse response,Integer id,Category category)
+    {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
@@ -57,9 +82,17 @@ public class CategoryController {
         }
     }
 
+    /**
+     * 删除分类
+     *
+     * @param response HTTP 响应对象
+     * @param id       分类 ID
+     * @return 删除分类的结果
+     */
     @ResponseBody
     @DeleteMapping("/delCategory")
-    public RestBean<?> deleteCategory(HttpServletResponse response,Integer id) {
+    public RestBean<?> deleteCategory(HttpServletResponse response,Integer id)
+    {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
@@ -71,40 +104,59 @@ public class CategoryController {
         }
     }
 
+    /**
+     * 获取分页分类
+     *
+     * @param response HTTP 响应对象
+     * @param text     分类名称关键字
+     * @param page     页码
+     * @param limit     每页大小
+     * @return 分页分类的结果
+     */
     @ResponseBody
     @PutMapping("/getLimit/Category")
-    public RestBean<?> getLimitCategories(HttpServletResponse response, String text, Integer page, Integer size) {
+    public RestBean<?> getLimitCategories(HttpServletResponse response, String text, Integer page, Integer limit)
+    {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-
-        page--;
-        if (page >= 1) {
-            page = (page) * 10;
-            size += page;
-        }
-
-        List<Category> categories = categoryService.getCategoryLimit(text,page, size);
+        List<Category> categories = categoryService.getCategoryLimit(text,page,limit);
         return RestBean.success(categories);
     }
 
+    /**
+     * 获取分类数量
+     *
+     * @param response HTTP 响应对象
+     * @return 分类数量
+     */
     @ResponseBody
     @GetMapping("/getCount/Category")
-    public RestBean<?> getCountCategories(HttpServletResponse response) {
+    public RestBean<?> getCountCategories(HttpServletResponse response)
+    {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         Integer count = categoryService.getCountCategory();
         return RestBean.success(count);
     }
 
+    /**
+     * 获取分类统计信息
+     *
+     * @param response HTTP 响应对象
+     * @param id       分类 ID
+     * @return 分类统计信息
+     */
     @ResponseBody
     @GetMapping("/category/stats")
-    public RestBean<?> getCategoryStats(HttpServletResponse response,Integer id) {
+    public RestBean<?> getCategoryStats(HttpServletResponse response,Integer id)
+    {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
+
         List<CategoryStatsVO> categoryStats = categoryService.getCategoryStats();
 
 
         return RestBean.success(categoryStats);
     }
-} 
+}
