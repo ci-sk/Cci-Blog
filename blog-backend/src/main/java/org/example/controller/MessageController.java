@@ -7,6 +7,8 @@ import org.example.entity.dto.Message;
 import org.example.service.impl.MessageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -99,4 +101,25 @@ public class MessageController {
         return RestBean.success(service.getMessageCount());
     }
 
+
+     @GetMapping("/message/unread/count")
+    @ResponseBody
+    public RestBean<Integer> getUnreadCount() {
+        return RestBean.success(service.countUnreadMessages());
+    }
+
+    @GetMapping("/message/recent")
+    @ResponseBody
+    public RestBean<List<Message>> getRecentMessages() {
+        List<Message> recentMessages = service.getRecentMessages(10);
+
+        return RestBean.success(recentMessages); // 获取最近10条
+    }
+
+    @PostMapping("/message/read/all")
+    @ResponseBody
+    public RestBean<Void> markAllAsRead() {
+        service.markAllAsRead();
+        return RestBean.success();
+    }
 }

@@ -17,4 +17,10 @@ public interface CommentsService {
     List<Comments> getCommentsLimit(String content, Integer page, Integer limit);
 
     int getCommentsCount();
+
+    int countUnreadMessages();
+
+    List<Comments> getRecentMessages(int limit);
+
+    void markAllAsRead();
 }

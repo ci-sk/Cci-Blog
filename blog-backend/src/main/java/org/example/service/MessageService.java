@@ -13,4 +13,10 @@ public interface MessageService {
     int deleteMessage(int mid);
 
     int getMessageCount();
+
+    int countUnreadMessages();
+
+    List<Message> getRecentMessages(int limit);
+
+    void markAllAsRead();
 }

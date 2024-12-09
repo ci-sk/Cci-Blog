@@ -15,7 +15,7 @@
         <result column="username" property="username"/>
         <result column="reply_cid" property="reply_cid" javaType="INTEGER"/>
         <result column="content" property="content" jdbcType="VARCHAR"/>
-        <result column="c_time" property="c_time" jdbcType="TIMESTAMP"/>
+        <result column="time" property="time"/>
         <association property="reply" javaType="org.example.entity.dto.Comments">
             <id column="cid" property="cid"/>
             <result column="reply_username" property="username"/>
@@ -27,7 +27,6 @@
     </resultMap>
 
 
-
     <select id="getCommentsByAid" resultMap="comMap">
         select c.*
         from db_comments c
@@ -37,8 +36,8 @@
 
 
     <insert id="insertComments" parameterType="org.example.entity.dto.Comments" useGeneratedKeys="true" keyProperty="cid">
-        insert into db_comments (cid,aid,username,content,c_time)
-        values (#{cid},#{aid},#{username},#{content},#{c_time})
+        insert into db_comments (cid,aid,username,content,time)
+        values (#{cid},#{aid},#{username},#{content},#{time})
     </insert>
 
     <select id="getCommentsAll" resultMap="comMap">

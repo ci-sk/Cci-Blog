@@ -11,17 +11,6 @@ const formatTime = (value) => {
     return `${year}年${month}月${day}日 ${hours}:${minutes}:${seconds}`;
 }
 
-
-const changeTime = (value)=>{
-    value.forEach((item) => {
-        item.time = formatTime(item.time);
-        if(item.children){
-            changeTime(item.children);
-        }
-    })
-    return value;
-}
-
 const getTags = (value)=>{
     value.forEach((item) => {
         item.tags = item.tags.split(',');
@@ -29,4 +18,4 @@ const getTags = (value)=>{
     return value
 }
 
-export {formatTime,changeTime,getTags}
+export {formatTime,getTags}

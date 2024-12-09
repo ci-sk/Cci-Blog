@@ -46,5 +46,19 @@ public class CommentsServiceImpl extends ServiceImpl<CommentsMapper, Comments> i
         return mapper.getCommentsCount();
     }
 
+    @Override
+    public int countUnreadMessages() {
+        return mapper.countByIsRead(0);
+    }
+
+    @Override
+    public List<Comments> getRecentMessages(int limit) {
+        return mapper.findRecentComments(limit);
+    }
+
+    @Override
+    public void markAllAsRead() {
+        mapper.updateAllToRead();
+    }
 
 }

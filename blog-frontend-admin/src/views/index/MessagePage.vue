@@ -1,7 +1,6 @@
 <script setup>
 import {Refresh, Search} from "@element-plus/icons-vue";
 import {ref,onMounted} from "vue";
-import {changeTime} from "../../uilt/index.js";
 import {ArticleLimit} from "../../net/article.js";
 import {getCountMessage, getLimitMessage} from "../../net/message.js";
 
@@ -19,7 +18,6 @@ const search = ()=>{
     page:page.value
   }, (res) => {
     MessageInfo.value = res;
-    MessageInfo.value = changeTime(MessageInfo.value);
     total.value = MessageInfo.value.length;
   });
 }
@@ -32,7 +30,6 @@ const SelectComment =()=> {
   },(res) => {
   console.log(res)
     MessageInfo.value  = res
-    MessageInfo.value = changeTime(MessageInfo.value)
   })
 }
 
@@ -40,7 +37,6 @@ const currentChange = (val)=>{
   page.value = val;
   ArticleLimit({text:input.value,page:page.value},(res) => {
     MessageInfo.value = res;
-    MessageInfo.value = changeTime(MessageInfo.value);
   })
 }
 

@@ -4,10 +4,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.entity.RestBean;
 import org.example.entity.dto.Comments;
+import org.example.entity.dto.Message;
 import org.example.entity.vo.response.CommentsVO;
 import org.example.service.impl.CommentsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -48,7 +51,7 @@ public class CommentsConfiguration  {
         comments.setAid(aid)
                 .setUsername(username)
                 .setContent(content)
-                .setC_time(new Date());
+                .setTime(new Date());
 
         if(server.insertComments(comments) ==1){
             return RestBean.success(comments);
@@ -83,7 +86,7 @@ public class CommentsConfiguration  {
                         .setAid(comments.getAid())
                         .setUsername(comments.getUsername())
                         .setContent(comments.getContent())
-                        .setTime(comments.getC_time())));
+                        .setTime(comments.getTime())));
                 vo.add(vo1);
             }
             return RestBean.success(vo);
@@ -116,7 +119,7 @@ public class CommentsConfiguration  {
                 .setUsername(comments.getUsername())
                 .setReply_username(comments.getReply().getUsername())
                 .setContent(comments.getContent())
-                .setTime(comments.getC_time())));
+                .setTime(comments.getTime())));
                 vo.add(vo1);
             }
 
@@ -169,6 +172,9 @@ public class CommentsConfiguration  {
         }
 
         List<Comments> commentsList = server.getCommentsLimit(text,page,limit);
+
+        System.out.println(commentsList);
+
         if(commentsList!= null){
             ArrayList<CommentsVO> vo = new ArrayList<>();
             for (Comments comments : commentsList) {
@@ -179,7 +185,7 @@ public class CommentsConfiguration  {
                             .setTitle(comments.getArticle().getTitle())
                             .setReply_cid(comments.getReply_cid())
                             .setContent(comments.getContent())
-                            .setTime(comments.getC_time());
+                            .setTime(comments.getTime());
                     if(comments.getReply() !=null)
                         v.setReply_username(comments.getReply().getUsername());
 
@@ -217,6 +223,40 @@ public class CommentsConfiguration  {
         else{
             return RestBean.db_un_failure("获取失败");
         }
+    }
+
+
+    @GetMapping("/comments/unread/count")
+    @ResponseBody
+    public RestBean<Integer> getUnreadCount(HttpServletResponse response) {
+        response.setContentType("application/json;charset=utf-8");
+
+
+        return RestBean.success(server.countUnreadMessages());
+    }
+
+
+    @GetMapping("/comments/recent")
+    @ResponseBody
+    public RestBean<List<Comments>> getRecentMessages(HttpServletResponse response) {
+        response.setContentType("application/json;charset=utf-8");
+
+        List<Comments> recentMessages = server.getRecentMessages(10);
+        System.out.println(recentMessages);
+
+        return RestBean.success(recentMessages); // 获取最近10条
+
+
+
+    }
+
+    @PostMapping("/comments/read/all")
+    @ResponseBody
+    public RestBean<Void> markAllAsRead(HttpServletResponse response) {
+        response.setContentType("application/json;charset=utf-8");
+
+        server.markAllAsRead();
+        return RestBean.success();
     }
 }
 

@@ -6,6 +6,7 @@ import router from "../router/index.js";
 import {useDark, useToggle} from "@vueuse/core";
 import {onMounted} from "vue";
 import {useRoute} from "vue-router";
+import NotificationBell from '../components/home/NotificationBell.vue'
 
 const isDark = useDark()
 
@@ -50,6 +51,7 @@ onMounted(()=>{
     </div>
 
     <div class="r-content">
+      <NotificationBell class="notification" />
       <el-switch v-model="isDark" @change="toggleDark"
       active-color="var(--el-fill-color-dark)"
       inactive-color="var(--el-color-primary)" />
@@ -113,7 +115,7 @@ onMounted(()=>{
     }
   }
   .r-content{
-  width: 100px;
+  width: 180px;
   display: flex;
   justify-content: space-between;
   align-items: center;

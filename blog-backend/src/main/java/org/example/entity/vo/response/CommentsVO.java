@@ -1,5 +1,6 @@
 package org.example.entity.vo.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -17,6 +18,7 @@ public class CommentsVO{
     private String username;
     private String reply_username;
     private String content;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date time;
     private List<CommentsVO> children; // 新增属性，用于存储子评论列表
 

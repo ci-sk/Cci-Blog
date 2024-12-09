@@ -2,7 +2,7 @@
 import { Refresh, Search} from "@element-plus/icons-vue";
 import {getCountComment, getLimitComment} from "../../net/comment.js";
 import {ref,onMounted} from "vue";
-import {changeTime, getTags} from "../../uilt/index.js";
+import {getTags} from "../../uilt/index.js";
 import {ArticleLimit} from "../../net/article.js";
 
 const CommentInfo = ref([])
@@ -19,7 +19,7 @@ const search = ()=>{
     page:page.value
   }, (res) => {
     CommentInfo.value = res;
-    CommentInfo.value = changeTime(CommentInfo.value);
+    // CommentInfo.value = changeTime(CommentInfo.value);
     total.value = CommentInfo.value.length;
   });
 }
@@ -31,7 +31,7 @@ const SelectComment =()=> {
     page:page.value
   },(res) => {
     CommentInfo.value  = res
-    CommentInfo.value = changeTime(CommentInfo.value)
+    // CommentInfo.value = changeTime(CommentInfo.value)
     CommentInfo.value= CommentInfo.value.filter((item)=>{
           return item.reply_cid === null
         })
@@ -44,7 +44,7 @@ const currentChange = (val)=>{
   ArticleLimit({text:input.value,page:page.value},(res) => {
     CommentInfo.value = res;
     CommentInfo.value =getTags(CommentInfo.value)
-    CommentInfo.value = changeTime(CommentInfo.value);
+    // CommentInfo.value = changeTime(CommentInfo.value);
   })
 }
 

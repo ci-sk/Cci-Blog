@@ -24,4 +24,6 @@ public class Message {
     
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date time;
+
+    private Integer isRead = 0;  // 0: 未读, 1: 已读
 }

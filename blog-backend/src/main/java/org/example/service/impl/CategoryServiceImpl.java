@@ -49,7 +49,6 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
     @Override
     public List<CategoryStatsVO> getCategoryStats() {
-        System.out.println("CategoryServiceImpl.getCategoryStats"+mapper.getCategoryStats());
         return mapper.getCategoryStats();
     }
 

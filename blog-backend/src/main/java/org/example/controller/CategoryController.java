@@ -4,10 +4,8 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.entity.dto.Category;
 import org.example.entity.RestBean;
-import org.example.entity.dto.Tag;
 import org.example.entity.vo.response.CategoryStatsVO;
 import org.example.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -79,7 +77,6 @@ public class CategoryController {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        System.out.println(text+" "+page + " " + size);
 
         page--;
         if (page >= 1) {

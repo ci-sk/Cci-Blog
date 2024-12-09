@@ -2,7 +2,6 @@
 import { ref,onMounted } from 'vue';
 import {Plus, Refresh, Search} from "@element-plus/icons-vue";
 import {DelTag,getTagCount, insertTag, TagLimit, TagSearch} from "../../net/tag.js";
-import {changeTime, formatTime} from "../../uilt/index.js";
 import {ElMessage, ElMessageBox} from "element-plus";
 
 const input = ref('');
@@ -26,7 +25,6 @@ const addTags = ()=>{
 const TagUser = () => {
   TagLimit(1,(res) => {
     TagInfo.value = res;
-    TagInfo.value = changeTime(TagInfo.value);
   });
 }
 
@@ -50,14 +48,12 @@ const dTag = (uid)=>{
 const currentChange = (val) => {
   TagLimit(val,(data)=>{
     TagInfo.value = data;
-    TagInfo.value = changeTime(TagInfo.value);
   })
 }
 
 const search = ()=>{
   TagSearch(input,(data)=>{
     TagInfo.value = data;
-    TagInfo.value = changeTime(TagInfo.value);
   })
 }
 

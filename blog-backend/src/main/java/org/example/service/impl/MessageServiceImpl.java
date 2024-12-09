@@ -34,4 +34,19 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
     public int getMessageCount() {
         return mapper.getMessageCount();
     }
+
+    @Override
+    public int countUnreadMessages() {
+        return mapper.countByIsRead(0);
+    }
+
+    @Override
+    public List<Message> getRecentMessages(int limit) {
+        return mapper.findRecentMessages(limit);
+    }
+
+    @Override
+    public void markAllAsRead() {
+        mapper.updateAllToRead();
+    }
 }

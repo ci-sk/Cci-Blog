@@ -3,7 +3,7 @@ import {Plus, Refresh, Search} from "@element-plus/icons-vue";
 import {ref,onMounted} from "vue"
 import {getTag} from "../../net/tag.js";
 import {ArticleLimit, DeleteArticle, getArticle, getArticleCount} from "../../net/article.js";
-import {changeTime, getTags} from "../../uilt/index.js";
+import {getTags} from "../../uilt/index.js";
 import router from "../../router/index.js";
 import {useCounterStore, useUpDataArt} from "../../store/index.js";
 import {ElMessage, ElMessageBox} from "element-plus";
@@ -93,7 +93,7 @@ const search = (val) => {
   ArticleLimit({text:val,page:page.value}, (res) => {
     if (Array.isArray(res)) {
       ArtInfo.value = getTags(res);
-      ArtInfo.value = changeTime(ArtInfo.value);
+      // ArtInfo.value = changeTime(ArtInfo.value);
       total.value = ArtInfo.value.length;
     } else {
       ArtInfo.value = [];

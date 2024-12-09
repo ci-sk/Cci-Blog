@@ -2,7 +2,6 @@
 import {ref,onMounted} from "vue";
 import {AccountLimit, DelAccount, getAccountCount, getAccountText, getUserInfo} from "../../net/account.js";
 import {ElMessage, ElMessageBox} from "element-plus";
-import {changeTime, formatTime} from "../../uilt/index.js";
 import {Refresh} from "@element-plus/icons-vue";
 
 const text = ref('')
@@ -32,7 +31,6 @@ const userLogin = () => {
   AccountLimit(1,(res) => {
     console.log(res)
     UserInfo.value = res;
-    UserInfo.value = changeTime(UserInfo.value);
   });
 }
 
@@ -58,7 +56,6 @@ const delAccount = (uid) => {
 const search = (text) => {
   getAccountText({text:text,page:page.value}, (res) => {
       UserInfo.value = res;
-      UserInfo.value = changeTime(UserInfo.value);
   });
 }
 
@@ -68,7 +65,6 @@ function currentChange(val){
   if(text.value === ''){
   AccountLimit((val),(data)=>{
     UserInfo.value = data;
-    UserInfo.value = changeTime(UserInfo.value);
   })
   }else {
     search(text.value)
