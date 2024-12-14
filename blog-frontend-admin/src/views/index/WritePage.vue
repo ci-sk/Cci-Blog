@@ -128,23 +128,6 @@ const submitTag =  ()=>{
   }
 }
 
-// const InsertArt = ()=> {
-//   const formData = new FormData();
-//   formData.append('file', uploadRef.value.uploadFiles[0].raw);
-//   uploadFile(formData.get('file'), (res) => {
-//     form.img_url = res;
-//     insertArticle(form, (res) => {
-//       if (res.code === 200) {
-//         ElMessage.success('添加成功');
-//         router.push('/article');
-//
-//       } else {
-//         ElMessage.error('添加失败');
-//       }
-//     });
-//   });
-// };
-
 const InsertArt = ()=>{
   insertArticle(form,(res)=>{
     if(res.message==="添加成功"){

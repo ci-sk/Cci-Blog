@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+通过QQ号查询头像
+http://q.qlogo.cn/headimg_dl?dst_uin=QQ号码&spec=640&img_type=jpg
+QQ昵称
+http://users.qzone.qq.com/fcg-bin/cgi_get_portrait.fcg?uins=QQ号码
+-->
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">

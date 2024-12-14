@@ -3,7 +3,8 @@ import {createRouter, createWebHashHistory} from 'vue-router'
 import {unauthorized} from "../net/index.js";
 import {ElMessage} from "element-plus";
 import NProgress from 'nprogress'   // 导入 nprogress
-import 'nprogress/nprogress.css'   // 导入样式，否则看不到效果
+import 'nprogress/nprogress.css'
+import LoadingPage from "../components/LoadingPage.vue";   // 导入样式，否则看不到效果
 
 // NProgress.configure({ showSpinner: true })   // 显示右上角螺旋加载提示
 
@@ -22,7 +23,8 @@ const router = createRouter({
                     name:'welcome-login',
                     component:()=>import('../views/welcome/WelcomePage.vue')
                 }
-            ]
+            ],
+            
         },
          {
             path:'/index',
@@ -32,7 +34,8 @@ const router = createRouter({
                      path:"/index",
                      name:"首页",
                      component:() => import("../views/index/IndexPage.vue"),
-                 },{
+                 },
+                 {
                     path: "/article",
                      name:"文章管理",
                      children:[
@@ -108,8 +111,13 @@ const router = createRouter({
                      ]
                  },
 
-             ]
-         }
+             ],
+         },
+         {
+             path: '/loading',
+             name: 'LoadingPage',
+             component:() => import("../components/LoadingPage.vue"), // 加载页面组件
+         },
      ]
 })
 
