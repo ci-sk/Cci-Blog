@@ -5,7 +5,9 @@ public class Const {
 
     public static final int ORDER_CORS = -102;
 
-    public static final int ORDER_LIMIT = -101;
+    public static final int ORDER_AUTH = -101;
+
+    public static final int ORDER_LIMIT = -100;
 
     public static final String FLOW_LIMIT_COUNTER = "flow:counter:";
 

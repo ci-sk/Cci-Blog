@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.entity.RestBean;
 import org.example.entity.dto.Articles;
@@ -155,10 +156,11 @@ public class ArticlesController {
      */
     @ResponseBody
     @RequestMapping("/getLimit/Article")
-    public RestBean<?> getArticleLimit(HttpServletResponse response,String text,Integer page, Integer limit)
+    public RestBean<?> getArticleLimit(HttpServletRequest request, HttpServletResponse response, String text, Integer page, Integer limit)
     {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
+        System.out.println(request.getLocalAddr());
 
         List<Articles> articles = artServer.limitArticles(text,page, limit);
 

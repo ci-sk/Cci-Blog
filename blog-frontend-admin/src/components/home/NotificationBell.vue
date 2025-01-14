@@ -74,11 +74,6 @@ const showNotifications = () => {
 
 onMounted(() => {
   getUnreadCount()
-  const timer = setInterval(getUnreadCount, 60000) // 每分钟检查一次
-
-  onUnmounted(() => {
-    clearInterval(timer)
-  })
 })
 </script>
 

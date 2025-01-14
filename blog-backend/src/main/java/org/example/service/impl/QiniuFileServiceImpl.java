@@ -48,7 +48,7 @@ public class QiniuFileServiceImpl implements FileService {
         String upToken = auth.uploadToken(bucket);
 
         // 设置上传配置，Region要与存储空间所属的存储区域保持一致
-        Configuration cfg = new Configuration(Region.huanan());
+        Configuration cfg = new Configuration(Region.xinjiapo());
 
         // 创建上传管理器
         UploadManager uploadManager = new UploadManager(cfg);

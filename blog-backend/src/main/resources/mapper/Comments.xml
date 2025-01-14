@@ -5,7 +5,7 @@
 <mapper namespace="org.example.mapper.CommentsMapper">
     <cache
             eviction="FIFO"
-            flushInterval="60000"
+            flushInterval="36000000"
             size="512"
             readOnly="true"/>
 

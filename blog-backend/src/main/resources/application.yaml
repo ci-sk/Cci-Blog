@@ -39,11 +39,16 @@ qiniu:
   # 配置secretKey
   secretKey: yh4osunlWPPJf7e3pImZaxg6FtMM4ewnWbhMSBSc
   # 配置空间名称
-  bucket: cciblog
+  bucket: cci
   # 上传目录
-  directory: img/
+  directory: bolg/
   # 配置域名
-  domain: sl1dlcz2s.hn-bkt.clouddn.com
+  domain: sola4t4y0.sabkt.gdipper.com
 mybatis-plus:
   configuration:
     cache-enabled: true
+#logging:
+#  level:
+#    root: INFO
+#    web: DEBUG
+

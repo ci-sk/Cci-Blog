@@ -7,7 +7,7 @@
 <mapper namespace="org.example.mapper.ArticlesMapper">
     <cache
             eviction="LRU"
-            flushInterval="60000"
+            flushInterval="36000000"
             size="512"
             readOnly="true"/>
 

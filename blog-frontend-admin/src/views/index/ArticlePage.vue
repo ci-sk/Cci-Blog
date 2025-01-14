@@ -1,5 +1,5 @@
 <script setup>
-import {Delete, Edit, Plus, Refresh, Search} from "@element-plus/icons-vue";
+import {Plus, Refresh, Search} from "@element-plus/icons-vue";
 import {ref,onMounted} from "vue"
 import {getTag} from "../../net/tag.js";
 import {ArticleLimit, DeleteArticle, getArticleCount} from "../../net/article.js";
