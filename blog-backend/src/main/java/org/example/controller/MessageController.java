@@ -7,10 +7,7 @@ import org.example.entity.dto.Message;
 import org.example.service.impl.MessageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -33,7 +30,9 @@ public class MessageController {
      */
     @ResponseBody
     @RequestMapping("/addMessage")
-    public RestBean<?> add(HttpServletResponse response,String username, String content)
+    public RestBean<?> add(HttpServletResponse response,
+                           @RequestParam String username,
+                           @RequestParam String content)
     {
         response.setContentType("application/json;charset=utf-8");
 
@@ -56,14 +55,18 @@ public class MessageController {
      */
     @ResponseBody
     @RequestMapping("/getLimit/Message")
-    public RestBean<?> find(HttpServletResponse response,String content,Integer page,Integer limit)
+    public RestBean<?> find(HttpServletResponse response,
+                            @RequestParam(required = false) String text,
+                            @RequestParam(defaultValue = "1") Integer page,
+                            @RequestParam(defaultValue = "10") Integer limit)
     {
         response.setContentType("application/json;charset=utf-8");
 
-        List<Message> message = service.getMessage(content, page, limit);
+        List<Message> message = service.getMessage(text, page, limit);
 
-        return RestBean.db_success(message,"请求成功");
+        return RestBean.db_success(message, "请求成功");
     }
+
 
     /**
      * 删除留言

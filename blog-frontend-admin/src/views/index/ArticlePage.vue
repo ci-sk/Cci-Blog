@@ -151,11 +151,11 @@ onMounted(()=>{
 
       <el-table  :data="ArtInfo" style="width: 100%;margin-top: 20px">
       <el-table-column prop="aid" label="ID" width="80"/>
-<!--      <el-table-column prop="img_url"  label="文章封面" width="200" align="center">-->
-<!--        <template #default="scope">-->
-<!--          <img class="tup" :src="scope.row.img_url" alt="">-->
-<!--        </template>-->
-<!--      </el-table-column>-->
+      <el-table-column prop="img_url"  label="文章封面" width="200" align="center">
+        <template #default="scope">
+          <img class="tup" :src="scope.row.img_url" alt="">
+        </template>
+      </el-table-column>
       <el-table-column prop="title" label="标题" width="180"/>
       <el-table-column prop="desc" label="简介"/>
       <el-table-column label="标签名" align="center" width="240">

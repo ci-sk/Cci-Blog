@@ -80,7 +80,7 @@ function accessHeader() {
 
 // 发送 GET 请求的内部函数
 function internalGet(url, header, success, failure,error = defaultError) {
-    axios.get(url, { headers: header }).then(({ data }) => {
+    axios.get(url,{ headers: header}).then(({ data }) => {
         if (data.code === 200) {
             success(data.data);
         } else {
@@ -136,7 +136,7 @@ function internalDel(url, data,header, success, failure, error = defaultError) {
 
 // 发送 GET 请求的封装函数
 function get(url, success, failure = defaultFailure) {
-    internalGet(url, accessHeader(), success, failure);
+    internalGet(url, accessHeader(),success, failure);
 }
 
 // 发送 POST 请求的封装函数

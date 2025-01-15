@@ -8,11 +8,14 @@ function getComment(success,failure = defaultFailure){
 }
 
 function getLimitComment(data,success,failure = defaultFailure){
-    put("api/getLimit/Comments",{
-        text:data.text,
-        page:(data.page-1) * 10,
-        limit:10*data.page
-    },(data)=>{
+    let params = {
+        page: (data.page - 1) * 10,
+        limit: 10 * data.page
+    };
+    if (data.text !== '') {
+        params.text = data.text;
+    }
+    put("api/getLimit/Comments",params,(data)=>{
         success(data)
     })
 }

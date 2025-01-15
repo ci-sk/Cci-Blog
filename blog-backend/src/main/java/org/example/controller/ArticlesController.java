@@ -11,11 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +37,7 @@ public class ArticlesController {
      */
     @ResponseBody
     @PutMapping("/addArticle")
-    public RestBean<?> addArt(ArticleRequest reqArt)
+    public RestBean<?> addArt(@ModelAttribute ArticleRequest reqArt)
     {
         System.out.println("##"+reqArt);
         try {
@@ -128,7 +124,7 @@ public class ArticlesController {
      */
     @ResponseBody
     @PutMapping("/delArticle")
-    public RestBean<?> delArt(HttpServletResponse response, Integer aid)
+    public RestBean<?> delArt(HttpServletResponse response, @RequestParam Integer aid)
     {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -156,7 +152,10 @@ public class ArticlesController {
      */
     @ResponseBody
     @RequestMapping("/getLimit/Article")
-    public RestBean<?> getArticleLimit(HttpServletRequest request, HttpServletResponse response, String text, Integer page, Integer limit)
+    public RestBean<?> getArticleLimit(HttpServletRequest request, HttpServletResponse response,
+                                       @RequestParam(required = false) String text,
+                                       @RequestParam(defaultValue = "1") Integer page,
+                                       @RequestParam(defaultValue = "10") Integer limit)
     {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -209,18 +208,21 @@ public class ArticlesController {
         }
     }
 
+
+/**
+ * 更新文字阅读量
+ * @param aid 文章ID
+ * */
     @ResponseBody
     @GetMapping("/get/article/{aid}")
-    public ResponseEntity<?> getArticle(HttpServletResponse response,@PathVariable Integer aid)
+    public RestBean<?> getArticle(HttpServletResponse response,@PathVariable Integer aid)
     {
         response.setContentType("application/json");
-        System.out.println("@@"+aid);
-
+//        System.out.println("@@"+aid);
         // 更新阅读量
         artServer.incrementViewCount(aid);
-
         // 获取文章详情
         Articles article = artServer.getArticleById(aid);
-        return ResponseEntity.ok(article);
+        return RestBean.success(article);
     }
 }

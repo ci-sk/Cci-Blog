@@ -5,14 +5,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.example.entity.RestBean;
 import org.example.entity.dto.Comments;
 import org.example.entity.dto.Message;
+import org.example.entity.vo.request.CommentsRequest;
 import org.example.entity.vo.response.CommentsVO;
 import org.example.service.impl.CommentsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,22 +31,22 @@ public class CommentsConfiguration  {
      * 添加评论
      * @param response HttpServletResponse 对象，用于设置响应内容类型和字符编码
      * @param request HttpServletRequest 对象，用于获取请求中的用户 ID
-     * @param aid 文章 ID
-     * @param content 评论内容
+     * @param  CommentsRequest 评论请求对象，包含评论的相关信息
      * @return RestBean<?> 对象，包含添加评论的结果
      */
     @ResponseBody
     @RequestMapping("/addComments")
-    public RestBean<?> add(HttpServletResponse response, HttpServletRequest request, Integer aid, String content,String username)
+    public RestBean<?> add(HttpServletResponse response, HttpServletRequest request,
+                           @ModelAttribute CommentsRequest CommentsRequest)
     {
         response.setContentType("application/json;charset=utf-8");
 
         int uid = (int) request.getAttribute("id");
 
         Comments comments = new Comments();
-        comments.setAid(aid)
-                .setUsername(username)
-                .setContent(content)
+        comments.setAid(CommentsRequest.getAid())
+                .setUsername(CommentsRequest.getUsername())
+                .setContent(CommentsRequest.getContent())
                 .setTime(new Date());
 
         if(server.insertComments(comments) ==1){
@@ -64,19 +62,14 @@ public class CommentsConfiguration  {
      * @return RestBean<?> 对象，包含获取评论的结果
      */
     @ResponseBody
-    @RequestMapping("/getAid")
-    public RestBean<?> getAid(HttpServletResponse response,int  aid)
+    @RequestMapping("/getCommentsByAid/{aid}")
+    public RestBean<?> getAid(HttpServletResponse response,@PathVariable Integer  aid)
     {
         response.setContentType("application/json;charset=utf-8");
-
         List<Comments> commentsList = server.getCommentsByAid(aid);
-
         if(commentsList!= null){
-
             ArrayList<CommentsVO> vo = new ArrayList<>();
-
             for (Comments comments : commentsList) {
-
                 CommentsVO vo1 = (comments.asViewObject(CommentsVO.class, v ->
                         v.setCid(comments.getCid())
                         .setAid(comments.getAid())
@@ -157,7 +150,10 @@ public class CommentsConfiguration  {
      * */
     @ResponseBody
     @RequestMapping("/getLimit/Comments")
-    public RestBean<?> getLimit(HttpServletResponse response,String text,Integer page, Integer limit)
+    public RestBean<?> getLimit(HttpServletResponse response,
+                                @RequestParam(required = false) String text,
+                                @RequestParam(defaultValue = "1") Integer page,
+                                @RequestParam(defaultValue = "10") Integer limit)
     {
         response.setContentType("application/json;charset=utf-8");
 

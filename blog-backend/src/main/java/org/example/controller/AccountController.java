@@ -37,7 +37,9 @@ public class AccountController {
      */
     @ResponseBody
     @PutMapping("/addAccount")
-    public RestBean<?> insertAccount(HttpServletResponse response, String username, String email)
+    public RestBean<?> insertAccount(HttpServletResponse response,
+                                     @RequestParam String username,
+                                     @RequestParam String email)
     {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -64,7 +66,8 @@ public class AccountController {
      */
     @ResponseBody
     @RequestMapping("/delAccount")
-    public RestBean<?> deleteAccount(HttpServletResponse response, Integer uid)
+    public RestBean<?> deleteAccount(HttpServletResponse response,
+                                     @RequestParam("uid") Integer uid)
     {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -116,7 +119,10 @@ public class AccountController {
      */
     @ResponseBody
     @RequestMapping("/getLimit/Account")
-    public RestBean<?> getAccountLimit(HttpServletResponse response, String text,Integer page, Integer limit)
+    public RestBean<?> getAccountLimit(HttpServletResponse response,
+                                       @RequestParam(required = false) String text,
+                                       @RequestParam(defaultValue = "1") Integer page,
+                                       @RequestParam(defaultValue = "10") Integer limit)
     {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

@@ -47,7 +47,10 @@ public class FriendLinkController {
      */
     @ResponseBody
     @PutMapping("/getLimit/FriendLink")
-    public RestBean<?> getLimitFriendLinks(HttpServletResponse response, String text, Integer page, Integer limit)
+    public RestBean<?> getLimitFriendLinks(HttpServletResponse response,
+                                           @RequestParam(required = false) String text,
+                                           @RequestParam(defaultValue = "1") Integer page,
+                                           @RequestParam(defaultValue = "10") Integer limit)
     {
         response.setContentType("application/json;charset=utf-8");
         try {

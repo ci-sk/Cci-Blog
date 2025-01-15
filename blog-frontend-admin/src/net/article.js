@@ -35,11 +35,16 @@ function DeleteArticle(data,success,failure){
 }
 
 function ArticleLimit(data,success,failure){
-    put("api/getLimit/Article",{
-        text:data.text,
-        page:(data.page-1) * 10,
-        limit:10*data.page
-    },(data)=>{
+    let params = {
+        page: (data.page - 1) * 10,
+        limit: 10 * data.page
+    };
+    if (data.text !== '') {
+        params.text = data.text;
+    }
+
+
+    put("api/getLimit/Article",params,(data)=>{
         success(data);
     },()=>{
         failure("获取失败", 500, "api/getArt");
@@ -54,6 +59,12 @@ function getArticleCount(success,failure){
     })
 }
 
+function getArticleByAid(aid,success,failure){
+    get(`api/get/article/${aid}`,(data)=>{
+        success(data);
+    },()=>{
+        failure("获取失败", 500, "api/getArt");
+    })
+}
 
-
-export { insertArticle,getArticle,DeleteArticle,ArticleLimit,getArticleCount }
+export { insertArticle,getArticle,DeleteArticle,ArticleLimit,getArticleCount,getArticleByAid }

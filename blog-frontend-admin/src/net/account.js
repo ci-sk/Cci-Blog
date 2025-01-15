@@ -12,11 +12,15 @@ function getUserInfo(success, failure = defaultFailure) {
 }
 
 function AccountLimit(data,success, failure = defaultFailure) {
-    put('api/getLimit/Account',{
-        text:data.text,
-        page:(data.page-1) * 10,
-        limit:10*data.page
-    },(data)=>{
+    let params = {
+        page: (data.page - 1) * 10,
+        limit: 10 * data.page
+    };
+    if (data.text !== '') {
+        params.text = data.text;
+    }
+
+    put('api/getLimit/Account',params,(data)=>{
         success(data);
     }, () => {
         // 调用失败回调函数，传递错误信息

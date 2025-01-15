@@ -7,6 +7,7 @@ import org.example.service.impl.TagServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
@@ -31,7 +32,8 @@ public class TagController {
      */
     @ResponseBody
     @RequestMapping("/addTag")
-    public RestBean<?> add(HttpServletResponse response,String tagName)
+    public RestBean<?> add(HttpServletResponse response,
+                           @RequestParam String tagName)
     {
         response.setContentType("application/json;charset=utf-8");
         if(tagName.equals("")){
@@ -92,7 +94,9 @@ public class TagController {
      */
     @ResponseBody
     @RequestMapping("/getLimit/Tag")
-    public RestBean<?> limit(HttpServletResponse response,Integer page,Integer limit)
+    public RestBean<?> limit(HttpServletResponse response,
+                             @RequestParam(defaultValue = "1") Integer page,
+                             @RequestParam(defaultValue = "10") Integer limit)
     {
         response.setContentType("application/json;charset=utf-8");
 
@@ -111,7 +115,7 @@ public class TagController {
      */
     @ResponseBody
     @RequestMapping("/getSearch/Tag")
-    public RestBean<?> find(HttpServletResponse response,String text)
+    public RestBean<?> find(HttpServletResponse response,@RequestParam String text)
     {
         response.setContentType("application/json;charset=utf-8");
 

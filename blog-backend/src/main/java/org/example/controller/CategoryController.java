@@ -46,7 +46,7 @@ public class CategoryController {
      */
     @ResponseBody
     @PutMapping("/addCategory")
-    public RestBean<?> addCategory(HttpServletResponse response, String name)
+    public RestBean<?> addCategory(HttpServletResponse response,@RequestParam String name)
     {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -69,7 +69,9 @@ public class CategoryController {
      */
     @ResponseBody
     @PutMapping("/updateCategory")
-    public RestBean<?> updateCategory(HttpServletResponse response,Integer id,Category category)
+    public RestBean<?> updateCategory(HttpServletResponse response,
+                                      @RequestParam Integer id,
+                                      @ModelAttribute Category category)
     {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -91,7 +93,8 @@ public class CategoryController {
      */
     @ResponseBody
     @DeleteMapping("/delCategory")
-    public RestBean<?> deleteCategory(HttpServletResponse response,Integer id)
+    public RestBean<?> deleteCategory(HttpServletResponse response,
+                                      @RequestParam Integer id)
     {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -115,7 +118,10 @@ public class CategoryController {
      */
     @ResponseBody
     @PutMapping("/getLimit/Category")
-    public RestBean<?> getLimitCategories(HttpServletResponse response, String text, Integer page, Integer limit)
+    public RestBean<?> getLimitCategories(HttpServletResponse response,
+                                          @RequestParam(required = false) String text,
+                                          @RequestParam(defaultValue = "1") Integer page,
+                                          @RequestParam(defaultValue = "10") Integer limit)
     {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -144,12 +150,11 @@ public class CategoryController {
      * 获取分类统计信息
      *
      * @param response HTTP 响应对象
-     * @param id       分类 ID
      * @return 分类统计信息
      */
     @ResponseBody
     @GetMapping("/category/stats")
-    public RestBean<?> getCategoryStats(HttpServletResponse response,Integer id)
+    public RestBean<?> getCategoryStats(HttpServletResponse response)
     {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

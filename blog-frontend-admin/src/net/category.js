@@ -18,11 +18,14 @@ function getCategory(success, failure = defaultFailure) {
  * @param {Function} failure 失败回调
  */
 function getLimitCategory(data, success, failure = defaultFailure) {
-    put('api/getLimit/Category', {
-        text: data.text || '',
-        page:(data.page-1) * 10,
-        limit:10*data.page
-    }, (data) => {
+    let params = {
+        page: (data.page - 1) * 10,
+        limit: 10 * data.page
+    };
+    if (data.text !== '') {
+        params.text = data.text;
+    }
+    put('api/getLimit/Category', params, (data) => {
         success(data)
     }, failure)
 }

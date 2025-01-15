@@ -2,13 +2,16 @@ import {defaultFailure, get, put} from "./index.js";
 
 function getLimitMessage(data,success,failure = defaultFailure){
     console.log(data)
-    put("api/getLimit/Message",{
-        text:data.text,
-        page:(data.page-1) * 10,
-        limit:10*data.page
-    },(data)=>{
-        success(data)
-    })
+    let params = {
+        page: (data.page - 1) * 10,
+        limit: 10 * data.page
+    };
+    if (data.text !== '') {
+        params.text = data.text;
+    }
+    put("api/getLimit/Message", params, (data) => {
+        success(data);
+    });
 }
 
 function getCountMessage(success,failure = defaultFailure){
