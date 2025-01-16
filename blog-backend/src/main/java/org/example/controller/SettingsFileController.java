@@ -1,12 +1,22 @@
 package org.example.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.entity.RestBean;
+import org.example.entity.dto.RequestLog;
 import org.example.entity.dto.Settings;
 import org.example.service.SettingsService;
-import org.example.service.impl.SettingsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 该类是一个 Spring MVC 控制器，用于处理与应用程序设置相关的 HTTP 请求。
@@ -14,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/api")
-public class SettingsController {
+public class SettingsFileController {
 
     @Autowired
     private SettingsService settingsService;
@@ -52,6 +62,39 @@ public class SettingsController {
             return RestBean.success("设置更新成功");
         } else {
             return RestBean.failure(400, "设置更新失败");
+        }
+    }
+
+
+    @ResponseBody
+    @GetMapping("/get/requestLog")
+    public RestBean<?> getLog() throws IOException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<RequestLog> requestLogs = new ArrayList<>();
+        String filePath = "blog-backend\\src\\main\\resources\\request.txt";
+        String context =  new String(Files.readAllBytes(Paths.get(filePath)));
+
+        context = context.substring(0,context.length()-1);
+        String[] split = context.split("},");
+        for (String s : split) {
+            System.out.println(s);
+            s = s + "}";
+            RequestLog requestLog = objectMapper.readValue(s, RequestLog.class);
+            requestLogs.add(requestLog);
+        }
+        return RestBean.success(requestLogs);
+    }
+
+    @ResponseBody
+    @GetMapping("/clear/log")
+    public RestBean<?> clearLog(){
+        try {
+            String filePath = "blog-backend\\src\\main\\resources\\request.txt";
+            Files.write(Paths.get(filePath), new byte[0]);
+            return RestBean.success("日志已清空");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

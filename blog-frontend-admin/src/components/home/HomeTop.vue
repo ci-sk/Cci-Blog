@@ -3,8 +3,6 @@ import { ref } from "vue";
 import { getArticleCount } from "../../net/article.js";
 import { getAccountCount } from "../../net/account.js";
 import { getTagCount } from "../../net/tag.js";
-import { tags } from "@lezer/highlight";
-import { Document, PriceTag, User } from "@element-plus/icons-vue";
 
 const Article = ref(0);
 

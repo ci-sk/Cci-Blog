@@ -2,6 +2,7 @@ package org.example.filter;
 
 import java.io.*;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -9,6 +10,7 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.example.entity.dto.RequestLog;
 import org.example.utils.Const;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,19 +28,10 @@ import static org.example.utils.TimeFormatUtil.formatTimestamp;
 public class RequestLoggingFilter implements Filter {
 
     private static final Logger logger = LoggerFactory.getLogger(RequestLoggingFilter.class);
-    // 日志文件路径
-    private static final String LOG_FILE_PATH = "classpath:/static/request.txt";
-
-    private final ResourceLoader resourceLoader;
-
-    @Autowired
-    public RequestLoggingFilter(ResourceLoader resourceLoader) {
-        this.resourceLoader = resourceLoader;
-    }
-
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException
+    {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
@@ -55,7 +48,7 @@ public class RequestLoggingFilter implements Filter {
 
         // 检查响应状态码是否在200到299之间，表示请求成功
         int code = httpResponse.getStatus();
-//        code >= 200 && code < 300
+        //        code >= 200 && code < 300
 
         // 记录请求结束时间
         long endTime = System.currentTimeMillis();
@@ -63,7 +56,7 @@ public class RequestLoggingFilter implements Filter {
         // 计算请求处理时间
         long processingTime = endTime - startTime;
 
-// 拼接请求参数字符串
+        // 拼接请求参数字符串
         StringBuilder parameterString = new StringBuilder();
         for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
             parameterString.append(entry.getKey()).append("=").append(entry.getValue()[0]).append("&");
@@ -79,15 +72,32 @@ public class RequestLoggingFilter implements Filter {
         // 打印请求的URL和处理时间
         logger.info("请求结果:{},请求的地址: {}, 处理时间: {}ms",code, url, processingTime);
 
-        String logMessage = formatTimestamp(endTime)+" 请求结果:" + code + "  请求的地址: " + url + "  处理时间: " + processingTime + "ms";
-        log(logMessage);
+
+        RequestLog requestLog = new RequestLog();
+        requestLog.setUrl(url)
+           .setStatus(code)
+           .setTime(formatTimestamp(endTime))
+           .setProcessingTime(processingTime);
+        log(requestLog);
+
     }
 
-    public void log(String message) throws IOException {
-        File file = new File("blog-backend\\src\\main\\resources\\request.txt");
-//        System.out.println(file.getAbsolutePath());
-        try (FileWriter writer = new FileWriter(file, true)) { // true表示追加写入
-            writer.write(message + "\n"); // 写入日志信息并换行
+    public void log(RequestLog requestLog)
+    {
+
+            File file = new File("blog-backend\\src\\main\\resources\\request.txt");
+
+            // 如果文件存在且大小超过1MB，则清空文件
+            if (file.exists() && file.length() > 1024 * 1024) {
+                try (FileWriter writer = new FileWriter(file, false)) { // false表示覆盖写入
+                    writer.write(""); // 清空文件内容
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        try (FileWriter writer = new FileWriter(file, true)) {
+            writer.write(requestLog.toJsonString() + ",\n");
         } catch (IOException e) {
             e.printStackTrace();
         }

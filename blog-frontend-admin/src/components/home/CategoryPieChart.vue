@@ -1,12 +1,7 @@
-<template>
-  <div ref="categoryChart" class="chart"></div>
-</template>
-
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import * as echarts from 'echarts';
 import {getCategoryStats} from "../../net/category.js";
-import {ElMessage} from "element-plus";
 
 const categoryChart = ref(null);
 let chart = null;
@@ -77,7 +72,7 @@ const updateChart = async () => {
       }
     ]
   };
-  
+
   chart.setOption(option);
 };
 
@@ -94,6 +89,12 @@ onUnmounted(() => {
   window.removeEventListener('resize', chart && chart.resize);
 });
 </script>
+
+<template>
+  <div ref="categoryChart" class="chart"></div>
+</template>
+
+
 
 <style scoped>
 .chart {

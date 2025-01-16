@@ -5,9 +5,9 @@ import {
     ElementPlus,
     House,
     Message,
-    Picture, Setting,
+    Setting,
     User,
-    Location, Key, MilkTea, Menu
+    Location, Key, MilkTea, Grape
 } from "@element-plus/icons-vue";
 
 
@@ -69,6 +69,13 @@ export default[
                 icon: MilkTea,
                 url: "/friend"
             },
+            {
+                path: "/webSite/log",
+                name: "log",
+                label: "日志管理",
+                icon: Grape,
+                url: "/log"
+            }
         ],
     },
     {

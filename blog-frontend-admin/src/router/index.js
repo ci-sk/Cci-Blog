@@ -81,6 +81,11 @@ const router = createRouter({
                              name: "友链",
                              component: () => import("../views/index/FriendLinkPage.vue"),
                          },
+                         {
+                             path: "/webSite/log",
+                             name: "日志",
+                             component: () => import("../views/index/LogPage.vue"),
+                         }
                      ]
                  },
                  {
@@ -116,7 +121,7 @@ const router = createRouter({
          {
              path: '/loading',
              name: 'LoadingPage',
-             component:() => import("../components/LoadingPage.vue"), // 加载页面组件
+             component:() => import("../components/Loading.vue"), // 加载页面组件
          },
      ]
 })

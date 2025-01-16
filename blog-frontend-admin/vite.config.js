@@ -28,7 +28,7 @@ export default defineConfig({
       ],
     }),
     prismjs({
-      languages: ['javascript', 'css', 'html', 'vue','java'],
+      languages: ['javascript', 'CSS', 'html', 'vue','java','C'],
     }),
   ],
 })

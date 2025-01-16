@@ -10,7 +10,6 @@ import {Plus} from "@element-plus/icons-vue";
 import {getTag, insertTag} from "../../net/tag.js";
 import {insertArticle} from "../../net/article.js";
 import {ElMessage} from "element-plus";
-import {useRoute} from "vue-router";
 import {useUpDataArt} from "../../store/index.js";
 import router from "../../router/index.js";
 import {getCategory} from "../../net/category.js";
