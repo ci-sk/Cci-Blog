@@ -34,17 +34,16 @@ getLog()
     </template>
     <div v-for="(requestLog, index) in logs" :key="index" class="log-item">
       <p>
-        <span >{{requestLog.time}}</span>
+        <span>{{requestLog.time}}</span>
         <span :style="{ color: requestLog.status === 200 ? 'green' : '#FFD700' }">{{ requestLog.status }}</span>
-        <span >请求结果:</span>
+        <span>请求结果:</span>
         <span style="color: #3366CC;">{{ requestLog.url }}</span>
-        <span  >处理时间:</span>
-        <span  style="color:var(--cci-log-ms-color) ">{{ requestLog.processingTime }}ms</span>
+        <span>处理时间:</span>
+        <span style="color:var(--cci-log-ms-color) ">{{ requestLog.processingTime }}ms</span>
       </p>
       <el-icon
           style="position: absolute; bottom: 100px; right: 100px;cursor: pointer;"
           @click="handleButtonClick"
-
       ><Delete /></el-icon>
     </div>
   </el-card>
