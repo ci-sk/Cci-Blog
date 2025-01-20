@@ -1,13 +1,12 @@
-<script setup lang="ts">
-import { ref } from "vue";
+<script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import Footer from "./Footer.vue";
 
-interface MenuLink {
-  name: string;
-  path: string;
-  subItems: { name: string; path: string }[];
-}
-const Links: MenuLink[] = [
-  { name: "首页", path: "/", subItems: [] },
+const router = useRouter();
+
+const menuItems = [
+  { name: "首页", path: "/" },
   {
     name: "文章",
     subItems: [
@@ -16,92 +15,152 @@ const Links: MenuLink[] = [
       { name: "标签", path: "/blog/tag" },
     ],
   },
-  { name: "社交", subItems: [
-      {name:"友链",path:"/social/friends"},
-      {name:"留言",path:"/social/guestbook"},
-    ]
+  {
+    name: "社交",
+    subItems: [
+      { name: "友链", path: "/social/friends" },
+      { name: "留言", path: "/social/guestbook" },
+    ],
   },
-  { name: "个人", subItems: [
-      {name:"关于",path:"/personal/about"},
-      {name:"随笔",path:"/personal/essays"},
-      {name:"工具",path:"/personal/tools"}
-    ] },
+  {
+    name: "个人",
+    subItems: [
+      { name: "关于", path: "/personal/about" },
+      { name: "随笔", path: "/personal/essays" },
+      { name: "工具", path: "/personal/tools" },
+    ],
+  },
 ];
 
-const open = ref(false);
-const hoveredLink = ref<MenuLink | null>(null);
+const hoveredItem = ref(null);
+const activeSubMenu = ref(null);
 
-function toggleMenu() {
-  open.value = !open.value;
-}
-
-function handleMouseEnter(link: MenuLink) {
-  hoveredLink.value = link;
+function handleMouseEnter(item) {
+  hoveredItem.value = item;
 }
 
 function handleMouseLeave() {
-  hoveredLink.value = null;
+  hoveredItem.value = null;
 }
+
+function toggleSubMenu(item) {
+  if(item.path){
+    router.push(item.path);
+    return;
+  }
+  if (activeSubMenu.value === item.name) {
+    activeSubMenu.value = null;
+  } else {
+    activeSubMenu.value = item.name;
+  }
+}
+
 </script>
 
 <template>
-  <div class="bg-green-400">
-    <!-- 导航栏 -->
-    <div class="bg-gray-900 text-gray-100 py-3.5 px-6 md:flex justify-between items-center">
-      <!-- Logo 和标题 -->
-      <div class="flex items-center">
-        <span class="text-green-500 text-xl mr-1">
-          <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+  <div class="drawer drawer-end flex flex-col">
+    <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
+
+    <div class="drawer-content">
+      <!-- Navbar -->
+      <div class="navbar bg-base-400 w-full">
+        <div class="mx-2 flex-1 px-2">
+          <router-link to="/" class="btn btn-ghost text-xl">My Logo</router-link>
+        </div>
+      <!-- 桌面端 -->
+        <div class="hidden flex-none lg:block mr-2 font-semibold">
+          <ul class="menu menu-horizontal px-1">
+            <li
+                v-for="item in menuItems"
+                :key="item.name"
+                class="relative items-center"
+                @mouseenter="handleMouseEnter(item)"
+                @mouseleave="handleMouseLeave"
+            >
+              <router-link :to="item.path">
+                {{ item.name }}
+                <!-- 下箭头标识 -->
+                <span v-if="item.subItems" class="ml-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </span>
+              </router-link>
+              <ul
+                  v-if="item.subItems && hoveredItem && hoveredItem.name === item.name"
+                  class="bg-base-400 py-2 w-60 top-full
+                absolute shadow-lg rounded-box flex flex-row justify-around"
+              >
+                <li v-for="subItem in item.subItems" :key="subItem.name">
+                  <router-link :to="subItem.path" class="block hover:bg-gray-100">{{ subItem.name }}</router-link>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <!--切换深色模式和浅色模式-->
+        <label class="swap swap-rotate">
+          <!-- this hidden checkbox controls the state -->
+          <input type="checkbox" class="theme-controller" value="dark" />
+          <!-- sun icon -->
+          <svg
+              class="swap-off h-10 w-10 fill-current"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24">
+            <path
+                d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41l-.71-.71A1,1,0,0,0,4.93,6.34Zm12,.29a1,1,0,0,0,.7-.29l.71-.71a1,1,0,1,0-1.41-1.41L17,5.64a1,1,0,0,0,0,1.41A1,1,0,0,0,17.66,7.34ZM21,11H20a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Zm-9,8a1,1,0,0,0-1,1v1a1,1,0,0,0,2,0V20A1,1,0,0,0,12,19ZM18.36,17A1,1,0,0,0,17,18.36l.71.71a1,1,0,0,0,1.41,0,1,1,0,0,0,0-1.41ZM12,6.5A5.5,5.5,0,1,0,17.5,12,5.51,5.51,0,0,0,12,6.5Zm0,9A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z" />
           </svg>
-        </span>
-        <h1 class="text-xl">Designer</h1>
+          <!-- moon icon -->
+          <svg
+              class="swap-on h-10 w-10 fill-current"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24">
+            <path
+                d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z" />
+          </svg>
+        </label>
+
+        <div class="lg:hidden">
+          <label for="my-drawer-3" aria-label="open sidebar" class="btn btn-square btn-ghost">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                class="inline-block h-6 w-6 stroke-current">
+              <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </label>
+        </div>
       </div>
-
-      <!-- 移动端菜单按钮 -->
-      <span @click="toggleMenu" class="absolute md:hidden right-6 top-1.5 cursor-pointer text-4xl">
-        <svg v-if="!open" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-        <span v-else class="text-white">×</span>
-      </span>
-
-      <!-- 导航菜单 -->
-      <ul
-          :class="[open ? 'left-0' : 'left-[-100%]']"
-          class="md:flex md:items-center md:px-0 px-10 md:pb-0 pb-10 md:static absolute
-          bg-gray-900 md:w-auto w-full top-14 duration-700 ease-in"
-      >
-        <!-- 菜单项 -->
-        <li
-            v-for="item in Links"
-            :key="item.name"
-            class="md:mx-4 md:my-0 my-6 relative"
-            @mouseenter="handleMouseEnter(item)"
-            @mouseleave="handleMouseLeave"
-        >
-          <a class="text-xl hover:text-green-500" :href="item.path">{{ item.name }}</a>
-          <!-- 子菜单 -->
-          <ul
-              v-show="hoveredLink && hoveredLink.name === item.name"
-              class="bg-gray-900 text-white py-2 w-48 left-0 top-full md:absolute"
-          >
+      <!-- Page content here -->
+    </div>
+    <div class="drawer-side z-10">
+      <label for="my-drawer-3" aria-label="close sidebar" class="drawer-overlay"></label>
+      <ul class="menu bg-base-200 min-h-full w-48 p-4 font-semibold">
+        <li v-for="item in menuItems" :key="item.name">
+          <a @click="toggleSubMenu(item)">{{ item.name }}
+            <!-- 下箭头标识 -->
+            <span v-if="item.subItems" class="ml-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </span>
+          </a>
+          <ul v-if="item.subItems && activeSubMenu === item.name" class="p-2">
             <li v-for="subItem in item.subItems" :key="subItem.name">
-              <router-link :to="subItem.path" class="block px-4 py-2 hover:bg-gray-700">{{ subItem.name }}</router-link>
-<!--              <a class="block px-4 py-2 hover:bg-gray-700" :href="subItem.path">{{ subItem.name }}</a>-->
+              <router-link :to="subItem.path">{{ subItem.name }}</router-link>
             </li>
           </ul>
         </li>
-        <!-- 按钮 -->
-        <button class="bg-green-600 hover:bg-green-300 font-sm text-white
-  rounded py-1.5 px-4">
-          Get Started
-        </button>
       </ul>
     </div>
   </div>
 </template>
 
 <style scoped>
-/* 自定义样式 */
+
 </style>

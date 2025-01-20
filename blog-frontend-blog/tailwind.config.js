@@ -1,10 +1,10 @@
 /** @type {import('tailwindcss').Config} */
-import daisyui from "daisyui";
 module.exports = {
-  content: ['./index.html', './src/**/*.{vue,js,ts}'],
+  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      theme:["light,dark,cupcake"]
+    },
   },
-  plugins: [
-      daisyui],
+  plugins: [require('daisyui')],
 }
