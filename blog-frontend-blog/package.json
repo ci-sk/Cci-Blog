@@ -9,6 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/marked": "^5.0.2",
+    "highlight.js": "^11.11.1",
+    "less": "^4.2.2",
+    "marked": "^15.0.6",
+    "prismjs": "^1.29.0",
     "vue": "^3.4.37",
     "vue-router": "^4.5.0"
   },
@@ -18,7 +23,8 @@
     "daisyui": "^4.12.23",
     "postcss": "^8.5.1",
     "tailwindcss": "^3.4.17",
-    "vite": "^5.4.1"
+    "vite": "^5.4.1",
+    "vite-plugin-prismjs": "^0.0.11"
   },
   "description": "This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.",
   "main": "vite.config.js",

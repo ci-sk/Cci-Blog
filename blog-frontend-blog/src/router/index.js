@@ -51,6 +51,11 @@ const routes = [
         name: 'Tools',
         component: () => import('../views/ToolsView.vue'), // 动态导入
     },
+    {
+        path: '/blog/article',
+        name: 'Article',
+        component: () => import('../views/ArticleView/Articles.vue'), // 动态导入
+    }
 ];
 
 const router = createRouter({

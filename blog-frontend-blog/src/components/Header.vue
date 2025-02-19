@@ -1,12 +1,11 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import Footer from "./Footer.vue";
 
 const router = useRouter();
 
-const menuItems = [
-  { name: "首页", path: "/" },
+const Menus = ref([
+  { name: "首页", path: "/"},
   {
     name: "文章",
     subItems: [
@@ -30,7 +29,7 @@ const menuItems = [
       { name: "工具", path: "/personal/tools" },
     ],
   },
-];
+]);
 
 const hoveredItem = ref(null);
 const activeSubMenu = ref(null);
@@ -68,16 +67,16 @@ function toggleSubMenu(item) {
           <router-link to="/" class="btn btn-ghost text-xl">My Logo</router-link>
         </div>
       <!-- 桌面端 -->
-        <div class="hidden flex-none lg:block mr-2 font-semibold">
-          <ul class="menu menu-horizontal px-1">
+        <div class="hidden flex-none lg:block mr-10 font-semibold ">
+          <ul v-if="Menus" class="menu menu-horizontal text-lg px-1">
             <li
-                v-for="item in menuItems"
+                v-for="item in Menus"
                 :key="item.name"
                 class="relative items-center"
                 @mouseenter="handleMouseEnter(item)"
                 @mouseleave="handleMouseLeave"
             >
-              <router-link :to="item.path">
+              <router-link v-if="item.path" :to="item.path">
                 {{ item.name }}
                 <!-- 下箭头标识 -->
                 <span v-if="item.subItems" class="ml-2">
@@ -86,8 +85,17 @@ function toggleSubMenu(item) {
                 </svg>
               </span>
               </router-link>
-              <ul
-                  v-if="item.subItems && hoveredItem && hoveredItem.name === item.name"
+              <div v-else>
+                {{ item.name }}
+                <!-- 下箭头标识 -->
+                <span v-if="item.subItems" class="ml-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </span>
+              </div>
+
+              <ul v-if="item.subItems && hoveredItem && hoveredItem.name === item.name"
                   class="bg-base-400 py-2 w-60 top-full
                 absolute shadow-lg rounded-box flex flex-row justify-around"
               >
@@ -101,10 +109,10 @@ function toggleSubMenu(item) {
         <!--切换深色模式和浅色模式-->
         <label class="swap swap-rotate">
           <!-- this hidden checkbox controls the state -->
-          <input type="checkbox" class="theme-controller" value="dark" />
+          <input type="checkbox" class="theme-controller" value="light" />
           <!-- sun icon -->
           <svg
-              class="swap-off h-10 w-10 fill-current"
+              class="swap-off fill-current w-10 h-10"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24">
             <path
@@ -112,7 +120,7 @@ function toggleSubMenu(item) {
           </svg>
           <!-- moon icon -->
           <svg
-              class="swap-on h-10 w-10 fill-current"
+              class="swap-on fill-current w-10 h-10"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24">
             <path
@@ -140,8 +148,8 @@ function toggleSubMenu(item) {
     </div>
     <div class="drawer-side z-10">
       <label for="my-drawer-3" aria-label="close sidebar" class="drawer-overlay"></label>
-      <ul class="menu bg-base-200 min-h-full w-48 p-4 font-semibold">
-        <li v-for="item in menuItems" :key="item.name">
+      <ul class="menu bg-base-200 min-h-full w-48 p-4 font-semibold text-lg">
+        <li v-for="item in Menus" :key="item.name">
           <a @click="toggleSubMenu(item)">{{ item.name }}
             <!-- 下箭头标识 -->
             <span v-if="item.subItems" class="ml-2">
