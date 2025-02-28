@@ -109,7 +109,7 @@ function toggleSubMenu(item) {
         <!--切换深色模式和浅色模式-->
         <label class="swap swap-rotate">
           <!-- this hidden checkbox controls the state -->
-          <input type="checkbox" class="theme-controller" value="light" />
+          <input type="checkbox" class="theme-controller" value="dark" />
           <!-- sun icon -->
           <svg
               class="swap-off fill-current w-10 h-10"
