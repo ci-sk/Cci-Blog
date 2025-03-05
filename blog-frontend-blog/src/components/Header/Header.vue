@@ -6,6 +6,16 @@ interface MenuLink {
   path?: string;
   subItems: { name: string; path: string }[];
 }
+
+const MenusItem = ref([
+  { name: "首页", path: "/",},
+  { name: "归档", path: "/blog/archive" },
+  { name: "随笔", path: "/personal/essays" },
+  { name: "友链", path: "/social/friends" },
+  { name: "关于", path: "/personal/about" },
+])
+
+
 const Links: MenuLink[] = [
   { name: "首页", path: "/", subItems: [] },
   {

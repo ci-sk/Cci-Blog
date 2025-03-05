@@ -1,60 +1,41 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
+    //首页
     {
         path: '/',
         name: 'Home',
-        component: () => import('../views/HomeView.vue'), // 动态导入
+        component: () => import('../views/HomeView.vue'),
     },
-    {
-        path: '/blog',
-        name: 'Blog',
-        component: () => import('../views/BlogView.vue'), // 动态导入
-    },
-    {
-        path: '/blog/category',
-        name: 'Category',
-        component: () => import('../views/CategoryView.vue'), // 动态导入
-    },
+    //归档
     {
         path: '/blog/archive',
         name: 'Archive',
         component: () => import('../views/ArchiveView.vue'), // 动态导入
     },
-    {
-        path: '/blog/tag',
-        name: 'Tag',
-        component: () => import('../views/TagView.vue'), // 动态导入
-    },
-    {
-        path: '/social/friends',
-        name: 'Friends',
-        component: () => import('../views/FriendsView.vue'), // 动态导入
-    },
-    {
-        path: '/social/guestbook',
-        name: 'Guestbook',
-        component: () => import('../views/GuestbookView.vue'), // 动态导入
-    },
-    {
-        path: '/personal/about',
-        name: 'About',
-        component: () => import('../views/AboutView.vue'), // 动态导入
-    },
+    //随笔
     {
         path: '/personal/essays',
         name: 'Essays',
-        component: () => import('../views/EssaysView.vue'), // 动态导入
+        component: () => import('../views/EssaysView.vue'),
     },
+    //友链
     {
-        path: '/personal/tools',
-        name: 'Tools',
-        component: () => import('../views/ToolsView.vue'), // 动态导入
+        path: '/social/friends',
+        name: 'Friends',
+        component: () => import('../views/FriendsView.vue'),
     },
+    //关于
+    {
+        path: '/personal/about',
+        name: 'About',
+        component: () => import('../views/AboutView.vue'),
+    },
+    //博客
     {
         path: '/blog/article',
         name: 'Article',
-        component: () => import('../views/ArticleView/Articles.vue'), // 动态导入
+        component: () => import('../views/ArticleView/Articles.vue'),
     }
 ];
 

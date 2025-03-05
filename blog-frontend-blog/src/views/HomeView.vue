@@ -1,16 +1,43 @@
 <script setup>
 import Pagination from '../components/Pagination.vue'; // 引入分页组件
-
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import {useRouter} from "vue-router";
+import useArticleStore from "../store/index";
+import axios from "../net/index";
 
+// 获取文章状态和操作
+const {
+  articles,
+  currentArticle,
+  loading,
+  setArticles,
+  setCurrentArticle,
+  addArticle,
+  updateArticle,
+  deleteArticle,
+  setLoading
+} = useArticleStore();
+
+// 获取文章列表
+const fetchArticles = async () => {
+  setLoading(true);
+  try {
+    const response = await axios.get('/getAll/Article');
+    console.log(response)
+    // articles.value = response.data;
+
+  } catch (error) {
+    console.error('Error fetching articles:', error);
+  } finally {
+    setLoading(false);
+  }
+};
 
 const router = useRouter();
 
 const cate = ref([
-  "全部","test","前端","后端","数据库","工具"
+  "全部","test","前端","后端","SQL","工具"
 ])
-
 // 数据源
 const items = ref([
   { id: 1, name: 'Item 1' },
@@ -39,6 +66,10 @@ const toArt = () => {
   router.push("/blog/article")
 }
 
+onMounted(() => {
+  fetchArticles();
+});
+
 </script>
 
 <template>
@@ -46,8 +77,8 @@ const toArt = () => {
     <h1 class="text-3xl font-bold">欢迎来到我的博客</h1>
     <p class="mt-4 text-gray-600">这里是首页内容，你可以在这里展示一些简介或最新文章。</p>
   </div>
-  <div class="tabs tabs-boxed bg-base-100 justify-center p-4">
-    <a class="tab font-black text-lg" :class="{'tab-active': selectedCate === index}"
+  <div class="tabs tabs-boxed bg-base-100 justify-center">
+    <a class="tab font-black text-sm sm:text-base md:text-lg lg:text-xl" :class="{'tab-active': selectedCate === index}"
        @click="selectedCate = index"
        v-for="(tab,index) in cate">{{tab}}</a>
   </div>
@@ -58,7 +89,7 @@ const toArt = () => {
         <div class="grid grid-cols-1 md:grid-cols-2  cto:grid-cols-3 gap-4">
           <!-- 卡片 1 -->
           <div class="card bg-emerald-500 shadow-sm" @click="toArt">
-            <figure class="p-8">
+            <figure class="p-8 pb-0">
               <div class="magnify-container">
                 <img
                     src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
@@ -82,7 +113,7 @@ const toArt = () => {
           </div>
           <!-- 卡片 2 -->
           <div class="card bg-emerald-500 shadow-sm">
-            <figure class="p-8">
+            <figure class="p-8 pb-0">
               <div class="magnify-container overflow-hidden rounded-lg shadow-lg">
                 <img
                     src="../assets/东山小红.jpg"
@@ -105,7 +136,7 @@ const toArt = () => {
           </div>
           <!-- 卡片 3 -->
           <div class="card bg-emerald-500 shadow-sm">
-            <figure class="p-8">
+            <figure class="p-8 pb-0">
               <div class="magnify-container overflow-hidden rounded-lg shadow-lg">
                 <img
                     src="../assets/备选.jpg"
@@ -149,7 +180,6 @@ const toArt = () => {
         </div>
       </div>
     </div>
-
   </div>
 
   <div class="mt-3">
