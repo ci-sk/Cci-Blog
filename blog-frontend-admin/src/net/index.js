@@ -2,10 +2,8 @@
 import axios from "axios";
 // 导入 Element Plus 的 Message 组件用于显示消息
 import { ElMessage } from "element-plus";
-
 // 定义存储认证令牌的名称
 const authItemName = "access_token";
-
 // 默认的请求失败处理函数
 const defaultFailure = (message, code, url) => {
     // 在控制台中输出错误信息
@@ -13,8 +11,6 @@ const defaultFailure = (message, code, url) => {
     // 使用 Element Plus 的 Message 组件显示警告消息
     ElMessage.warning(message);
 };
-
-
 // 默认的请求错误处理函数
 const defaultError = async (err) => {
     // 在控制台中输出错误信息
@@ -23,7 +19,6 @@ const defaultError = async (err) => {
     if(err.status === 403)  {
         console.log("403",err)
         ElMessage.warning("访问频繁！！！请稍后再试")
-       
     }
     else
     ElMessage.warning("出错啦~~~ 请联系管理员");
@@ -66,9 +61,6 @@ function deleteAccessToken() {
     localStorage.removeItem(authItemName);
     sessionStorage.removeItem(authItemName);
 }
-
-
-
 // 获取请求头中的 Authorization 字段
 function accessHeader() {
     // 获取令牌，如果没有则返回空对象
@@ -77,7 +69,6 @@ function accessHeader() {
         'Content-Type': 'application/x-www-form-urlencoded'
     } : {};
 }
-
 // 发送 GET 请求的内部函数
 function internalGet(url, header, success, failure,error = defaultError) {
     axios.get(url,{ headers: header}).then(({ data }) => {
@@ -91,7 +82,6 @@ function internalGet(url, header, success, failure,error = defaultError) {
         // console.log(err)
     ));
 }
-
 // 发送 PUT 请求的内部函数
 function internalPut(url, data, header, success, failure, error = defaultError) {
     axios.put(url, data,{
@@ -199,7 +189,7 @@ function logout(success, failure = defaultFailure) {
 
 //文件上传
 function uploadFile(data,success,failure){
-    internalPost('api/file/upload',{
+    internalPost('api/file/al/upload',{
         multipartFile: data
     },{
         'Authorization': `Bearer ${takeAccessToken()}`,

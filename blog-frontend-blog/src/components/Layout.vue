@@ -26,7 +26,7 @@ const MenusLink = ref([
     <!-- 底部 -->
     <Footer />
     <!-- 移动端底部导航栏 -->
-    <div class="md:hidden sticky bottom-0 shadow-lg rounded-t-xl z-10 bg-primary-content pb-[env(safe-area-inset-bottom)]">
+    <div class="md:hidden sticky bottom-0 shadow-lg rounded-t-xl z-10 bg-base-200 pb-[env(safe-area-inset-bottom)]">
       <ul class="menu menu-horizontal text-xs sm:text-sm px-1 flex justify-around items-center">
         <li
             v-for="item in MenusLink"

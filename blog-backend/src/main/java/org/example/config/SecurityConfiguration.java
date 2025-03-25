@@ -51,7 +51,7 @@ public class SecurityConfiguration {
             return http
                     .authorizeHttpRequests(conf -> conf
                             .requestMatchers("/api/auth/**").permitAll()
-                            .requestMatchers("/api/getAll/**").hasAnyRole("user","admin")
+                            .requestMatchers("/api/getAll/**").permitAll()
 //                            //其他所有路径必须角色为admin才能访问
                             .anyRequest().hasRole("admin")
 //                            .anyRequest().authenticated()

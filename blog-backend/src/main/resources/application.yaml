@@ -44,6 +44,12 @@ qiniu:
   directory: bolg/
   # 配置域名
   domain: sola4t4y0.sabkt.gdipper.com
+aliyun:
+  oss:
+    endpoint: oss-cn-guangzhou.aliyuncs.com
+    accessKeyId: LTAI5t8N2D2cRfN2brAshXGb
+    accessKeySecret: qOymVGWMFi8frRq6dTy0H9uuIENJvr
+    bucketName: cciblog
 mybatis-plus:
   configuration:
     cache-enabled: true

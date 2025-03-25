@@ -5,11 +5,17 @@
 
 
 <mapper namespace="org.example.mapper.ArticlesMapper">
-    <cache
-            eviction="LRU"
-            flushInterval="36000000"
-            size="512"
-            readOnly="true"/>
+    <!--
+      // 改为FIFO（先进先出）策略，适合频繁读取
+        // 缩短刷新间隔为30分钟（1800000ms）
+        // 增大缓存容量
+        // 改为可读写模式
+        -->
+<!--    <cache-->
+<!--        eviction="FIFO"-->
+<!--        flushInterval="1800000"-->
+<!--        size="1024"-->
+<!--        readOnly="false"/>-->
 
 
     <resultMap id="ArticlesMap" type="org.example.entity.dto.Articles">

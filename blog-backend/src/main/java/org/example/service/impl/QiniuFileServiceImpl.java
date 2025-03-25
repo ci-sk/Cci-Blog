@@ -46,22 +46,17 @@ public class QiniuFileServiceImpl implements FileService {
         // 创建上传token
         Auth auth = Auth.create(accessKey, secretKey);
         String upToken = auth.uploadToken(bucket);
-
         // 设置上传配置，Region要与存储空间所属的存储区域保持一致
         Configuration cfg = new Configuration(Region.xinjiapo());
-
         // 创建上传管理器
         UploadManager uploadManager = new UploadManager(cfg);
-
         String originalFilename = file.getOriginalFilename();
         // 构造文件目录和文件名
         assert originalFilename != null;
         String suffix = originalFilename.substring(originalFilename.lastIndexOf("."));
         String fileKey = directory + UUID.randomUUID() + suffix;
-
         // 上传文件
         Response response = uploadManager.put(file.getInputStream(), fileKey, upToken, null, null);
-
         // 返回文件url
         return  "http://"+domain +"/"+ fileKey;
     }

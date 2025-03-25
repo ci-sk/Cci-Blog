@@ -1,8 +1,9 @@
 <script setup>
-import { ref } from "vue";
+import {onMounted, ref} from "vue";
 import { useRouter } from "vue-router";
 import {FolderKanban, House, PencilLine, Send, UsersRound} from 'lucide-vue-next';
 const router = useRouter();
+
 
 const MenusLink = ref([
   { name: "首页", path: "/" ,icon:House},
@@ -11,6 +12,10 @@ const MenusLink = ref([
   { name: "友链", path: "/social/friends" ,icon:UsersRound},
   { name: "关于", path: "/personal/about",icon:Send },
 ])
+// 定义一个 ref 来存储当前的颜色模式
+const isDarkMode = ref();
+
+
 const hoveredItem = ref(null);
 const activeSubMenu = ref(null);
 
@@ -33,6 +38,11 @@ function toggleSubMenu(item) {
     activeSubMenu.value = item.name;
   }
 }
+onMounted(()=>{
+  const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  console.log(mediaQuery);
+  isDarkMode.value = mediaQuery.matches;
+})
 </script>
 
 <template>
@@ -64,7 +74,7 @@ function toggleSubMenu(item) {
         <!--切换深色模式和浅色模式-->
         <label class="swap swap-rotate">
           <!-- this hidden checkbox controls the state -->
-          <input type="checkbox" class="theme-controller" value="dark" />
+          <input type="checkbox" class="theme-controller" :value="isDarkMode?'light':'dark'" />
           <!-- sun icon -->
           <svg
             class="swap-off fill-current w-10 h-10"
@@ -110,19 +120,19 @@ function toggleSubMenu(item) {
       </div>
       <!-- Page content here -->
     </div>
-    <!--    移动端-->
-    <div class="drawer-side z-10">
-      <label
-        for="my-drawer-3"
-        aria-label="close sidebar"
-        class="drawer-overlay"
-      ></label>
-      <ul class="menu bg-base-200 min-h-full w-48 p-4 font-semibold text-lg">
-        <li v-for="item in MenusLink" :key="item.name">
-          <a @click="toggleSubMenu(item)">{{ item.name }} </a>
-        </li>
-      </ul>
-    </div>
+      <!--    移动端-->
+      <div class="drawer-side z-10">
+        <label
+          for="my-drawer-3"
+          aria-label="close sidebar"
+          class="drawer-overlay"
+        ></label>
+        <ul class="menu bg-primary min-h-full w-48 p-4 font-semibold text-lg">
+          <li v-for="item in MenusLink" :key="item.name">
+            <a @click="toggleSubMenu(item)">{{ item.name }} </a>
+          </li>
+        </ul>
+      </div>
      </div>
 </template>
 
