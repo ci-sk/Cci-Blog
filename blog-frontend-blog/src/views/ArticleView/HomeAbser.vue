@@ -1,7 +1,7 @@
 <script setup>
 // import { Github, Bilibili, Cloud } from "lucide-vue-next";
-import GithubIcon from "../../assets/github.svg?url";
-import BilibiliIcon from "../../assets/bilibili.svg?svg";
+import {useArticleStore} from "../../store/index";
+import {computed} from "vue";
 const Infos = [
   { text: "文章", num: 12 },
   { text: "分类", num: 12 },
@@ -20,8 +20,15 @@ const socialLinks = [
     followers: 765,
     color: "bg-gray-900",
   },
-  // { name: "青鸟云", icon: Cloud, followers: 79, color: "bg-red-600" },
+  { name: "青鸟云", followers: 79, color: "bg-red-600" },
 ];
+
+const article = useArticleStore((state) => state.articles);
+
+//保留最新的6条数据
+const latestArticles = computed(() => {
+  return article.value.slice(0, 7);
+})
 
 const blogInfo = {
   name: "吻鲸看日落",
@@ -120,13 +127,13 @@ const blogInfo = {
       </div>
       <div class="divide-y">
         <div
-          v-for="i in 5"
+          v-for="i in latestArticles"
           :key="i"
           class="p-3 hover:bg-base-200 cursor-pointer"
         >
           <div class="flex justify-between items-center">
-            <p class="line-clamp-1 text-sm">这是一篇博客文章标题</p>
-            <span class="text-xs opacity-70">2024.01.01</span>
+            <p class="line-clamp-1 text-sm">{{i.title}}</p>
+            <span class="text-xs opacity-70">{{ i.time.slice(0, 10)}}</span>
           </div>
         </div>
       </div>

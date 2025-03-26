@@ -2,23 +2,19 @@
 import Pagination from "../components/Pagination.vue"; // 引入分页组件
 import { onMounted, ref, computed, watch } from "vue";
 import { useRouter } from "vue-router";
-import useArticleStore from "../store/index";
-import axios from "../net/index";
+import {useArticleStore} from "../store/index";
+// import axios from "../net/index";
 import { randomColor, timeAgo } from "../utils/index";
 import CButton from "../components/Custom/CButton.vue";
 import ClockIcon from "../components/Custom/ClockIcon.vue";
 import HomeAbser from "./ArticleView/HomeAbser.vue";
+import {fetchArticles} from "../utils/store.js";
 
 const router = useRouter();
 
 const cate = ref(["全部", "test", "前端", "后端", "SQL", "工具"]);
 
 const selectedCate = ref(0);
-
-
-
-// 获取文章状态和操作
-const { setArticles, setLoading } = useArticleStore();
 
 const article = useArticleStore((state) => state.articles);
 
@@ -42,19 +38,6 @@ const filteredArticles = computed(() => {
 // 分页组件引用
 const paginationRef = ref(null);
 
-// 获取文章列表
-const fetchArticles = async () => {
-  setLoading(true);
-  try {
-    const response = await axios.get("/getAll/Article");
-    setArticles(response.data);
-  } catch (error) {
-    console.error("Error fetching articles:", error);
-  } finally {
-    setLoading(false);
-  }
-};
-
 const toArt = () => {
   router.push("/blog/article");
 };
@@ -73,7 +56,6 @@ watch(filteredArticles, () => {
 });
 
 onMounted(() => {
-
   // 监听媒体查询的变化，更新颜色模式
   fetchArticles();
 });

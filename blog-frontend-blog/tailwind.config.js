@@ -43,6 +43,7 @@ module.exports = {
           "success": "#36D399",    // 成功色保持默认
           "warning": "#FBBD23",    // 警告色保持默认
           "error": "#F87272",      // 错误色保持默认
+          "text-color": "#FF4D4D"
         }
       }
     ]
