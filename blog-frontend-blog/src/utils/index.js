@@ -1,3 +1,7 @@
+import { marked } from 'marked';
+import { ref, shallowRef, computed, watch, onMounted } from 'vue';
+import Prism from 'prismjs';
+
 //计算过去多长时间
 export function timeAgo(dateString) {
     const date = new Date(dateString);
@@ -28,8 +32,41 @@ export function timeAgo(dateString) {
     return '刚刚';
 }
 
-
 // 随机取色
 export function randomColor() {
     return '#' + Math.floor(Math.random() * 0xFFFFFF).toString(16);
 }
+
+// 计算#号数量
+const countHashes = (rawText) => {
+    // 使用正则表达式匹配开头的#号
+    const match = rawText.match(/^#+/);
+    // 如果匹配成功，返回#号的数量，否则返回0
+    return match ? match[0].length : 0;
+};
+
+// 新增通用ID生成函数
+export function  generateId (text){
+    const textStr = typeof text === 'object' ? text.text || '' : String(text);
+    return textStr.toLowerCase().replace(/[^\w]+/g, '-');
+};
+
+// 渲染Markdown
+export function renderMarkdown (markdownText) {
+    // 配置marked
+    const render = new marked.Renderer();
+    // 修改heading渲染
+    render.heading = function(text) {
+        const level = countHashes(text.raw);
+        const id = generateId(text);
+        return `<h${level} id="${id}" class="markdown-body">${text.text}</h${level}>`;
+    };
+    marked.setOptions({
+        renderer: render,
+        gfm: true,
+        pedantic: false,
+        sanitize: false,
+    });
+    // 渲染Markdown为HTML
+    return marked(markdownText);
+};

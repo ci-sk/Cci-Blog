@@ -72,7 +72,6 @@ public class FriendLinkController {
     public RestBean<?> getFriendLinkCount(HttpServletResponse response)
     {
         response.setContentType("application/json;charset=utf-8");
-
         Integer count = friendLinkService.getFriendLinkCount();
         return RestBean.success(count);
     }
@@ -122,7 +121,7 @@ public class FriendLinkController {
      */
     @ResponseBody
     @PutMapping("/saveFriendLink")
-    public RestBean<?> saveFriendLink(HttpServletResponse response, @RequestBody FriendLink friendLink)
+    public RestBean<?> saveFriendLink(HttpServletResponse response,FriendLink friendLink)
     {
         response.setContentType("application/json;charset=utf-8");
 

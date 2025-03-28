@@ -16,8 +16,8 @@ import lombok.experimental.Accessors;
 public class FriendLink {
     @TableId(type = IdType.AUTO)
     private Integer fid;
-    private String fname;
-    private String describes;
+    private String name;
+    private String desc;
     private String url;
-    private String icon;
+    private String avatar;
 }

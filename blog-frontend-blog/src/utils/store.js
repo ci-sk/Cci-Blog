@@ -28,3 +28,12 @@ export const fetchTags = async () => {
         setLoading(false);
     }
 };
+
+export const fetchFriends = async () => {
+    try {
+        const response = await axios.get("/getAll/FriendLink");
+        return response.data;
+    }catch (error) {
+        console.error("Error fetching friends:", error);
+    }
+}

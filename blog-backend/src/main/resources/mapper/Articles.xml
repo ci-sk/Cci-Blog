@@ -76,6 +76,7 @@
         select <include refid="Base_Column_List"/>
         from db_articles a
         left join db_category c on a.category_id = c.id
+        where a.del = 2
     </select>
 
     <update id="upDataArticles">

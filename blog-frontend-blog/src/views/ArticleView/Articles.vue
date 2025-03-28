@@ -1,42 +1,12 @@
 <script setup>
 import { marked } from 'marked';
-import { ref, shallowRef, computed, watch, onMounted } from 'vue';
+import { ref, computed,onMounted } from 'vue';
 import Prism from 'prismjs';
 import '../../assets/css/prism-dracula.css';
 import 'prismjs/plugins/line-numbers/prism-line-numbers.min.js'; // 行号插件
 import 'prismjs/plugins/line-numbers/prism-line-numbers.min.css';
-import CButton from "../../components/Custom/CButton.vue"; // 行号插件样式
-
-// 计算#号数量
-const countHashes = (rawText) => {
-  // 使用正则表达式匹配开头的#号
-  const match = rawText.match(/^#+/);
-  // 如果匹配成功，返回#号的数量，否则返回0
-  return match ? match[0].length : 0;
-};
-
-// 新增通用ID生成函数
-const generateId = (text) => {
-  const textStr = typeof text === 'object' ? text.text || '' : String(text);
-  return textStr.toLowerCase().replace(/[^\w]+/g, '-');
-};
-
-// 配置 marked
-const render = new marked.Renderer();
-
-// 修改marked的renderer配置
-render.heading = function(text) {
-  const level = countHashes(text.raw);
-  const id = generateId(text);
-  return `<h${level} id="${id}" class="markdown-body">${text.text}</h${level}>`;
-};
-
-marked.setOptions({
-  renderer: render,
-  gfm: true,
-  pedantic: false,
-  sanitize: false,
-});
+import CButton from "../../components/Custom/CButton.vue";
+import {generateId, renderMarkdown} from "../../utils/index.js"; // 行号插件样式
 
 // Markdown 文本
 const value = ref(`
@@ -54,6 +24,7 @@ const value = ref(`
 
 这是另一个段落。
 
+ ![Image](https://cciblog.oss-cn-guangzhou.aliyuncs.com/01.png)
 \`\`\`java
 public static void main(String[] args) {
     Frame frame = new Frame();
@@ -91,9 +62,7 @@ int main() {
 \`\`\`
 `);
 
-// 渲染后的 HTML
-const markdownToHtml = shallowRef('');
-markdownToHtml.value = marked(value.value);
+const markdownToHtml =  renderMarkdown(value.value)
 
 // 生成大纲
 const toc = computed(() => {
@@ -102,7 +71,6 @@ const toc = computed(() => {
   const headings = tokens.filter(token => token.type === 'heading');
   const toc = [];
   let currentLevel = 1;
-
   headings.forEach(heading => {
     const level = heading.depth;
     // 确保heading.text是字符串
@@ -121,7 +89,6 @@ const toc = computed(() => {
     }
     currentLevel = level;
   });
-
   return toc;
 });
 
@@ -149,17 +116,12 @@ onMounted(() => {
 
 <template>
   <div class="p-4 max-w-screen-lg mx-auto">
-
-
-
     <div class="flex gap-4">
       <div class="flex-1">
         <div class="ml-6">
           <div>
             <CButton :primary-color="'#7480ff'">分类</CButton>
-
           </div>
-
           <div class="flex justify-between items-center">
             <h1 class="text-3xl font-bold">文章标题</h1>
           </div>
@@ -176,7 +138,6 @@ onMounted(() => {
           </div>
         </div>
       </div>
-
       <div class="w-[200px] flex-shrink-0 hidden lg:block rounded-xl">
         <!-- 大纲 -->
         <div class="toc">

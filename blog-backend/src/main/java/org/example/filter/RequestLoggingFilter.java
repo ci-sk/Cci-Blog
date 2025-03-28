@@ -34,28 +34,20 @@ public class RequestLoggingFilter implements Filter {
     {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-
         // 记录请求开始时间
         long startTime = System.currentTimeMillis();
-
         String url = httpRequest.getRequestURL().substring(21);
-
         // 获取所有请求参数
         Map<String, String[]> parameterMap = httpRequest.getParameterMap();
-
         // 将请求和响应传递给下一个过滤器或Servlet
         chain.doFilter(request, response);
-
         // 检查响应状态码是否在200到299之间，表示请求成功
         int code = httpResponse.getStatus();
         //        code >= 200 && code < 300
-
         // 记录请求结束时间
         long endTime = System.currentTimeMillis();
-
         // 计算请求处理时间
         long processingTime = endTime - startTime;
-
         // 拼接请求参数字符串
         StringBuilder parameterString = new StringBuilder();
         for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
@@ -64,14 +56,11 @@ public class RequestLoggingFilter implements Filter {
         if (parameterString.length() > 0) {
             parameterString.setLength(parameterString.length() - 2); // 去掉最后一个逗号和空格
         }
-
         if (!parameterString.isEmpty()) {
             url+="?"+parameterString;
         }
-
         // 打印请求的URL和处理时间
         logger.info("请求结果:{},请求的地址: {}, 处理时间: {}ms",code, url, processingTime);
-
 
         RequestLog requestLog = new RequestLog();
         requestLog.setUrl(url)
@@ -79,14 +68,11 @@ public class RequestLoggingFilter implements Filter {
            .setTime(formatTimestamp(endTime))
            .setProcessingTime(processingTime);
         log(requestLog);
-
     }
 
     public void log(RequestLog requestLog)
     {
-
             File file = new File("blog-backend\\src\\main\\resources\\request.txt");
-
             // 如果文件存在且大小超过1MB，则清空文件
             if (file.exists() && file.length() > 1024 * 1024) {
                 try (FileWriter writer = new FileWriter(file, false)) { // false表示覆盖写入
@@ -95,7 +81,6 @@ public class RequestLoggingFilter implements Filter {
                     e.printStackTrace();
                 }
             }
-
         try (FileWriter writer = new FileWriter(file, true)) {
             writer.write(requestLog.toJsonString() + ",\n");
         } catch (IOException e) {

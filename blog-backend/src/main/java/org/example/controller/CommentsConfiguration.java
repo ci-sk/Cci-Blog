@@ -130,9 +130,7 @@ public class CommentsConfiguration  {
     public RestBean<?> delete(HttpServletResponse response,int  cid)
     {
         response.setContentType("application/json;charset=utf-8");
-
         System.out.println(cid);
-
         if(server.deleteComments(cid) == 1){
             return RestBean.success("删除成功");
         }

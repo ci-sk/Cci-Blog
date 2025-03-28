@@ -41,7 +41,7 @@ public class AliOssServiceImpl {
         //文件访问路径
 //        https://cciblog.oss-cn-guangzhou.aliyuncs.com/01.png
         String url = "https://" + bucketName + "." + endpoint.split("//")[0] + "/" + fileName;
-        System.out.println(url);
+//        System.out.println(url);
         // 关闭ossClient
         ossClient.shutdown();
         return url;// 把上传到oss的路径返回

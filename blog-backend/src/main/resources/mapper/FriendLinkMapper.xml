@@ -6,13 +6,13 @@
 <mapper namespace="org.example.mapper.FriendLinkMapper">
 
     <insert id="addFriendLink" parameterType="org.example.entity.dto.FriendLink">
-        insert into db_f_link (fid,fname, describes, url, icon)
-        values (#{fid}, #{fname}, #{describes}, #{url}, #{icon})
+        insert into db_f_link (fid,name, `desc`, url, avatar)
+        values (#{fid}, #{name}, #{desc}, #{url}, #{avatar})
     </insert>
 
     <update id="updateFriendLink" parameterType="org.example.entity.dto.FriendLink">
         update db_f_link
-        set fname = #{fname}, describes = #{describes}, url = #{url}, icon = #{icon}
+        set name = #{name}, `desc` = #{desc}, url = #{url}, avatar = #{avatar}
         where fid = #{fid}
     </update>
 
@@ -22,7 +22,7 @@
 
     <!-- 根据名称模糊查询友链 -->
     <select id="getFriendLinksWithLimit" resultType="org.example.entity.dto.FriendLink">
-        select * from db_f_link where fname like CONCAT('%', #{text}, '%') limit #{page}, #{limit}
+        select * from db_f_link where name like CONCAT('%', #{text}, '%') limit #{page}, #{limit}
     </select>
 
     <select id="getAllFriendLinks" resultType="org.example.entity.dto.FriendLink">
@@ -38,7 +38,7 @@
     </select>
 
     <select id="searchFriendLinks" parameterType="string" resultType="org.example.entity.dto.FriendLink">
-        select * from db_f_link where fname = #{fname}
+        select * from db_f_link where name = #{fname}
     </select>
 
 </mapper> 

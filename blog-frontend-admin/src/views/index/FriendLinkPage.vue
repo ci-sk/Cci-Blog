@@ -23,18 +23,18 @@ const dialogType = ref('add')
 const formRef = ref()
 const form = ref({
   fid: '',
-  fname: '',
-  describes: '',
+  name: '',
+  desc: '',
   url: '',
-  icon: ''
+  avatar: ''
 })
 
 const rules = {
-  fname: [
+  name: [
     { required: true, message: '请输入友链名称', trigger: 'blur' },
     { min: 2, max: 50, message: '长度在 2 到 50 个字符', trigger: 'blur' }
   ],
-  describes: [
+  desc: [
     { required: true, message: '请输入友链描述', trigger: 'blur' },
     { max: 200, message: '最多200个字符', trigger: 'blur' }
   ],
@@ -42,7 +42,7 @@ const rules = {
     { required: true, message: '请输入友链URL', trigger: 'blur' },
     { type: 'url', message: '请输入正确的URL格式', trigger: 'blur' }
   ],
-  icon: [
+  avatar: [
     { required: true, message: '请输入图标链接', trigger: 'blur' },
     { type: 'url', message: '请输入正确的URL格式', trigger: 'blur' }
   ]
@@ -55,10 +55,10 @@ const submitForm = () => {
   formRef.value.validate((valid) => {
     if (valid) {
       const data = {
-        fname: form.value.fname,
-        describes: form.value.describes,
+        name: form.value.name,
+        desc: form.value.desc,
         url: form.value.url,
-        icon: form.value.icon
+        avatar: form.value.avatar
       }
 
       if (dialogType.value === 'add') {
@@ -113,10 +113,10 @@ const handleAdd = () => {
   dialogType.value = 'add'
   form.value = {
     fid: '',
-    fname: '',
-    describes: '',
+    fame: '',
+    desc: '',
     url: '',
-    icon: ''
+    avatar: ''
   }
   dialogVisible.value = true
 }
@@ -186,8 +186,8 @@ onMounted(() => {
 
     <el-table :data="friendLinkList" style="width: 100%" v-loading="loading" table-layout="fixed">
       <el-table-column prop="fid" label="ID"/>
-      <el-table-column prop="fname" label="名称" />
-      <el-table-column prop="describes" label="描述" />
+      <el-table-column prop="name" label="名称" />
+      <el-table-column prop="desc" label="描述" />
       <el-table-column prop="url" label="链接">
         <template #default="scope">
           <el-link type="primary" :href="scope.row.url" target="_blank">{{ scope.row.url }}</el-link>
@@ -197,7 +197,7 @@ onMounted(() => {
         <template #default="scope">
           <el-image 
             style="width: 40px; height: 40px"
-            :src="scope.row.icon"
+            :src="scope.row.avatar"
             fit="cover"
             :preview-src-list="[scope.row.icon]"
           />
@@ -234,12 +234,12 @@ onMounted(() => {
         :rules="rules"
         label-width="80px"
       >
-        <el-form-item label="名称" prop="fname">
-          <el-input v-model="form.fname" placeholder="请输入友链名称" />
+        <el-form-item label="名称" prop="name">
+          <el-input v-model="form.name" placeholder="请输入友链名称" />
         </el-form-item>
-        <el-form-item label="描述" prop="describes">
+        <el-form-item label="描述" prop="desc">
           <el-input
-            v-model="form.describes"
+            v-model="form.desc"
             type="textarea"
             placeholder="请输入友链描述"
           />
@@ -247,8 +247,8 @@ onMounted(() => {
         <el-form-item label="链接" prop="url">
           <el-input v-model="form.url" placeholder="请输入友链URL" />
         </el-form-item>
-        <el-form-item label="图标" prop="icon">
-          <el-input v-model="form.icon" placeholder="请输入图标链接" />
+        <el-form-item label="图标" prop="avatar">
+          <el-input v-model="form.avatar" placeholder="请输入图标链接" />
         </el-form-item>
       </el-form>
       <template #footer>

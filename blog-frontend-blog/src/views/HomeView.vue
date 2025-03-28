@@ -84,6 +84,7 @@ onMounted(() => {
           <div
             v-for="item in currentPageArticles"
             class="card bg-primary shadow-sm"
+            @click="toArt()"
           >
             <figure class="p-8 pb-0">
               <div class="magnify-container">
@@ -98,24 +99,21 @@ onMounted(() => {
               <CButton
                 v-if="item.category"
                 :primary-color="`${randomColor()}`"
-                >{{ item.category.name }}</CButton
-              >
+                >{{ item.category.name }}
+              </CButton>
               <CButton :primary-color="`${randomColor()}`" v-else
-                >未分类</CButton
-              >
+                >未分类</CButton>
             </div>
-            <div class="card-body items-center text-white relative">
+            <div class="card-body items-center text-white pt-0 mb-5">
               <h2 class="card-title">{{ item.title }}</h2>
               <div>
                 <div class="flex">
-                  <p class="line-clamp-3 text-base leading-6 transition-all">
+                  <p class="text-base leading-6 transition-all line-clamp-2 break-words w-48 text-center">
                     {{ item.content }}
                   </p>
                 </div>
               </div>
-              <div
-                class="absolute bottom-0 self-start items-center flex flex-row pb-5"
-              >
+              <div class="absolute bottom-0 self-start items-center flex flex-row pb-5">
                 <ClockIcon />
                 <p class="pl-2">
                   {{ timeAgo(item.time) }}
