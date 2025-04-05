@@ -33,12 +33,15 @@ export function timeAgo(dateString) {
 }
 
 // 随机取色
-export function randomColor() {
-    return '#' + Math.floor(Math.random() * 0xFFFFFF).toString(16);
+export function randomColor  (index) {
+    const colors = ['#7480ff', '#84cc16', '#f97316',
+        '#f472b6', '#16a34a', '#1d4ed8', '#f59e0b', '#db2777', '#14b8a6', '#8b5cf6'
+    ];
+    return colors[index % colors.length];
 }
 
 // 计算#号数量
-const countHashes = (rawText) => {
+export  const countHashes = (rawText) => {
     // 使用正则表达式匹配开头的#号
     const match = rawText.match(/^#+/);
     // 如果匹配成功，返回#号的数量，否则返回0
@@ -53,6 +56,7 @@ export function  generateId (text){
 
 // 渲染Markdown
 export function renderMarkdown (markdownText) {
+    console.log(markdownText)
     // 配置marked
     const render = new marked.Renderer();
     // 修改heading渲染
@@ -69,4 +73,15 @@ export function renderMarkdown (markdownText) {
     });
     // 渲染Markdown为HTML
     return marked(markdownText);
-};
+}
+
+export function generateColorFromText(text) {
+    // 简单哈希算法生成颜色
+    let hash = 0;
+    for (let i = 0; i < text.length; i++) {
+        hash = text.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    // 生成HSL颜色
+    const h = Math.abs(hash) % 180;
+    return `hsl(${h},76%, 72%)`;
+}

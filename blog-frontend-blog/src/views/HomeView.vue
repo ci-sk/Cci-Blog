@@ -4,7 +4,7 @@ import { onMounted, ref, computed, watch } from "vue";
 import { useRouter } from "vue-router";
 import {useArticleStore} from "../store/index";
 // import axios from "../net/index";
-import { randomColor, timeAgo } from "../utils/index";
+import {generateColorFromText, timeAgo} from "../utils/index";
 import CButton from "../components/Custom/CButton.vue";
 import ClockIcon from "../components/Custom/ClockIcon.vue";
 import HomeAbser from "./ArticleView/HomeAbser.vue";
@@ -38,8 +38,12 @@ const filteredArticles = computed(() => {
 // 分页组件引用
 const paginationRef = ref(null);
 
-const toArt = () => {
-  router.push("/blog/article");
+const toArt = (id) => {
+  console.log("id", id);
+  router.push({
+    name: `Article`,
+    params: { id },
+  });
 };
 
 const filterTag = (index) => {
@@ -58,6 +62,11 @@ watch(filteredArticles, () => {
 onMounted(() => {
   // 监听媒体查询的变化，更新颜色模式
   fetchArticles();
+});
+
+const articleColor = computed(() => {
+  if (!article.value.content) return '#7480ff'; // 默认颜色
+  return generateColorFromText(article.value.content);
 });
 </script>
 
@@ -84,7 +93,7 @@ onMounted(() => {
           <div
             v-for="item in currentPageArticles"
             class="card bg-primary shadow-sm"
-            @click="toArt()"
+            @click="toArt(item.aid)"
           >
             <figure class="p-8 pb-0">
               <div class="magnify-container">
@@ -98,11 +107,10 @@ onMounted(() => {
             <div class="text-white pl-8 pt-2">
               <CButton
                 v-if="item.category"
-                :primary-color="`${randomColor()}`"
+                :width="60" :height="25"
+                :primary-color="`${generateColorFromText(item.content)}`"
                 >{{ item.category.name }}
               </CButton>
-              <CButton :primary-color="`${randomColor()}`" v-else
-                >未分类</CButton>
             </div>
             <div class="card-body items-center text-white pt-0 mb-5">
               <h2 class="card-title">{{ item.title }}</h2>

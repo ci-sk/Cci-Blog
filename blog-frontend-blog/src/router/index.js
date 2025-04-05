@@ -33,9 +33,10 @@ const routes = [
     },
     //博客
     {
-        path: '/blog/article',
+        path: '/blog/article/:id',
         name: 'Article',
         component: () => import('../views/ArticleView/Articles.vue'),
+        props: true,  // 将路由参数作为组件的 props
     }
 ];
 

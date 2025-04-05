@@ -1,68 +1,33 @@
 <script setup>
 import { marked } from 'marked';
-import { ref, computed,onMounted } from 'vue';
+import {ref, computed, onMounted, nextTick} from 'vue';
 import Prism from 'prismjs';
 import '../../assets/css/prism-dracula.css';
 import 'prismjs/plugins/line-numbers/prism-line-numbers.min.js'; // 行号插件
 import 'prismjs/plugins/line-numbers/prism-line-numbers.min.css';
 import CButton from "../../components/Custom/CButton.vue";
-import {generateId, renderMarkdown} from "../../utils/index.js"; // 行号插件样式
+import {generateId, renderMarkdown} from "../../utils/index.js";
+import {ArticlesCont} from "../../utils/store.js";
+import {useRoute} from "vue-router"; // 行号插件样式
 
 // Markdown 文本
-const value = ref(`
-# 标题 1
+const value = ref('');
+const markdownToHtml = ref();
+const route = useRoute();
+const articleId = ref(route.params.id); // 获取路由参数id
+const article = ref({});
 
-## 标题 1.1
 
-这是一个段落。
-
-### 标题 1.1.1
-
-这是一个子段落。
-
-## 标题 1.2
-
-这是另一个段落。
-
- ![Image](https://cciblog.oss-cn-guangzhou.aliyuncs.com/01.png)
-\`\`\`java
-public static void main(String[] args) {
-    Frame frame = new Frame();
-    frame.setSize(500, 300);
-    frame.setVisible(true);
-}
-\`\`\`
-
-\`\`\`C
-#include<stdio.h>
-int main() {
-    printf("Hello, World!");
-    return 0;
-}
-#include<stdio.h>
-int main() {
-    printf("Hello, World!");
-    return 0;
-}
-#include<stdio.h>
-int main() {
-    printf("Hello, World!");
-    return 0;
-}
-#include<stdio.h>
-int main() {
-    printf("Hello, World!");
-    return 0;
-}#include<stdio.h>
-int main() {
-    printf("Hello, World!");
-    return 0;
-}
-
-\`\`\`
-`);
-
-const markdownToHtml =  renderMarkdown(value.value)
+const fetchArticleContent = async () => {
+  article.value =  await ArticlesCont(articleId.value)
+  if (article.value.content) {
+    console.log(article.value)
+    value.value = article.value.content;
+    markdownToHtml.value = renderMarkdown(value.value)
+    await nextTick();
+    Prism.highlightAll();
+  }
+};
 
 // 生成大纲
 const toc = computed(() => {
@@ -76,7 +41,7 @@ const toc = computed(() => {
     // 确保heading.text是字符串
     const textStr = String(heading.text);
     const id = generateId(textStr);
-    const item = { id, text: textStr };
+    const item = {id, text: textStr};
 
     if (level > currentLevel) {
       // 子标题
@@ -110,7 +75,7 @@ const handleTocClick = (e, id) => {
 };
 
 onMounted(() => {
-  Prism.highlightAll(); // 初始高亮
+  fetchArticleContent();
 });
 </script>
 
@@ -140,13 +105,25 @@ onMounted(() => {
       </div>
       <div class="w-[200px] flex-shrink-0 hidden lg:block rounded-xl">
         <!-- 大纲 -->
-        <div class="toc">
-          <ul>
-            <li v-for="item in toc" :key="item.id">
-              <a :href="`#${item.id}`" @click="(e)=>handleTocClick(e, item.id)">{{ item.text }}</a>
-              <ul v-if="item.children">
+        <div class="sticky top-5 w-full">
+          <ul class="space-y-2">
+            <li v-for="item in toc" :key="item.id" class="pl-0">
+              <a
+                  :href="`#${item.id}`"
+                  @click="(e)=>handleTocClick(e, item.id)"
+                  class=" hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-200"
+              >
+                {{ item.text }}
+              </a>
+              <ul v-if="item.children" class="pl-4 mt-1 space-y-1">
                 <li v-for="child in item.children" :key="child.id">
-                  <a :href="`#${child.id}`" @click="(e)=>handleTocClick(e, item.id)">{{ child.text }}</a>
+                  <a
+                      :href="`#${child.id}`"
+                      @click="(e)=>handleTocClick(e, child.id)"
+                      class="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-400 dark:hover:text-blue-300 transition-colors duration-200"
+                  >
+                    {{ child.text }}
+                  </a>
                 </li>
               </ul>
             </li>
@@ -158,32 +135,6 @@ onMounted(() => {
 </template>
 
 <style>
-/* 大纲样式 */
-.toc {
-  width: 200px;
-  margin-right: 20px;
-  position: sticky;
-  top: 20px;
-  align-self: flex-start;
-}
-
-.toc ul {
-  list-style: none;
-  padding: 0;
-}
-
-.toc ul li {
-  margin: 5px 0;
-}
-
-.toc ul li a {
-  text-decoration: none;
-  color: #333;
-}
-
-.toc ul li a:hover {
-  color: #007bff;
-}
 
 .markdown-body h1 {
   font-size: 2em;

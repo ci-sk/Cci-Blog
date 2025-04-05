@@ -214,7 +214,7 @@ public class ArticlesController {
  * @param aid 文章ID
  * */
     @ResponseBody
-    @GetMapping("/get/article/{aid}")
+    @GetMapping("/getById/article/{aid}")
     public RestBean<?> getArticle(HttpServletResponse response,@PathVariable Integer aid)
     {
         response.setContentType("application/json");

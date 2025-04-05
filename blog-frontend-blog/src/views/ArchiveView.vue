@@ -45,6 +45,8 @@ const groupedByYear = computed(() => {
   })).sort((a, b) => b.year - a.year);
 });
 
+console.log("afasf",groupedByYear.value)
+
 // 标签点击事件
 const handleTagClick = (tagName) => {
   selectedTag.value = selectedTag.value === tagName ? null : tagName;
@@ -56,8 +58,6 @@ onMounted( async () => {
      await fetchArticles()
   }
 })
-
-
 
 </script>
 
@@ -91,7 +91,7 @@ onMounted( async () => {
       <div class="mb-10 p-4 bg-base-200 rounded-box">
         <div class="flex items-center mb-4">
           <Tag :size="28" class="text-primary" />
-          <h2 class="ml-3 text-2xl font-bold text-gray-700">文章标签</h2>
+          <h2 class="ml-3 text-2xl font-bold text-primary ">文章标签</h2>
         </div>
         <div class="flex flex-wrap gap-3">
           <button
@@ -142,8 +142,8 @@ onMounted( async () => {
                     </span>
                     <div class="flex flex-wrap gap-2">
                       <c-button
-                        v-for="tag in post.tags?.split(',')"
-                        :primary-color="randomColor()"
+                        v-for="(tag,index) in post.tags?.split(',')"
+                        :primary-color="randomColor(post.tags.length +index + post.title.length %12)"
                         class="px-2 py-0.5 text-sm"
                       >
                         {{ tag }}

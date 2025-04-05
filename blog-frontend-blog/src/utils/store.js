@@ -37,3 +37,12 @@ export const fetchFriends = async () => {
         console.error("Error fetching friends:", error);
     }
 }
+
+export const ArticlesCont = async (aid) => {
+    try {
+        const response = await axios.get(`/getById/article/${aid}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching tags:", error);
+    }
+};
