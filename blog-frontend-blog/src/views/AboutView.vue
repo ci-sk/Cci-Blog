@@ -1,4 +1,6 @@
-<script setup></script>
+<script setup>
+import CommentSection from "../components/CommentSection.vue";
+</script>
 
 <template>
   <div class="container mx-auto px-4 py-8">
@@ -30,7 +32,7 @@
         <h2 class="card-title text-2xl mb-4">联系我</h2>
         <p class="text-base-content/80 mb-4">你可以到这些地方找到我</p>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <a href="mailto:example@email.com" class="btn btn-outline gap-2">
+          <a href="#" class="btn btn-outline gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6"
@@ -50,7 +52,7 @@
           <a
             href="https://space.bilibili.com/"
             target="_blank"
-            class="btn btn-outline gap-2 "
+            class="btn btn-outline gap-2"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +101,7 @@
     </div>
 
     <!-- 博客说明部分 -->
-    <div class="card bg-base-200 shadow-xl">
+    <div class="card bg-base-200 shadow-xl mb-8">
       <div class="card-body">
         <h2 class="card-title text-2xl mb-4">关于博客和主题</h2>
         <div class="space-y-4 text-base-content/80">
@@ -123,6 +125,9 @@
         </div>
       </div>
     </div>
+
+    <!-- 评论组件 -->
+    <CommentSection />
   </div>
 </template>
 

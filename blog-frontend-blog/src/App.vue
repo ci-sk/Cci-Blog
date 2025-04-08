@@ -1,5 +1,4 @@
 <script setup>
-import Demo from "./views/Demo.vue"
 import Layout from './components/Layout.vue'
 
 </script>

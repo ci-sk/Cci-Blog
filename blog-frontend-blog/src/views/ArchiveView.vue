@@ -5,6 +5,11 @@ import {useArticleStore, useTagStore } from "../store/index";
 import {fetchArticles, fetchTags} from "../utils/store.js";
 import CButton from "../components/Custom/CButton.vue";
 import { randomColor } from "../utils/index";
+import {useRouter} from "vue-router";
+
+
+const router = useRouter();
+
 const tags = useTagStore((state)=> state.tags)
 
 const articles = useArticleStore((state)=> state.articles)
@@ -36,7 +41,8 @@ const groupedByYear = computed(() => {
       title: article.title,
       time: article.time,
       tags: article.tags,
-      viewCount: article.viewCount
+      viewCount: article.viewCount,
+      aid:article.aid
     });
   });
   return Object.entries(groups).map(([year, posts]) => ({
@@ -45,7 +51,12 @@ const groupedByYear = computed(() => {
   })).sort((a, b) => b.year - a.year);
 });
 
-console.log("afasf",groupedByYear.value)
+const toArt = (id) => {
+  router.push({
+    name: `Article`,
+    params: { id },
+  });
+};
 
 // 标签点击事件
 const handleTagClick = (tagName) => {
@@ -120,9 +131,10 @@ onMounted( async () => {
               <div
                 v-for="post in archive.posts"
                 :key="post.aid"
+                @click="toArt(post.aid)"
                 class="p-5 hover:bg-base-200 rounded-lg transition-all duration-300 hover:shadow-sm border border-transparent hover:border-primary/20"
               >
-                <div class="flex flex-col space-y-3">
+                <div class="flex flex-col space-y-3" >
                   <h3 class="text-xl font-semibold text-primary hover:text-primary transition-colors">
                     {{ post.title }}
                   </h3>

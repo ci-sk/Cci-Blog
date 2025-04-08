@@ -13,7 +13,7 @@ const MenusLink = ref([
   { name: "关于", path: "/personal/about",icon:Send },
 ])
 // 定义一个 ref 来存储当前的颜色模式
-const isDarkMode = ref();
+const isDarkMode = ref(false);
 
 
 const hoveredItem = ref(null);
@@ -38,11 +38,6 @@ function toggleSubMenu(item) {
     activeSubMenu.value = item.name;
   }
 }
-onMounted(()=>{
-  const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-  console.log(mediaQuery);
-  isDarkMode.value = mediaQuery.matches;
-})
 </script>
 
 <template>
