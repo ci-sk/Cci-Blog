@@ -18,13 +18,14 @@ http://users.qzone.qq.com/fcg-bin/cgi_get_portrait.fcg?uins=QQ号码
         <result property="email" column="email" jdbcType="VARCHAR"/>
         <result property="role" column="role" jdbcType="VARCHAR"/>
         <result property="time" column="register_Time"/>
+        <result property="avatar" column="avatar" jdbcType="VARCHAR" />
+        <result property="website" column="website" jdbcType="VARCHAR"/>
     </resultMap>
 
     <select id="getAccountCount" resultMap="AccountMap">
         select *
         from db_account;
     </select>
-
 
     <insert id="insertAccount" parameterType="org.example.entity.dto.Account" useGeneratedKeys="true" keyProperty="uid">
         insert into db_account (uid,username,password,email,role,register_Time)

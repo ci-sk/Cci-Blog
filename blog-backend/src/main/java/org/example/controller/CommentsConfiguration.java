@@ -4,10 +4,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.entity.RestBean;
 import org.example.entity.dto.Comments;
-import org.example.entity.dto.Message;
 import org.example.entity.vo.request.CommentsRequest;
+import org.example.entity.vo.response.CommVOs;
 import org.example.entity.vo.response.CommentsVO;
 import org.example.service.impl.CommentsServiceImpl;
+import org.example.utils.CommentUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +46,7 @@ public class CommentsConfiguration  {
 
         Comments comments = new Comments();
         comments.setAid(CommentsRequest.getAid())
-                .setUsername(CommentsRequest.getUsername())
+                .setUid(CommentsRequest.getUid())
                 .setContent(CommentsRequest.getContent())
                 .setTime(new Date());
 
@@ -62,29 +63,36 @@ public class CommentsConfiguration  {
      * @return RestBean<?> 对象，包含获取评论的结果
      */
     @ResponseBody
-    @RequestMapping("/getCommentsByAid/{aid}")
+    @RequestMapping("/getById/account/{aid}")
     public RestBean<?> getAid(HttpServletResponse response,@PathVariable Integer  aid)
     {
         response.setContentType("application/json;charset=utf-8");
         List<Comments> commentsList = server.getCommentsByAid(aid);
         if(commentsList!= null){
-            ArrayList<CommentsVO> vo = new ArrayList<>();
+            ArrayList<CommVOs> vo = new ArrayList<>();
             for (Comments comments : commentsList) {
-                CommentsVO vo1 = (comments.asViewObject(CommentsVO.class, v ->
+                CommVOs vo1 = (comments.asViewObject(CommVOs.class, v ->
                         v.setCid(comments.getCid())
-                        .setAid(comments.getAid())
-                        .setUsername(comments.getUsername())
+                        .setUsername(comments.getAccount().getUsername())
                         .setContent(comments.getContent())
+                        .setAvatar(comments.getAccount().getAvatar())
+                        .setEmail(comments.getAccount().getEmail())
+                        .setWebsite(comments.getAccount().getWebsite())
                         .setTime(comments.getTime())));
                 vo.add(vo1);
             }
-            return RestBean.success(vo);
+            List<CommVOs> vo2 = new ArrayList<>();
+            for (CommVOs vo1 : vo) {
+                int cid = vo1.getCid();
+                vo2 = CommentUtils.setSubComments(cid, vo,
+                        CommentUtils.getSubComments(cid, vo));
+            }
+            return RestBean.success(vo2);
         }
         else{
             return RestBean.db_un_failure("获取失败");
         }
     }
-
     /**
      * 获取所有评论
      * @param response HttpServletResponse 对象，用于设置响应内容类型和字符编码
@@ -99,16 +107,16 @@ public class CommentsConfiguration  {
         List<Comments> commentsList = server.getCommentsAll();
 
         if(commentsList!= null){
-
             ArrayList<CommentsVO> vo = new ArrayList<>();
 
             for (Comments comments : commentsList) {
-                CommentsVO vo1 = (comments.asViewObject(CommentsVO.class, v -> v.setCid(comments.getCid())
-                .setTitle(comments.getArticle().getTitle())
-                .setUsername(comments.getUsername())
-                .setReply_username(comments.getReply().getUsername())
-                .setContent(comments.getContent())
-                .setTime(comments.getTime())));
+                CommentsVO vo1 = (comments.asViewObject(CommentsVO.class, v -> {
+                    v.setCid(comments.getCid())
+                            .setTitle(comments.getArticle().getTitle())
+                            .setContent(comments.getContent())
+                            .setUsername(comments.getAccount().getUsername())
+                            .setTime(comments.getTime());
+                }));
                 vo.add(vo1);
             }
 
@@ -161,23 +169,21 @@ public class CommentsConfiguration  {
             ArrayList<CommentsVO> vo = new ArrayList<>();
             for (Comments comments : commentsList) {
                 CommentsVO vo1 = (comments.asViewObject(CommentsVO.class, v -> {
+                    System.out.println(comments);
                     v.setCid(comments.getCid())
-                            .setAid(comments.getAid())
-                            .setUsername(comments.getUsername())
+                            .setUsername(comments.getAccount().getUsername())
                             .setTitle(comments.getArticle().getTitle())
                             .setReply_cid(comments.getReply_cid())
                             .setContent(comments.getContent())
                             .setTime(comments.getTime());
-                    if(comments.getReply() !=null)
-                        v.setReply_username(comments.getReply().getUsername());
-
                 }));
                 vo.add(vo1);
             }
             List<CommentsVO> vo2 = new ArrayList<>();
             for (CommentsVO vo1 : vo) {
                 int cid = vo1.getCid();
-                vo2  = CommentsVO.setSubComments(cid,vo,CommentsVO.getSubComments(cid,vo));
+                vo2 = CommentUtils.setSubComments(cid, vo,
+                        CommentUtils.getSubComments(cid, vo));
             }
             return RestBean.success(vo2);
         }

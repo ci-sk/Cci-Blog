@@ -46,3 +46,11 @@ export const ArticlesCont = async (aid) => {
         console.error("Error fetching tags:", error);
     }
 };
+export const getComments = async (aid) => {
+    try {
+        const response = await axios.get(`/getById/account/${aid}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching tags:", error);
+    }
+};

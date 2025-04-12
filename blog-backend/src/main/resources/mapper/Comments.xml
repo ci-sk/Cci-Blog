@@ -12,45 +12,54 @@
     <resultMap id="comMap" type="org.example.entity.dto.Comments">
         <id column="cid" property="cid" javaType="INTEGER"/>
         <result column="aid" property="aid" javaType="INTEGER"/>
-        <result column="username" property="username"/>
+        <result column="uid" property="uid" javaType="INTEGER"/>
+<!--        <result column="username" property="username"/>-->
         <result column="reply_cid" property="reply_cid" javaType="INTEGER"/>
         <result column="content" property="content" jdbcType="VARCHAR"/>
         <result column="time" property="time"/>
         <association property="reply" javaType="org.example.entity.dto.Comments">
             <id column="cid" property="cid"/>
-            <result column="reply_username" property="username"/>
         </association>
         <association property="article" javaType="org.example.entity.dto.Articles">
             <id column="aid" property="aid"/>
             <result column="title" property="title"/>
         </association>
+        <association property="account" javaType="org.example.entity.dto.Account">
+            <id column="uid" property="uid"/>
+            <result column="website" property="website"/>
+            <result column="username" property="username"/>
+            <result column="email" property="email"/>
+            <result column="avatar" property="avatar"/>
+        </association>
     </resultMap>
 
 
     <select id="getCommentsByAid" resultMap="comMap">
-        select c.*
+        select c.*, u.username, u.avatar, u.website, u.email
         from db_comments c
-#                  join db_account u on c.uid = u.uid
+                 join db_account u on c.uid = u.uid
         where c.aid = #{aid}
     </select>
 
 
     <insert id="insertComments" parameterType="org.example.entity.dto.Comments" useGeneratedKeys="true" keyProperty="cid">
-        insert into db_comments (cid,aid,username,content,time)
-        values (#{cid},#{aid},#{username},#{content},#{time})
+        insert into db_comments (cid,aid,uid,content,time)
+        values (#{cid},#{aid},#{uid},#{content},#{time})
     </insert>
 
     <select id="getCommentsAll" resultMap="comMap">
-        select c.* ,a.title,r.username
+        select c.*, a.title,u.username
         from db_comments c
                  join db_articles a on c.aid = a.aid
-                join db_comments r on c.cid = r.reply_cid
+                 join db_account u on c.uid = u.uid
+                 left join db_comments r on c.reply_cid = r.cid
     </select>
 
     <select id="getCommentsLimit" resultMap="comMap">
-        select c.*,a.title,r.username as reply_username
+        select c.*,a.title,u.username
         from db_comments c
                  join db_articles a on c.aid = a.aid
+                 join db_account u on c.uid = u.uid
                  left join db_comments r on c.cid = r.reply_cid
           where c.content like '%${text}%'
           limit #{page},#{limit}

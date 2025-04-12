@@ -10,19 +10,22 @@ import java.util.List;
 
 @Data
 @Accessors(chain = true)
-public class CommentsVO implements BaseCommentVO<CommentsVO>{
+public class CommVOs implements BaseCommentVO<CommVOs>{
     private Integer cid;
     private Integer aid;
+    private Integer uid;
+    private String website;
+    private String avatar;
+    private String email;
     private Integer reply_cid;
-    private String title;
     private String username;
     private String content;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date time;
-    private List<CommentsVO> children; // 新增属性，用于存储子评论列表
+    private List<CommVOs> children; // 新增属性，用于存储子评论列表
 
     @Override
-    public void setChildren(List<CommentsVO> children) {
+    public void setChildren(List<CommVOs> children) {
         this.children = children;
     }
 }

@@ -34,7 +34,7 @@ const SelectComment =()=> {
     // CommentInfo.value = changeTime(CommentInfo.value)
     CommentInfo.value= CommentInfo.value.filter((item)=>{
           return item.reply_cid === null
-        })
+    })
   })
 }
 
@@ -90,7 +90,7 @@ const init = ()=>{
       >
         <el-table-column prop="cid" label="序号" align="center"/>
         <el-table-column prop="username" label="评论用户" align="center"/>
-        <el-table-column prop="reply_username" label="回复用户" align="center"/>
+<!--        <el-table-column prop="reply_username" label="回复用户" align="center"/>-->
         <el-table-column prop="title" label="所属文章" align="center"/>
         <el-table-column prop="content" label="内容" align="center"/>
         <el-table-column prop="time" label="时间" align="center"/>

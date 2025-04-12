@@ -1,44 +1,7 @@
 <script setup>
-import { ref } from "vue";
+import {onMounted, ref} from "vue";
 import CommentFrom from "./CommentFrom.vue";
-
-// 模拟评论数据
-const comments = ref([
-  {
-    id: 1,
-    name: "张三",
-    email: "zhangsan@example.com",
-    website: "https://example.com",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
-    content: "这篇文章写得非常好，学到了很多东西！",
-    timestamp: "2023-10-01 10:00",
-    likes: 5,
-    replies: [
-      {
-        id: 101,
-        parentId: 1,
-        name: "王五",
-        email: "wangwu@example.com",
-        website: "",
-        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Wangwu",
-        content: "我也觉得这篇文章很棒！",
-        timestamp: "2023-10-01 11:30",
-        likes: 2,
-      },
-    ],
-  },
-  {
-    id: 2,
-    name: "李四",
-    email: "lisi@example.com",
-    website: "",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka",
-    content: "感谢分享，这些内容对我的项目很有帮助。期待更多类似的文章！",
-    timestamp: "2023-10-02 14:30",
-    likes: 3,
-    replies: [],
-  },
-]);
+import {getComments} from "../utils/store.js";
 
 // 表单数据
 const form = ref({
@@ -163,17 +126,42 @@ const likeReply = (reply) => {
 // 获取被回复评论的用户名
 const getCommentName = (commentId) => {
   // 在主评论中查找
-  const mainComment = comments.value.find(c => c.id === commentId);
+  const mainComment = comments.value.find(c => c.uid === commentId);
   if (mainComment) return mainComment.name;
-
   // 如果在主评论中没找到，可能在回复中
   for (const comment of comments.value) {
-    const reply = comment.replies.find(r => r.id === commentId);
+    const reply = comment.replies.find(r => r.uid === commentId);
     if (reply) return reply.name;
   }
-
   return ''; // 如果都没找到，返回空字符串
 };
+
+// 将后端数据转换为前端需要的格式
+const transformComment = (comment) => {
+  return {
+    id: comment.cid,
+    name: comment.username,
+    email: comment.email,
+    website: comment.website,
+    avatar: comment.avatar,
+    content: comment.content,
+    timestamp: comment.time || new Date().toLocaleString(),
+    likes: 0,
+    replies: comment.children ? comment.children.map(transformComment) : []
+  };
+};
+
+const comments = ref([]);
+onMounted(async () => {
+  let res = await getComments(0);
+  res= res.filter((item)=>{
+    return item.reply_cid === null
+  })
+  if (res && res.length > 0) {
+    comments.value = res.map(transformComment);
+  }
+  console.log(comments.value)
+});
 </script>
 
 <template>
@@ -298,7 +286,7 @@ const getCommentName = (commentId) => {
                   <!-- 回复者信息 -->
                   <div class="flex flex-wrap items-center gap-2 mb-1">
                     <h4 class="font-semibold">{{ reply.name }}</h4>
-                    <span class="text-sm text-base-content/60">回复 @{{ getCommentName(reply.parentId) }}</span>
+                    <span class="text-sm text-base-content/60">回复 @{{ getCommentName(reply.reply_cid) }}</span>
                   </div>
                   <!-- 回复内容 -->
                   <p class="text-base-content/80 mb-2">{{ reply.content }}</p>

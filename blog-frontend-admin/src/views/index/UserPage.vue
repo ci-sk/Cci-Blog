@@ -91,10 +91,25 @@ function currentChange(val){
       </el-header>
         <el-table class="el-table-user" :data="UserInfo" style="width: 100%">
           <el-table-column prop="uid" label="编号" width="240"/>
+          <el-table-column prop="icon" label="头像" width="120">
+            <template #default="scope">
+              <el-image
+                  style="width: 40px; height: 40px"
+                  :src="scope.row.avatar"
+                  fit="cover"
+                  :preview-src-list="[scope.row.avatar]"
+              />
+            </template>
+          </el-table-column>
           <el-table-column prop="username" label="姓名" width="240" />
           <el-table-column prop="email" label="邮箱" width="240" />
           <el-table-column prop="time" label="注册时间" width="240"/>
           <el-table-column prop="role" label="用户角色" width="240" />
+          <el-table-column prop="url" label="链接" width="240">
+            <template #default="scope">
+              <el-link type="primary" :href="scope.row.website" target="_blank">{{ scope.row.website }}</el-link>
+            </template>
+          </el-table-column>
           <el-table-column fixed="right" label="操作" min-width="120" align="center">
             <template #default="scope">
               <el-button type="danger" @click="delAccount(scope.row.uid)">删除</el-button>

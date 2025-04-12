@@ -26,4 +26,6 @@ public class Account implements BaseData {
     private String role;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date time;
+    private String avatar;
+    private String website;
 }
