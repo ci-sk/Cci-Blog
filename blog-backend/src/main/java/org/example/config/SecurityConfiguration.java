@@ -93,7 +93,7 @@ public class SecurityConfiguration {
         response.setCharacterEncoding("UTF-8");
         User user = (User) authentication.getPrincipal();
         Account account =service.findAccountByNameOrEmail(user.getUsername());
-        String token = utils.createJwt(user,account.getUid(),user.getUsername());
+        String token = utils.createJwt(user, Math.toIntExact(account.getUid()),user.getUsername());
         AuthorizeVO vo = account.asViewObject(AuthorizeVO.class,v->{
             v.setExpire(utils.expireTime());
             v.setRole(account.getRole());

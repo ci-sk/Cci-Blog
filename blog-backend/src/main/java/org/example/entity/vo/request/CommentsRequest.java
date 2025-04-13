@@ -4,7 +4,8 @@ import lombok.Data;
 
 @Data
 public class CommentsRequest {
+    private Integer reply_cid;
     private Integer aid;
-    private Integer uid;
+    private Long uid;
     private String content;
 }

@@ -36,8 +36,9 @@ public class AccountController {
      * @return RestBean<?> 对象，包含添加账户的结果
      */
     @ResponseBody
-    @PutMapping("/addAccount")
+    @PostMapping("/auth/addAccount")
     public RestBean<?> insertAccount(HttpServletResponse response,
+                                     @RequestParam(required = false) Long id,
                                      @RequestParam String username,
                                      @RequestParam String email,
                                      @RequestParam String avatar,
@@ -45,16 +46,18 @@ public class AccountController {
     {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-
+        System.out.println("添加" + username+" "+email+" "+avatar+" "+website);
         Account account = new Account();
         account.setUsername(username)
-                .setUsername(passwordEncoder.encode("123456"))
+                .setPassword(passwordEncoder.encode("123456"))
                 .setEmail(email)
                 .setRole("user")
                 .setTime(new Date())
                 .setAvatar(avatar)
                 .setWebsite(website);
-
+        if(id != null){
+            account.setUid(id);
+        }
         if (service.insertAccount(account) == 1) {
             return RestBean.db_add_success(account, "添加成功");
         } else {
@@ -71,7 +74,7 @@ public class AccountController {
     @ResponseBody
     @RequestMapping("/delAccount")
     public RestBean<?> deleteAccount(HttpServletResponse response,
-                                     @RequestParam("uid") Integer uid)
+                                     @RequestParam("uid") Long uid)
     {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -108,8 +111,25 @@ public class AccountController {
             }));
             vo.add(vo1);
         }
-
         return RestBean.success(accounts);
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/getById/Account")
+    public RestBean<?> findAccount(HttpServletResponse response,
+                                   String text){
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        System.out.println(text);
+         Account ac = service.findAccountByNameOrEmail(text);
+        if (ac != null) {
+            ac.setPassword("");
+            return RestBean.success(ac);
+        }
+        else {
+            return RestBean.db_un_failure("未查询到");
+        }
     }
 
     /**

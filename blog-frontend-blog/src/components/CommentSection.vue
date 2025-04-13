@@ -1,22 +1,27 @@
 <script setup>
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 import CommentFrom from "./CommentFrom.vue";
-import {getComments} from "../utils/store.js";
+import {createAccount, getComments, submComment} from "../utils/store.js";
+import {getUid, IsQQ} from "../utils/index.js";
 
 // 表单数据
 const form = ref({
+  id:"",
   name: "",
   email: "",
   website: "",
   content: "",
+  avatar: "",
 });
 
 // 回复表单数据
 const replyForm = ref({
+  id:"",
   parentId: null,
   name: "",
   email: "",
   website: "",
+  avatar: "",
   content: "",
 });
 
@@ -28,84 +33,88 @@ const contentLength = ref(0);
 const replyContentLength = ref(0);
 const maxLength = 500;
 
-// 监听内容变化更新字数
-const updateContentLength = (event) => {
-  contentLength.value = event.target.value.length;
-};
-
 // 监听回复内容变化更新字数
 const updateReplyContentLength = (event) => {
   replyContentLength.value = event.target.value.length;
 };
 
-// 提交评论
-const submitComment = () => {
-  if (!form.value.name || !form.value.email || !form.value.content) return;
+const props = defineProps({
+  aid: {
+    type: [Number, null],
+    required: true,
+    default:0
+  }
+});
 
-  const newComment = {
-    id: comments.value.length + 1,
+
+watch(() => replyForm.value.name, async (newVal) => {
+  // 如果是QQ号，则自动填充邮箱和昵称
+  if (IsQQ(newVal)) {
+    replyForm.value.email = `${newVal}@qq.com`;
+    replyForm.value.avatar = `http://q.qlogo.cn/headimg_dl?dst_uin=${newVal}&spec=640&img_type=jpg`;
+    // 保存表单数据到localStorage
+  } else {
+    replyForm.value.avatar = `https://api.dicebear.com/7.x/avataaars/svg?seed=${form.value.name}`;
+  }
+});
+
+
+// 显示回复表单
+const showReplyForm = (commentId,replyId) => {
+  activeReplyId.value = commentId;
+  if(!replyId){
+    console.log(replyId)
+    replyId = commentId
+  }
+  // 重置回复表单
+  replyForm.value = {
+    id:form.value.id,
+    parentId: replyId,
     name: form.value.name,
     email: form.value.email,
     website: form.value.website,
-    avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${form.value.name}`,
-    content: form.value.content,
-    timestamp: new Date().toLocaleString(),
-    likes: 0,
-    replies: [],
-  };
-
-  comments.value.unshift(newComment);
-  form.value.content = "";
-  contentLength.value = 0;
-};
-
-// 显示回复表单
-const showReplyForm = (commentId) => {
-  activeReplyId.value = commentId;
-  // 重置回复表单
-  replyForm.value = {
-    parentId: commentId,
-    name: "",
-    email: "",
-    website: "",
     content: "",
+    avatar: form.value.avatar,
   };
+  console.log(replyForm.value)
   replyContentLength.value = 0;
 };
 
 // 取消回复
 const cancelReply = () => {
+  console.log(replyForm.value)
   activeReplyId.value = null;
 };
 
+const aid = ref(null)
+
 // 提交回复
-const submitReply = () => {
+const submitReply = async () => {
   if (
     !replyForm.value.name ||
     !replyForm.value.email ||
     !replyForm.value.content
   )
     return;
-
-  const parentComment = comments.value.find(
-    (c) => c.id === replyForm.value.parentId
-  );
-  if (!parentComment) return;
-
-  const newReply = {
-    id: Date.now(), // 使用时间戳作为唯一ID
-    parentId: replyForm.value.parentId,
-    name: replyForm.value.name,
-    email: replyForm.value.email,
-    website: replyForm.value.website,
-    avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${replyForm.value.name}`,
+  if(!(replyForm.value.id = await getUid(replyForm.value))){
+    console.log(replyForm.value)
+    let res  = await createAccount({
+      id: IsQQ(replyForm.value.name) ? parseInt(replyForm.value.name):'',
+      username: replyForm.value.name,
+      email: replyForm.value.email,
+      website: replyForm.value.website,
+      avatar: replyForm.value.avatar,
+    })
+    replyForm.value.id = res.uid
+  }
+  let data = await submComment({
+    reply_cid: replyForm.value.parentId,
+    aid: aid.value,
+    uid: parseInt(replyForm.value.id),
     content: replyForm.value.content,
-    timestamp: new Date().toLocaleString(),
-    likes: 0,
-  };
-
-  // 添加回复到对应的评论中
-  parentComment.replies.push(newReply);
+  })
+  console.log(data);
+  localStorage.setItem('commentForm', JSON.stringify(replyForm.value));
 
   // 重置表单和状态
   activeReplyId.value = null;
@@ -121,7 +130,6 @@ const likeComment = (comment) => {
 const likeReply = (reply) => {
   reply.likes++;
 };
-
 
 // 获取被回复评论的用户名
 const getCommentName = (commentId) => {
@@ -153,7 +161,7 @@ const transformComment = (comment) => {
 
 const comments = ref([]);
 onMounted(async () => {
-  let res = await getComments(0);
+  let res = await getComments(props.aid);
   res= res.filter((item)=>{
     return item.reply_cid === null
   })
@@ -161,6 +169,10 @@ onMounted(async () => {
     comments.value = res.map(transformComment);
   }
   console.log(comments.value)
+  const savedForm = localStorage.getItem('commentForm');
+  if (savedForm) {
+    form.value = JSON.parse(savedForm);
+  }
 });
 </script>
 
@@ -188,7 +200,7 @@ onMounted(async () => {
       >
     </div>
     <!--评论表单  -->
-    <CommentFrom/>
+    <CommentFrom :aid ="props.aid || 0"/>
     <!-- 评论列表 -->
     <div class="space-y-6">
       <div
@@ -227,7 +239,7 @@ onMounted(async () => {
                 <div class="flex gap-2">
                   <!--回复 -->
                   <button
-                    @click="showReplyForm(comment.id)"
+                    @click="showReplyForm(comment.id,0)"
                     class="btn btn-sm btn-ghost gap-1"
                   >
                     <svg
@@ -296,7 +308,7 @@ onMounted(async () => {
                     <div class="flex gap-2">
                       <!--回复 -->
                       <button
-                          @click="showReplyForm(comment.id)"
+                          @click="showReplyForm(comment.id,reply.id)"
                           class="btn btn-sm btn-ghost gap-1"
                       >
                         <svg
@@ -334,6 +346,14 @@ onMounted(async () => {
         <div v-if="activeReplyId === comment.id" class="ml-16 ">
           <form @submit.prevent="submitReply">
             <div class="card-body">
+                <!-- 回复者头像 -->
+                <div class="avatar">
+                  <div class="w-10 h-10 rounded-full">
+                    <img :src="replyForm.avatar" alt="avatar" />
+                  </div>
+                </div>
+                <div class="flex-1">
+                  <!-- 回复者信息 -->
               <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
                 <!-- 回复表单字段 -->
                 <div>
@@ -376,18 +396,18 @@ onMounted(async () => {
                 </div>
               </div>
               <div class="mb-4">
-        <textarea
-            v-model="replyForm.content"
-            @input="updateReplyContentLength"
-            class="textarea textarea-bordered w-full h-24"
-            placeholder="请输入回复内容"
-            required
-            maxlength="500"
-        ></textarea>
+              <textarea
+                  v-model="replyForm.content"
+                  @input="updateReplyContentLength"
+                  class="textarea textarea-bordered w-full h-24"
+                  placeholder="请输入回复内容"
+                  required
+                  maxlength="500"
+              ></textarea>
                 <div class="flex justify-end mt-1">
-          <span class="text-sm text-base-content/60">
-            {{ replyContentLength }}/{{ maxLength }}
-          </span>
+                  <span class="text-sm text-base-content/60">
+                    {{ replyContentLength }}/{{ maxLength }}
+                  </span>
                 </div>
               </div>
               <div class="flex justify-end gap-2">
@@ -402,6 +422,7 @@ onMounted(async () => {
                   发送回复
                 </button>
               </div>
+            </div>
             </div>
           </form>
         </div>

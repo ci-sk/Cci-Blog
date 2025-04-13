@@ -13,7 +13,7 @@ import java.util.List;
 public class CommVOs implements BaseCommentVO<CommVOs>{
     private Integer cid;
     private Integer aid;
-    private Integer uid;
+    private Long uid;
     private String website;
     private String avatar;
     private String email;

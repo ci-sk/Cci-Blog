@@ -12,7 +12,7 @@ http://users.qzone.qq.com/fcg-bin/cgi_get_portrait.fcg?uins=QQ号码
 <mapper namespace="org.example.mapper.AccountMapper">
 
     <resultMap id="AccountMap" type="org.example.entity.dto.Account">
-        <id property="uid" column="uid" jdbcType="INTEGER"/>
+        <id property="uid" column="uid" jdbcType="BIGINT"/>
         <result property="username" column="username" jdbcType="VARCHAR"/>
         <result property="password" column="password" jdbcType="VARCHAR"/>
         <result property="email" column="email" jdbcType="VARCHAR"/>
@@ -28,11 +28,11 @@ http://users.qzone.qq.com/fcg-bin/cgi_get_portrait.fcg?uins=QQ号码
     </select>
 
     <insert id="insertAccount" parameterType="org.example.entity.dto.Account" useGeneratedKeys="true" keyProperty="uid">
-        insert into db_account (uid,username,password,email,role,register_Time)
-        values (#{uid},#{username},#{password},#{email},#{role},#{time})
+        insert into db_account (uid,username,password,email,role,register_Time,avatar,website)
+        values (#{uid},#{username},#{password},#{email},#{role},#{time},#{avatar},#{website})
     </insert>
 
-    <delete id="deleteAccount" parameterType="int">
+    <delete id="deleteAccount" parameterType="long">
         delete from db_account where uid = #{uid}
     </delete>
 

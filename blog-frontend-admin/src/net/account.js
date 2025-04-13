@@ -30,7 +30,7 @@ function AccountLimit(data,success, failure = defaultFailure) {
 
 function DelAccount(data,success,failure = defaultFailure) {
     del('api/delAccount', {
-        uid:data
+        uid: parseInt(data)
     },()=>{
         ElMessage.success("删除成功");
         success();

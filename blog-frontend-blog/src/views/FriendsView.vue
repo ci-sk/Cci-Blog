@@ -1,6 +1,7 @@
 <script setup>
 import {onMounted, ref} from "vue";
 import {fetchFriends} from "../utils/store.js";
+import CommentSection from "../components/CommentSection.vue";
 
 const myInfo = {
   name: "wallleap",
@@ -146,6 +147,8 @@ onMounted( async () => {
           申请友链
         </button>
       </div>
+      <!-- 评论组件 -->
+      <CommentSection :aid="0"/>
     </div>
   </div>
 </template>

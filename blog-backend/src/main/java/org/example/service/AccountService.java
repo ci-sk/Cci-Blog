@@ -11,7 +11,7 @@ public interface AccountService extends IService<Account>, UserDetailsService {
 
     int insertAccount(Account account);
 
-    int deleteAccount(Integer uid);
+    int deleteAccount(Long uid);
 
     List<Account> getAccountCount();
 

@@ -20,7 +20,7 @@ import java.util.Date;
 public class Comments implements BaseData {
     @TableId(type = IdType.AUTO)
     private Integer cid;
-    private Integer uid;
+    private Long uid;
 //    private String username;
     private Integer reply_cid;
     private Integer aid;

@@ -15,7 +15,7 @@ public interface AccountMapper extends BaseMapper<Account> {
 
     int insertAccount(Account account);
 
-    int deleteAccount(Integer uid);
+    int deleteAccount(Long uid);
 
     List<Account> getAccountCount();
 

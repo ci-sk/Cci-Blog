@@ -19,7 +19,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class Account implements BaseData {
     @TableId(type = IdType.AUTO)
-    private Integer uid;
+    private Long uid;
     private String username;
     private String password;
     private String email;

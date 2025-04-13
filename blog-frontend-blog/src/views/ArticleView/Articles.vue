@@ -8,7 +8,8 @@ import 'prismjs/plugins/line-numbers/prism-line-numbers.min.css';
 import CButton from "../../components/Custom/CButton.vue";
 import {generateId, renderMarkdown} from "../../utils/index.js";
 import {ArticlesCont} from "../../utils/store.js";
-import {useRoute} from "vue-router"; // 行号插件样式
+import {useRoute} from "vue-router";
+import CommentSection from "../../components/CommentSection.vue"; // 行号插件样式
 
 // Markdown 文本
 const value = ref('');
@@ -16,7 +17,6 @@ const markdownToHtml = ref();
 const route = useRoute();
 const articleId = ref(route.params.id); // 获取路由参数id
 const article = ref({});
-
 
 const fetchArticleContent = async () => {
   article.value =  await ArticlesCont(articleId.value)
@@ -131,6 +131,8 @@ onMounted(() => {
         </div>
       </div>
     </div>
+    <!-- 评论组件 -->
+    <CommentSection :aid="articleId"/>
   </div>
 </template>
 

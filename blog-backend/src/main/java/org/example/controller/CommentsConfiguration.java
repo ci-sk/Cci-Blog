@@ -36,16 +36,16 @@ public class CommentsConfiguration  {
      * @return RestBean<?> 对象，包含添加评论的结果
      */
     @ResponseBody
-    @RequestMapping("/addComments")
+    @RequestMapping("/auth/addComment")
     public RestBean<?> add(HttpServletResponse response, HttpServletRequest request,
                            @ModelAttribute CommentsRequest CommentsRequest)
     {
         response.setContentType("application/json;charset=utf-8");
-
-        int uid = (int) request.getAttribute("id");
-
+//        int uid = (int) request.getAttribute("id");
+        System.out.println("评论请求对象：" + CommentsRequest);
         Comments comments = new Comments();
         comments.setAid(CommentsRequest.getAid())
+                .setReply_cid(CommentsRequest.getReply_cid())
                 .setUid(CommentsRequest.getUid())
                 .setContent(CommentsRequest.getContent())
                 .setTime(new Date());
@@ -63,7 +63,7 @@ public class CommentsConfiguration  {
      * @return RestBean<?> 对象，包含获取评论的结果
      */
     @ResponseBody
-    @RequestMapping("/getById/account/{aid}")
+    @RequestMapping("/getById/aCom/{aid}")
     public RestBean<?> getAid(HttpServletResponse response,@PathVariable Integer  aid)
     {
         response.setContentType("application/json;charset=utf-8");

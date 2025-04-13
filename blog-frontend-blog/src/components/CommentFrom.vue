@@ -1,11 +1,30 @@
+<!--
+通过QQ号查询头像
+http://q.qlogo.cn/headimg_dl?dst_uin=QQ号码&spec=640&img_type=jpg
+QQ昵称
+http://users.qzone.qq.com/fcg-bin/cgi_get_portrait.fcg?uins=QQ号码
+-->
+
 <script setup>
-import { ref, computed } from "vue";
+import {ref, watch, onMounted} from "vue";
+import {createAccount, getIsQQ, submComment} from "../utils/store.js";
+import {IsQQ} from "../utils/index.js";
 
 const form = ref({
+  id: "",
   name: "",
   email: "",
   website: "",
+  avatar: "",
   content: "",
+});
+
+const props = defineProps({
+  aid: {
+    type: Number,
+    required: true,
+    default:0
+  }
 });
 
 // 字数统计
@@ -13,23 +32,80 @@ const contentLength = ref(0);
 const replyContentLength = ref(0);
 const maxLength = 500;
 
+//获取QQ昵称
+const getNameByQQ = async (qq) => {
+  try {
+    const response = await axios.get(`/api/qq-info?qq=${qq}`);
+    if (response.data.name) {
+      form.value.name = response.data.name;
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error('获取QQ昵称失败:', error);
+    return false;
+  }
+};
+
+// 自动填充QQ邮箱和昵称
+watch(() => form.value.name, async (newVal) => {
+  // 如果是QQ号，则自动填充邮箱和昵称
+  if (IsQQ(newVal)) {
+    form.value.email = `${newVal}@qq.com`;
+    form.value.avatar = `http://q.qlogo.cn/headimg_dl?dst_uin=${newVal}&spec=640&img_type=jpg`;
+    await getNameByQQ(newVal);
+    // 保存表单数据到localStorage
+  } else {
+    form.value.avatar = `https://api.dicebear.com/7.x/avataaars/svg?seed=${form.value.name}`;
+  }
+});
+
+// 查询用户是否存在
+const getQQInfo = async () => {
+  let data = form.value.name
+  if(form.value.name === "") data = form.value.email;
+  let res = await getIsQQ(data)
+  console.log(res);
+  // 如果用户存在，则填充表单
+  if (res) {
+    form.value.id = res.uid;
+    form.value.name = res.username;
+    form.value.avatar = res.avatar;
+    form.value.email = res.email;
+    form.value.website = res.website;
+    console.log(res);
+    return true;
+  }else{
+    return false;
+  }
+}
+
 // 提交评论
-const submitComment = () => {
+const submitComment = async () => {
   if (!form.value.name || !form.value.email || !form.value.content) return;
-
-  const newComment = {
-    id: comments.value.length + 1,
-    name: form.value.name,
-    email: form.value.email,
-    website: form.value.website,
-    avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${form.value.name}`,
+  if(! await getQQInfo()){
+    //如果查不到用户就创建按新用户
+    let res  = await createAccount({
+      id: IsQQ(form.value.name) ? form.value.name :'',
+      username: form.value.name || form.value.id,
+      email: form.value.email,
+      website: form.value.website,
+      avatar: form.value.avatar,
+    })
+    console.log(res);
+    if(res){
+      form.value.id = res.uid;
+    }
+  }
+  // 提交评论
+  let data = await submComment({
+    aid: props.aid,
+    uid: form.value.id,
     content: form.value.content,
-    timestamp: new Date().toLocaleString(),
-    likes: 0,
-    replies: [],
-  };
-
-  comments.value.unshift(newComment);
+  })
+  console.log(data);
+  form.value.content = "";
+  localStorage.setItem('commentForm', JSON.stringify(form.value));
   form.value.content = "";
   contentLength.value = 0;
 };
@@ -43,6 +119,13 @@ const updateContentLength = (event) => {
 const updateReplyContentLength = (event) => {
   replyContentLength.value = event.target.value.length;
 };
+
+onMounted(()=>{
+  const savedForm = localStorage.getItem('commentForm');
+  if (savedForm) {
+    form.value = JSON.parse(savedForm);
+  }
+})
 </script>
 
 <template>
@@ -55,7 +138,7 @@ const updateReplyContentLength = (event) => {
           <div class="avatar">
             <div class="w-16 rounded-full ring ring-offset-base-100 ">
               <img
-                  :src="`https://api.dicebear.com/7.x/avataaars/svg?seed=${form.name}`"
+                  :src="form.avatar"
                   alt="Avatar Preview"
               />
             </div>

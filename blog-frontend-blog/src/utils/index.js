@@ -1,6 +1,7 @@
 import { marked } from 'marked';
 import { ref, shallowRef, computed, watch, onMounted } from 'vue';
 import Prism from 'prismjs';
+import {getIsQQ} from "./store.js";
 
 //计算过去多长时间
 export function timeAgo(dateString) {
@@ -84,4 +85,22 @@ export function generateColorFromText(text) {
     // 生成HSL颜色
     const h = Math.abs(hash) % 180;
     return `hsl(${h},76%, 72%)`;
+}
+
+export async function getUid(form){
+    // 查询用户是否存在
+        let data = form.name
+        if(form.name === "") data = form.email;
+        let res = await getIsQQ(data)
+        console.log(res);
+        // 如果用户存在，则填充表单
+        if (res) {
+            return res.uid;
+        }else{
+            return 0;
+        }
+}
+
+export function IsQQ(QQ){
+        return /^[1-9]\d{4,11}$/.test(QQ);
 }

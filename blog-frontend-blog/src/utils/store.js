@@ -48,9 +48,50 @@ export const ArticlesCont = async (aid) => {
 };
 export const getComments = async (aid) => {
     try {
-        const response = await axios.get(`/getById/account/${aid}`);
+        const response = await axios.get(`/getById/aCom/${aid}`);
         return response.data;
     } catch (error) {
         console.error("Error fetching tags:", error);
     }
 };
+
+export const getIsQQ = async(text)=>{
+    try {
+        const response = await axios.get(`/getById/Account`,{
+            params: {
+                text: text,
+            },
+        });
+        return response.data;
+    }catch (error) {
+        console.error("Error fetching tags:", error);
+    }
+}
+
+export const createAccount = async (data) => {
+    console.log(data)
+    try {
+        const response = await axios.post(`/auth/addAccount`, data,{
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        });
+        return response.data;
+    }catch (error) {
+        console.error("Error fetching tags:", error);
+    }
+}
+
+export const submComment = async (data) => {
+    try {
+        const response = await axios.post(`/auth/addComment`, data,{
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        });
+        return response.data;
+    }
+    catch (error) {
+        console.error("Error fetching tags:", error);
+    }
+}

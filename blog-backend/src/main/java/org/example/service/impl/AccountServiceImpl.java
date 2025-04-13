@@ -69,7 +69,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
      * @return 删除结果
      */
     @Override
-    public int deleteAccount(Integer uid) {
+    public int deleteAccount(Long uid) {
         return mapper.deleteAccount(uid);
     }
 

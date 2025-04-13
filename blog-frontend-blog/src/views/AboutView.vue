@@ -127,7 +127,7 @@ import CommentSection from "../components/CommentSection.vue";
     </div>
 
     <!-- 评论组件 -->
-    <CommentSection />
+    <CommentSection :aid="0"/>
   </div>
 </template>
 
