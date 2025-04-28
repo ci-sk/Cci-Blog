@@ -50,7 +50,7 @@ function dArt(aid){
     cancelButtonText: '取消',
     type: 'warning'
   }).then(() => {
-    DeleteArticle(aid, (data) => {
+    DeleteArticle(aid, () => {
       getArtInfo()
     });
   }).catch(() => {
@@ -80,7 +80,6 @@ const getArtInfo = async  () => {
   ArticleLimit({text:"",page:1}, (res) => {
     if (Array.isArray(res)) {
       ArtInfo.value = getTags(res);
-      console.log('处理后的数据:', ArtInfo.value);
     } else {
       ArtInfo.value = [];
     }

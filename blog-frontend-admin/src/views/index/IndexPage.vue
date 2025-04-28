@@ -4,7 +4,6 @@ import HotMap from "../../components/home/HotMap.vue";
 import HomeTop from "../../components/home/HomeTop.vue";
 import WordCloud from "../../components/home/WordCloud.vue";
 import CategoryPieChart from "../../components/home/CategoryPieChart.vue";
-import * as echarts from 'echarts';
 import { ElMessage } from 'element-plus';
 import { getCategoryStats } from '../../net/category';
 
@@ -15,7 +14,6 @@ const categoryData = ref([]);
 const fetchCategoryStats = () => {
   getCategoryStats((res) => {
     if (res.code === 200 && Array.isArray(res.data)) {
-      console.log("@@@",res.data);
       categoryData.value = res.data.map(item => ({
         value: item.count,
         name: item.name

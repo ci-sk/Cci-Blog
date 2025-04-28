@@ -28,7 +28,6 @@ const SelectComment =()=> {
     text:input.value,
     page:page.value
   },(res) => {
-  console.log(res)
     MessageInfo.value  = res
   })
 }

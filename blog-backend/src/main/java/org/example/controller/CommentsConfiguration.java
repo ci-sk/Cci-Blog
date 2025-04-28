@@ -31,18 +31,16 @@ public class CommentsConfiguration  {
     /**
      * 添加评论
      * @param response HttpServletResponse 对象，用于设置响应内容类型和字符编码
-     * @param request HttpServletRequest 对象，用于获取请求中的用户 ID
      * @param  CommentsRequest 评论请求对象，包含评论的相关信息
      * @return RestBean<?> 对象，包含添加评论的结果
      */
     @ResponseBody
     @RequestMapping("/auth/addComment")
-    public RestBean<?> add(HttpServletResponse response, HttpServletRequest request,
+    public RestBean<?> add(HttpServletResponse response,
                            @ModelAttribute CommentsRequest CommentsRequest)
     {
         response.setContentType("application/json;charset=utf-8");
 //        int uid = (int) request.getAttribute("id");
-        System.out.println("评论请求对象：" + CommentsRequest);
         Comments comments = new Comments();
         comments.setAid(CommentsRequest.getAid())
                 .setReply_cid(CommentsRequest.getReply_cid())
@@ -138,7 +136,6 @@ public class CommentsConfiguration  {
     public RestBean<?> delete(HttpServletResponse response,int  cid)
     {
         response.setContentType("application/json;charset=utf-8");
-        System.out.println(cid);
         if(server.deleteComments(cid) == 1){
             return RestBean.success("删除成功");
         }
@@ -169,7 +166,6 @@ public class CommentsConfiguration  {
             ArrayList<CommentsVO> vo = new ArrayList<>();
             for (Comments comments : commentsList) {
                 CommentsVO vo1 = (comments.asViewObject(CommentsVO.class, v -> {
-                    System.out.println(comments);
                     v.setCid(comments.getCid())
                             .setUsername(comments.getAccount().getUsername())
                             .setTitle(comments.getArticle().getTitle())

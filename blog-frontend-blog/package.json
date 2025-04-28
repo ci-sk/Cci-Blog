@@ -10,12 +10,14 @@
   },
   "dependencies": {
     "@types/marked": "^5.0.2",
+    "autoprefixer": "^10.4.21",
     "axios": "^1.8.1",
     "echarts": "^5.6.0",
     "highlight.js": "^11.11.1",
     "less": "^4.2.2",
     "lucide-vue-next": "^0.477.0",
     "marked": "^15.0.7",
+    "postcss": "^8.5.3",
     "prismjs": "^1.29.0",
     "vue": "^3.4.37",
     "vue-router": "^4.5.0",
@@ -23,9 +25,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.1.2",
-    "autoprefixer": "^10.4.20",
     "daisyui": "^4.12.23",
-    "postcss": "^8.5.1",
     "tailwindcss": "^3.4.17",
     "vite": "^5.4.1",
     "vite-plugin-prismjs": "^0.0.11"

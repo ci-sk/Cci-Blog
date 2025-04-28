@@ -9,7 +9,6 @@ import org.example.entity.vo.response.ArticlesVO;
 import org.example.service.impl.ArticlesServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,7 +38,6 @@ public class ArticlesController {
     @PutMapping("/addArticle")
     public RestBean<?> addArt(@ModelAttribute ArticleRequest reqArt)
     {
-        System.out.println("##"+reqArt);
         try {
             Articles articles = new Articles();
             if (reqArt.getAid() == null || reqArt.getAid() <= 0) {
@@ -53,7 +51,6 @@ public class ArticlesController {
                         .setPublish_Time(new Date());
                 if (artServer.addArt(articles) == 1) return RestBean.db_add_success(articles, "添加成功");
             } else {
-                System.out.println("修改接口");
                 articles.setAid(reqArt.getAid())
                         .setTitle(reqArt.getTitle())
                         .setContent(reqArt.getContent())
@@ -128,9 +125,6 @@ public class ArticlesController {
     {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-
-        System.out.println("##"+aid+"@@");
-
         if (aid == null) {
             return RestBean.db_un_failure("aid参数不能为空");
         }
@@ -152,15 +146,13 @@ public class ArticlesController {
      */
     @ResponseBody
     @RequestMapping("/getLimit/Article")
-    public RestBean<?> getArticleLimit(HttpServletRequest request, HttpServletResponse response,
+    public RestBean<?> getArticleLimit(HttpServletResponse response,
                                        @RequestParam(required = false) String text,
                                        @RequestParam(defaultValue = "1") Integer page,
                                        @RequestParam(defaultValue = "10") Integer limit)
     {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        System.out.println(request.getLocalAddr());
-
         List<Articles> articles = artServer.limitArticles(text,page, limit);
 
         if (articles!= null) {
@@ -181,7 +173,6 @@ public class ArticlesController {
                 }));
                 vo.add(vo1);
             }
-//            System.out.println(vo);
             return RestBean.success(vo);
         }else {
             return RestBean.db_failure();
@@ -218,7 +209,6 @@ public class ArticlesController {
     public RestBean<?> getArticle(HttpServletResponse response,@PathVariable Integer aid)
     {
         response.setContentType("application/json");
-//        System.out.println("@@"+aid);
         // 更新阅读量
         artServer.incrementViewCount(aid);
         // 获取文章详情

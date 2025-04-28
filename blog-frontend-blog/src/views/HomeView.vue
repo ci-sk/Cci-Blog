@@ -3,7 +3,6 @@ import Pagination from "../components/Pagination.vue"; // 引入分页组件
 import { onMounted, ref, computed, watch } from "vue";
 import { useRouter } from "vue-router";
 import {useArticleStore} from "../store/index";
-// import axios from "../net/index";
 import {generateColorFromText, timeAgo} from "../utils/index";
 import CButton from "../components/Custom/CButton.vue";
 import ClockIcon from "../components/Custom/ClockIcon.vue";

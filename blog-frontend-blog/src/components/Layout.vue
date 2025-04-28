@@ -1,7 +1,6 @@
 <script setup>
 import Header from './Header.vue';
 import Footer from './Footer.vue';
-import Demo from "./Header/Demo.vue";
 import {ref} from "vue";
 import {FolderKanban, House, PencilLine, Send, UsersRound} from "lucide-vue-next";
 
@@ -18,7 +17,6 @@ const MenusLink = ref([
   <div class="flex flex-col min-h-screen ">
     <!-- 头部 -->
     <Header />
-<!--    <Demo/>-->
     <!-- 主体 -->
     <main class="flex-grow">
       <router-view />

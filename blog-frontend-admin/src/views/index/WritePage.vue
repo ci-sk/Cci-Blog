@@ -85,7 +85,7 @@ const add = (item)=>{
 }
 
 // 上传图片(不进云存储)
-const changeUpload = (file,fileList)=>{
+const changeUpload = (file)=>{
   // 或者使用 URL.createObjectURL(file.raw) 来创建一个 URL
   const fileUrl = URL.createObjectURL(file.raw);
   console.log(fileUrl);
@@ -95,8 +95,6 @@ const changeUpload = (file,fileList)=>{
 
 //自定义图片上传
 function uploadRequest (req)  {
-  console.log(form);
-    // console.log("上传图片",Art.ArtForm)
   if(form.img_url !== imgBase.value){
     return new Promise((resolve) => {
       const formData = new FormData();
@@ -116,11 +114,9 @@ const submitUpload =  () => {
 
 //上传标签
 const submitTag =  ()=>{
-  console.log("上传前",pTags.value);
   for (let i =0;i<pTags.value.length;i++){
     if(!pTags.value[i].tid ){
-      console.log(pTags.value[i])
-       insertTag(pTags.value[i].tagName,(res)=>{
+       insertTag(pTags.value[i].tagName,()=>{
         // ElMessage.success("添加成功");
       })
     }
@@ -131,7 +127,6 @@ const InsertArt = ()=>{
   insertArticle(form,(res)=>{
     if(res.message==="添加成功"){
       ElMessage.success("添加成功");
-      console.log(res);
     }else{
       ElMessage.success("修改成功")
       router.push("/article")
@@ -144,10 +139,7 @@ const InsertArt = ()=>{
 const submitForm = ()=>{
 
   submitUpload()
-
-  // console.log("上传图片",form.img_url,imgBase)
   if(form.img_url === imgBase.value){
-    // console.log("不曾修改图片")
     InsertArt();
   }
 }

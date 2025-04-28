@@ -3,7 +3,6 @@ import axios from "axios";
 import { ElButton } from "element-plus";
 
 const uploadFile = async (options) => {
-  console.log(options.file);
   const formData = new FormData();
   formData.append("file", options.file);
   axios
@@ -22,9 +21,6 @@ const uploadFile = async (options) => {
       }
     )
     .then((res) => {
-      console.log(res, "@@@");
-      console.log(res.data, "@@@");
-      console.log("success");
       return res.data;
     });
 };

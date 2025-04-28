@@ -37,9 +37,7 @@ async function getSystemSettings(){
 const saveSettings = () => {
   fromData.value.siteIcon = siteIcon.value
   fromData.value.userIcon = userIcon.value
-  console.log(fromData.value)
-  post("/api/UpdateSettings", fromData.value,(res)=>{
-    console.log(res)
+  post("/api/UpdateSettings", fromData.value,()=>{
     ElMessage.success("保存成功")
   },()=>{})
 };
@@ -48,12 +46,8 @@ const saveSettings = () => {
 const initSettings = async () => {
 
   let settings = await getSystemSettings().then((res) => {
-    console.log("顺序0")
     return res;
   });
-
-  console.log("顺序1")
-
   siteIcon.value = settings.siteIcon
   userIcon.value = settings.userIcon
 
@@ -72,7 +66,7 @@ initSettings()
             :show-file-list="false"
             :on-change="changeSiteIcon"
         >
-          <img v-if="siteIcon" :src="siteIcon" class="avatar" style="width: 240px"/>
+          <img v-if="siteIcon" :src="siteIcon" class="avatar" style="width: 240px" alt="img"/>
           <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
         </el-upload>
       </el-form-item>
@@ -82,7 +76,7 @@ initSettings()
             :show-file-list="false"
             :on-change="changeUserIcon"
         >
-          <img v-if="userIcon" :src="userIcon" class="avatar" style="width: 240px"/>
+          <img v-if="userIcon" :src="userIcon" class="avatar" style="width: 240px" alt="ig"/>
           <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
         </el-upload>
       </el-form-item>

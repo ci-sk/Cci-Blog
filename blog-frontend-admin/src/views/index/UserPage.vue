@@ -33,7 +33,6 @@ const userLogin = () => {
     text:text.value,
     page:page.value
   },(res) => {
-    console.log(res)
     UserInfo.value = res;
   });
 }
@@ -45,7 +44,7 @@ const delAccount = (uid) => {
     cancelButtonText: '取消',
     type: 'warning'
   }).then(() => {
-      DelAccount(uid, (data) => {
+      DelAccount(uid, () => {
           userLogin();
       });
     }).catch(() => {

@@ -8,13 +8,11 @@ const logs = ref([])
 const getLog = ()=>{
   get("api/get/requestLog",(res)=>{
     logs.value = res
-    console.log(logs.value)
   })
 }
 
 const handleButtonClick = () => {
   // 处理按钮点击事件的逻辑
-  // console.log('按钮被点击了');
   get("/api/clear/log",()=>{
     getLog()
   })

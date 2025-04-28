@@ -9,13 +9,10 @@ import org.example.service.SettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -55,8 +52,6 @@ public class SettingsFileController {
     {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-
-        System.out.println(settings);
         boolean success = settingsService.updateSettings(settings);
         if (success) {
             return RestBean.success("设置更新成功");
@@ -78,7 +73,6 @@ public class SettingsFileController {
         context = context.substring(0,context.length()-1);
         String[] split = context.split("},");
         for (String s : split) {
-            System.out.println(s);
             s = s + "}";
             RequestLog requestLog = objectMapper.readValue(s, RequestLog.class);
             requestLogs.add(requestLog);

@@ -1,6 +1,5 @@
 package org.example.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.entity.RestBean;
 import org.example.entity.dto.Account;
@@ -78,8 +77,6 @@ public class AccountController {
     {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-
-        System.out.println("删除" + uid);
         if (service.deleteAccount(uid) == 1) {
             return RestBean.db_success("删除成功");
         } else {
@@ -101,14 +98,12 @@ public class AccountController {
         List<Account> accounts = service.getAccountCount();
         ArrayList<AccountVO> vo = new ArrayList<>();
         for (Account a : accounts) {
-            AccountVO vo1 = (a.asViewObject(AccountVO.class, v -> {
-                v.setUsername(a.getUsername())
-                    .setEmail(a.getEmail())
-                    .setRole(a.getRole())
-                    .setTime(a.getTime())
-                    .setAvatar(a.getAvatar())
-                    .setWebsite(a.getWebsite());
-            }));
+            AccountVO vo1 = (a.asViewObject(AccountVO.class, v -> v.setUsername(a.getUsername())
+                .setEmail(a.getEmail())
+                .setRole(a.getRole())
+                .setTime(a.getTime())
+                .setAvatar(a.getAvatar())
+                .setWebsite(a.getWebsite())));
             vo.add(vo1);
         }
         return RestBean.success(accounts);
@@ -121,7 +116,6 @@ public class AccountController {
                                    String text){
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        System.out.println(text);
          Account ac = service.findAccountByNameOrEmail(text);
         if (ac != null) {
             ac.setPassword("");
@@ -148,9 +142,7 @@ public class AccountController {
     {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-
         List<Account> account = service.limitAccount(text,page, limit);
-
         return RestBean.success(account);
     }
 
@@ -165,9 +157,7 @@ public class AccountController {
     {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-
         Integer count = service.getCount();
-
         return RestBean.success(count);
     }
 }

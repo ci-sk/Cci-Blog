@@ -13,9 +13,7 @@ const MenusLink = ref([
   { name: "关于", path: "/personal/about",icon:Send },
 ])
 // 定义一个 ref 来存储当前的颜色模式
-const isDarkMode = ref(false);
-
-
+const isDarkMode = ref(true);
 const hoveredItem = ref(null);
 const activeSubMenu = ref(null);
 
@@ -38,6 +36,17 @@ function toggleSubMenu(item) {
     activeSubMenu.value = item.name;
   }
 }
+
+onMounted(() => {
+  // 检测系统主题偏好
+  const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  // 设置初始值
+  isDarkMode.value = darkModeMediaQuery.matches;
+  // 监听主题变化
+  darkModeMediaQuery.addEventListener('change', (e) => {
+    isDarkMode.value = e.matches;
+  });
+});
 </script>
 
 <template>
@@ -69,10 +78,10 @@ function toggleSubMenu(item) {
         <!--切换深色模式和浅色模式-->
         <label class="swap swap-rotate">
           <!-- this hidden checkbox controls the state -->
-          <input type="checkbox" class="theme-controller" :value="isDarkMode?'light':'dark'" />
+          <input type="checkbox" class="theme-controller" :value="isDarkMode?'dark':'light'" />
           <!-- sun icon -->
           <svg
-            class="swap-off fill-current w-10 h-10"
+            class="swap-on fill-current w-10 h-10"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
           >
@@ -82,7 +91,7 @@ function toggleSubMenu(item) {
           </svg>
           <!-- moon icon -->
           <svg
-            class="swap-on fill-current w-10 h-10"
+            class="swap-off fill-current w-10 h-10"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
           >
