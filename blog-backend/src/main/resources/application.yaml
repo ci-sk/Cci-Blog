@@ -1,15 +1,15 @@
 spring:
   mail:
-      host: smtp.163.com
-      # 你申请的163邮箱
-      username: zobf45c4qfe_kgokix@163.com
-      # 注意密码是在开启smtp/pop3时自动生成的，记得保存一下，不然就找不到了
-      password: PQPLXMGYSKMHNRTB
-#  rabbitmq:
-#    addresses: localhost
-#    username: admin
-#    password: admin
-#    virtual-host: /
+    host: smtp.163.com
+    # 你申请的163邮箱
+    username:
+    # 注意密码是在开启smtp/pop3时自动生成的，记得保存一下，不然就找不到了
+    password:
+  #  rabbitmq:
+  #    addresses: localhost
+  #    username: admin
+  #    password: admin
+  #    virtual-host: /
   application:
     name:
       my-project-backend
@@ -30,13 +30,13 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   data:
     redis:
-#      url: redis://default:UfTJSzn4ZKhfMh4ONuFrf0cO0eXpiZ73@redis-19627.c263.us-east-1-2.ec2.redns.redis-cloud.com:19627
+      # url: redis://default:UfTJSzn4ZKhfMh4ONuFrf0cO0eXpiZ73@redis-19627.c263.us-east-1-2.ec2.redns.redis-cloud.com:19627
       host: localhost
       port: 6379
 qiniu:
   # 配置accessKey
   accessKey:           # 用于标识用户
-  # 配置secretKey      
+  # 配置secretKey
   secretKey:           # 用于验证用户的密钥
   # 配置空间名称
   bucket: cci
