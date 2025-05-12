@@ -35,9 +35,9 @@ spring:
       port: 6379
 qiniu:
   # 配置accessKey
-  accessKey: EA1QjkETjcc2m-WHwYTAt4O9wwwIn_XPvLKApQLS
-  # 配置secretKey
-  secretKey: yh4osunlWPPJf7e3pImZaxg6FtMM4ewnWbhMSBSc
+  accessKey:           # 用于标识用户
+  # 配置secretKey      
+  secretKey:           # 用于验证用户的密钥
   # 配置空间名称
   bucket: cci
   # 上传目录
@@ -47,9 +47,9 @@ qiniu:
 aliyun:
   oss:
     endpoint: oss-cn-guangzhou.aliyuncs.com
-    accessKeyId: LTAI5t8N2D2cRfN2brAshXGb
-    accessKeySecret: qOymVGWMFi8frRq6dTy0H9uuIENJvr
-    bucketName: cciblog
+    accessKeyId:      # 用于标识用户
+    accessKeySecret:  # 用于验证用户的密钥
+    bucketName:       # 文件目录
 mybatis-plus:
   configuration:
     cache-enabled: true
