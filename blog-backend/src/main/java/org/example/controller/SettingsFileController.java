@@ -7,6 +7,9 @@ import org.example.entity.dto.RequestLog;
 import org.example.entity.dto.Settings;
 import org.example.service.SettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -26,6 +29,9 @@ public class SettingsFileController {
     @Autowired
     private SettingsService settingsService;
 
+
+    @Autowired
+    private ResourceLoader resourceLoader;
     /**
      * 获取当前应用程序的设置。
      * @return 一个包含当前设置的 RestBean 对象。
@@ -67,7 +73,8 @@ public class SettingsFileController {
 
         ObjectMapper objectMapper = new ObjectMapper();
         List<RequestLog> requestLogs = new ArrayList<>();
-        String filePath = "blog-backend\\src\\main\\resources\\request.txt";
+        Resource resource = new ClassPathResource("request.txt");
+        String filePath = resource.getFile().getAbsolutePath();
         String context =  new String(Files.readAllBytes(Paths.get(filePath)));
 
         context = context.substring(0,context.length()-1);
@@ -84,8 +91,8 @@ public class SettingsFileController {
     @GetMapping("/clear/log")
     public RestBean<?> clearLog(){
         try {
-            String filePath = "blog-backend\\src\\main\\resources\\request.txt";
-            Files.write(Paths.get(filePath), new byte[0]);
+            Resource resource = resourceLoader.getResource("classpath:request.txt");
+            Files.write(Paths.get(resource.getURI()), new byte[0]);
             return RestBean.success("日志已清空");
         } catch (IOException e) {
             throw new RuntimeException(e);

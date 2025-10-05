@@ -7,8 +7,6 @@ const Store = useCounterStore()
 
 const route = useRoute()
 
-// const tags = Store.tabList;
-
 function handleClose(item, index) {
   // 删除面包屑数据
   Store.delTab(Store,item)

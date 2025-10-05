@@ -27,3 +27,24 @@ html.dark {
   --cci-log-ms-color: #DDA0DD;
 
 }
+
+/* 修复 Element Plus 消息组件定位问题 */
+.el-message {
+  position: fixed !important;
+  top: 20px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 9999 !important;
+}
+
+/* 确保消息容器不受其他样式影响 */
+.el-message-fade-enter-active,
+.el-message-fade-leave-active {
+  transition: all 0.3s ease !important;
+}
+
+.el-message-fade-enter-from,
+.el-message-fade-leave-to {
+  opacity: 0 !important;
+  transform: translateX(-50%) translateY(-100%) !important;
+}

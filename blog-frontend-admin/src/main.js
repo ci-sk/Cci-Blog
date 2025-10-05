@@ -6,6 +6,7 @@ import 'element-plus/theme-chalk/display.css'
 import router from "./router/index.js";
 import "./assets/css/base-admin.scss"
 import axios from "axios";
+import { ElMessage } from 'element-plus';
 
 // 引入pinia仓库
 import { createPinia } from 'pinia'

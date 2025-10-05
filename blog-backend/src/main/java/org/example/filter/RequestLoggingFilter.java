@@ -1,6 +1,8 @@
 package org.example.filter;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.Filter;
@@ -16,6 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
@@ -72,7 +76,10 @@ public class RequestLoggingFilter implements Filter {
 
     public void log(RequestLog requestLog)
     {
-            File file = new File("blog-backend\\src\\main\\resources\\request.txt");
+        try {
+            Resource resource = new ClassPathResource("request.txt");
+            File file = resource.getFile();
+            
             // 如果文件存在且大小超过1MB，则清空文件
             if (file.exists() && file.length() > 1024 * 1024) {
                 try (FileWriter writer = new FileWriter(file, false)) { // false表示覆盖写入
@@ -81,10 +88,15 @@ public class RequestLoggingFilter implements Filter {
                     e.printStackTrace();
                 }
             }
-        try (FileWriter writer = new FileWriter(file, true)) {
-            writer.write(requestLog.toJsonString() + ",\n");
+            
+            try (FileWriter writer = new FileWriter(file, true)) {
+                writer.write(requestLog.toJsonString() + ",\n");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } catch (IOException e) {
             e.printStackTrace();
+            logger.error("写入请求日志失败: " + e.getMessage());
         }
     }
 }

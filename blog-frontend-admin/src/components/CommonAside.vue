@@ -24,7 +24,7 @@ const isCollapse = computed(() => {
 function clickItem(item) {
   // 如果是父菜单且有子菜单，使用第一个子菜单的路径
   if (item.children && item.children.length > 0) {
-    router.push(item.children[0].path);
+    routerrouter.push(item.children[0].path);
     Store.SelectMenu(Store, item.children[0]);
   } else {
     router.push(item.path);
