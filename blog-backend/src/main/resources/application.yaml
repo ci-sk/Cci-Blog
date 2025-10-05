@@ -1,10 +1,10 @@
 spring:
   mail:
-      host: smtp.163.com
+      host: 
       # 你申请的163邮箱
-      username: zobf45c4qfe_kgokix@163.com
+      username: 
       # 注意密码是在开启smtp/pop3时自动生成的，记得保存一下，不然就找不到了
-      password: PQPLXMGYSKMHNRTB
+      password: 
 #  rabbitmq:
 #    addresses: localhost
 #    username: admin
@@ -35,21 +35,21 @@ spring:
       port: 6379
 qiniu:
   # 配置accessKey
-  accessKey: EA1QjkETjcc2m-WHwYTAt4O9wwwIn_XPvLKApQLS
+  accessKey: 
   # 配置secretKey
-  secretKey: yh4osunlWPPJf7e3pImZaxg6FtMM4ewnWbhMSBSc
+  secretKey: 
   # 配置空间名称
-  bucket: cci
+  bucket: 
   # 上传目录
-  directory: bolg/
+  directory: 
   # 配置域名
-  domain: sola4t4y0.sabkt.gdipper.com
+  domain: 
 aliyun:
   oss:
-    endpoint: oss-cn-guangzhou.aliyuncs.com
-    accessKeyId: LTAI5t8N2D2cRfN2brAshXGb
-    accessKeySecret: qOymVGWMFi8frRq6dTy0H9uuIENJvr
-    bucketName: cciblog
+    endpoint: 
+    accessKeyId: 
+    accessKeySecret: 
+    bucketName: 
 mybatis-plus:
   configuration:
     cache-enabled: true
