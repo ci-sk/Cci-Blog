@@ -56,4 +56,5 @@ mybatis-plus:
 #  level:
 #    root: INFO
 #    web: DEBUG
-
+server:
+  port: 8888

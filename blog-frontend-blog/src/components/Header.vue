@@ -37,16 +37,16 @@ function toggleSubMenu(item) {
   }
 }
 
-onMounted(() => {
-  // 检测系统主题偏好
-  const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-  // 设置初始值
-  isDarkMode.value = darkModeMediaQuery.matches;
-  // 监听主题变化
-  darkModeMediaQuery.addEventListener('change', (e) => {
-    isDarkMode.value = e.matches;
-  });
-});
+// onMounted(() => {
+//   // 检测系统主题偏好
+//   const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+//   // 设置初始值
+//   isDarkMode.value = darkModeMediaQuery.matches;
+//   // 监听主题变化
+//   darkModeMediaQuery.addEventListener('change', (e) => {
+//     isDarkMode.value = e.matches;
+//   });
+// });
 </script>
 
 <template>
@@ -78,7 +78,7 @@ onMounted(() => {
         <!--切换深色模式和浅色模式-->
         <label class="swap swap-rotate">
           <!-- this hidden checkbox controls the state -->
-          <input type="checkbox" class="theme-controller" :value="isDarkMode?'dark':'light'" />
+          <input type="checkbox" class="theme-controller" :value="isDarkMode?'light':'dark'" />
           <!-- sun icon -->
           <svg
             class="swap-on fill-current w-10 h-10"

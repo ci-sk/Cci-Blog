@@ -42,8 +42,6 @@ function ArticleLimit(data,success,failure){
     if (data.text !== '') {
         params.text = data.text;
     }
-
-
     put("api/getLimit/Article",params,(data)=>{
         success(data);
     },()=>{

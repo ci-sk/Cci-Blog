@@ -129,15 +129,14 @@ const InsertArt = ()=>{
       ElMessage.success("添加成功");
     }else{
       ElMessage.success("修改成功")
-      router.push("/article")
       Art.$reset()
     }
+    router.push("/article/index")
   })
 }
 
 //提交表单
 const submitForm = ()=>{
-
   submitUpload()
   if(form.img_url === imgBase.value){
     InsertArt();
@@ -267,8 +266,8 @@ const closeTag= (index)=>{
     </el-form-item>
 
     <el-form-item label="文章分类" style="width: 240px">
-      <el-select 
-        v-model="form.categoryId" 
+      <el-select
+        v-model="form.categoryId"
         placeholder="请选择分类"
         style="width: 100%"
         clearable

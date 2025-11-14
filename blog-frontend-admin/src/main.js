@@ -15,7 +15,7 @@ import piniaPluginPersist from 'pinia-plugin-persist'
 
 import * as echarts from 'echarts'
 
-axios.defaults.baseURL = "http://localhost:8080";
+axios.defaults.baseURL = "http://localhost:8888";
 
 const store = createPinia()
 store.use(piniaPluginPersist)
