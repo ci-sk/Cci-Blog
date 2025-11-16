@@ -40,8 +40,7 @@ const updateReplyContentLength = (event) => {
 
 const props = defineProps({
   aid: {
-    type: [Number, null],
-    required: true,
+    type: Number,
     default:0
   }
 });
@@ -109,16 +108,16 @@ const submitReply = async () => {
   }
   let data = await submComment({
     reply_cid: replyForm.value.parentId,
-    aid: aid.value,
+    aid: props.aid,
     uid: parseInt(replyForm.value.id),
     content: replyForm.value.content,
   })
-  console.log(data);
   localStorage.setItem('commentForm', JSON.stringify(replyForm.value));
 
   // 重置表单和状态
   activeReplyId.value = null;
   replyContentLength.value = 0;
+  await getCommentById(props.aid)
 };
 
 // 点赞功能
@@ -160,19 +159,24 @@ const transformComment = (comment) => {
 };
 
 const comments = ref([]);
-onMounted(async () => {
-  let res = await getComments(props.aid);
+
+
+const getCommentById = async (commentId) => {
+  let res = await getComments(commentId);
   res= res.filter((item)=>{
     return item.reply_cid === null
   })
   if (res && res.length > 0) {
     comments.value = res.map(transformComment);
   }
-  console.log(comments.value)
   const savedForm = localStorage.getItem('commentForm');
   if (savedForm) {
     form.value = JSON.parse(savedForm);
   }
+};
+
+onMounted(async () => {
+  await getCommentById(props.aid)
 });
 </script>
 
@@ -200,7 +204,7 @@ onMounted(async () => {
       >
     </div>
     <!--评论表单  -->
-    <CommentFrom :aid ="props.aid || 0"/>
+    <CommentFrom :aid="props.aid"/>
     <!-- 评论列表 -->
     <div class="space-y-6">
       <div

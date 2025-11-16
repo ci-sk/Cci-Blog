@@ -31,4 +31,7 @@ export default defineConfig({
       languages: ['javascript', 'CSS', 'html', 'vue','java','C'],
     }),
   ],
+    server: {
+        port: 5173, // 将端口号设置为 5173         
+    },
 })

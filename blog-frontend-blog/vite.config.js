@@ -6,11 +6,14 @@ import { prismjsPlugin } from 'vite-plugin-prismjs'
 export default defineConfig({
   plugins: [
       vue(),
-    prismjsPlugin({
+      prismjsPlugin({
       // languages: 'all', // 语言
       languages: ['java','c','html','css','javascript','json'],
       plugins: ['line-numbers','show-language','copy-to-clipboard','inline-color'],
       css: true,
     })
   ],
+    server: {
+      port: 5174, // 将端口号设置为 5174
+    },
 })
