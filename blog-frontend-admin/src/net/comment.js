@@ -9,8 +9,10 @@ function getComment(success,failure = defaultFailure){
 
 function getLimitComment(data,success,failure = defaultFailure){
     let params = {
-        page: (data.page - 1) * 10,
-        limit: 10 * data.page
+        // page: (data.page - 1) * 10,
+        // limit: 10 * data.page
+        page:1,
+        limit:100
     };
     if (data.text !== '') {
         params.text = data.text;

@@ -96,11 +96,11 @@ const init = ()=>{
         <el-table-column prop="time" label="时间" align="center"/>
       </el-table>
 
-      <div style="margin-top: 30px">
-        <el-pagination background layout="prev, pager, next"
-                       :total="total"
-                       @current-change="currentChange" />
-      </div>
+<!--      <div style="margin-top: 30px">-->
+<!--        <el-pagination background layout="prev, pager, next"-->
+<!--                       :total="total"-->
+<!--                       @current-change="currentChange" />-->
+<!--      </div>-->
     </el-card>
   </div>
 

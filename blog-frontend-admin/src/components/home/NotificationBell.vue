@@ -72,6 +72,8 @@ const showNotifications = () => {
   }
 }
 
+const activeTab1 = ref('comments')
+
 onMounted(() => {
   getUnreadCount()
 })
@@ -92,7 +94,7 @@ onMounted(() => {
     >
       <el-tabs v-model="activeTab">
         <el-tab-pane label="未读消息" name="unread">
-          <el-tabs>
+          <el-tabs v-model="activeTab1">
             <el-tab-pane label="留言" name="messages">
               <el-timeline>
                 <el-timeline-item
@@ -122,8 +124,8 @@ onMounted(() => {
           </el-tabs>
         </el-tab-pane>
         <el-tab-pane label="全部消息" name="all">
-          <el-tabs>
-            <el-tab-pane label="留言" name="all-messages">
+          <el-tabs v-model="activeTab1">
+            <el-tab-pane label="留言" name="messages">
               <el-timeline>
                 <el-timeline-item
                   v-for="msg in messages"
@@ -136,7 +138,7 @@ onMounted(() => {
                 </el-timeline-item>
               </el-timeline>
             </el-tab-pane>
-            <el-tab-pane label="评论" name="all-comments">
+            <el-tab-pane label="评论" name="comments">
               <el-timeline>
                 <el-timeline-item
                   v-for="comment in comments"

@@ -13,7 +13,7 @@ const formatTime = (value) => {
 
 const getTags = (value)=>{
     value.forEach((item) => {
-        item.tags = item.tags.split(',');
+        item.tags = item?.tags?.split(',') || [];
     })
     return value
 }

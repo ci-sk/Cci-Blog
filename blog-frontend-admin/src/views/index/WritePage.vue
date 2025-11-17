@@ -183,6 +183,7 @@ const loadCategories = () => {
 };
 
 onMounted(()=>{
+  Art.$reset()
   TagUser();
   loadCategories();
   //修改文章

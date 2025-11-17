@@ -64,6 +64,7 @@ function dArt(aid){
 const currentChange = (val)=>{
   page.value = val;
   ArticleLimit({text:input.value,page:page.value},(res) => {
+    console.log("ss",res);
     if (Array.isArray(res)) {
       ArtInfo.value = getTags(res);
     } else {
@@ -148,7 +149,7 @@ onMounted(()=>{
     <el-card style="max-width: 100vw">
       <el-button type="success" :icon="Plus" @click="clickItem()">新增</el-button>
 
-      <el-table  :data="ArtInfo" style="width: 100%;margin-top: 20px">
+      <el-table  :data="ArtInfo.filter(item=>item.aid != 0)" style="width: 100%;margin-top: 20px">
       <el-table-column prop="aid" label="ID" width="80"/>
       <el-table-column prop="img_url"  label="文章封面" width="200" align="center">
         <template #default="scope">
