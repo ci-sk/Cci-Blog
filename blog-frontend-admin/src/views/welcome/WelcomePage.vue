@@ -52,6 +52,7 @@ function userLogin(){
         <el-input v-model="form.password"
                   maxlength="22"
                   type="password"
+                  @keyup.enter="userLogin"
                   placeholder="密码">
           <template #prefix>
             <el-icon><Lock/></el-icon>
@@ -77,7 +78,7 @@ function userLogin(){
       <span style="font-size: 13px;color: grey">没有账户</span>
     </el-divider>
     <div>
-      <el-button  style="width: 270px" type="primary" plain>立即注册</el-button>
+      <el-button  style="width: 270px" type="primary" plain>敬请期待</el-button>
     </div>
   </div>
 </template>

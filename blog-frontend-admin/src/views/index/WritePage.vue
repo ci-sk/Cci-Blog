@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, reactive, ref} from 'vue';
+import {onBeforeUnmount, onMounted, reactive, ref} from 'vue';
 import {MdEditor} from 'md-editor-v3';
 
 import 'md-editor-v3/lib/style.css';
@@ -133,6 +133,7 @@ const InsertArt = ()=>{
     }
     router.push("/article/index")
   })
+  router.push("/article/index")
 }
 
 //提交表单
@@ -183,11 +184,14 @@ const loadCategories = () => {
 };
 
 onMounted(()=>{
-  Art.$reset()
   TagUser();
   loadCategories();
   //修改文章
   upDataArt();
+})
+
+onBeforeUnmount(()=>{
+  Art.$reset()
 })
 
 const closeTag= (index)=>{
