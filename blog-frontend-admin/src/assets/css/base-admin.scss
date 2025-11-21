@@ -36,13 +36,13 @@ html.dark {
   transform: translateX(-50%) !important;
   z-index: 9999 !important;
 }
-
-/* 确保消息容器不受其他样式影响 */
+//
+///* 确保消息容器不受其他样式影响 */
 .el-message-fade-enter-active,
 .el-message-fade-leave-active {
   transition: all 0.3s ease !important;
 }
-
+//
 .el-message-fade-enter-from,
 .el-message-fade-leave-to {
   opacity: 0 !important;

@@ -1,7 +1,7 @@
 <script setup>
 import {onBeforeUnmount, onMounted, reactive, ref} from 'vue';
 import {MdEditor} from 'md-editor-v3';
-
+import { ElMessage } from 'element-plus';
 import 'md-editor-v3/lib/style.css';
 
 import {useDark} from "@vueuse/core";
@@ -9,7 +9,6 @@ import {uploadFile} from "../../net/index.js";
 import {Plus} from "@element-plus/icons-vue";
 import {getTag, insertTag} from "../../net/tag.js";
 import {insertArticle} from "../../net/article.js";
-import {ElMessage} from "element-plus";
 import {useUpDataArt} from "../../store/index.js";
 import router from "../../router/index.js";
 import {getCategory} from "../../net/category.js";
