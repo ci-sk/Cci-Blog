@@ -1,0 +1,47 @@
+package org.example.exception;
+
+import org.example.entity.RestBean;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+/**
+ * 全局异常处理器
+ * 统一处理应用程序中的异常
+ */
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    /**
+     * 处理数据完整性违反异常
+     *
+     * @param e 数据完整性违反异常
+     * @return RestBean 包含错误信息的响应
+     */
+    @ExceptionHandler(org.springframework.dao.DataIntegrityViolationException.class)
+    public RestBean<Void> handleDataIntegrityViolationException(org.springframework.dao.DataIntegrityViolationException e) {
+        return RestBean.db_add_failure(500, "操作失败：违反数据完整性约束");
+    }
+
+    /**
+     * 处理运行时异常
+     *
+     * @param e 运行时异常
+     * @return RestBean 包含错误信息的响应
+     */
+    @ExceptionHandler(RuntimeException.class)
+    public RestBean<Void> handleRuntimeException(RuntimeException e) {
+        return RestBean.failure(500, "服务器内部错误: " + e.getMessage());
+    }
+
+    /**
+     * 处理一般异常
+     *
+     * @param e 一般异常
+     * @return RestBean 包含错误信息的响应
+     */
+    @ExceptionHandler(Exception.class)
+    public RestBean<Void> handleException(Exception e) {
+        e.printStackTrace();
+        return RestBean.failure(500, "服务器内部错误: " + e.getMessage());
+    }
+}

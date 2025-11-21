@@ -95,18 +95,8 @@ public class AccountController {
     {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        List<Account> accounts = service.getAccountCount();
-        ArrayList<AccountVO> vo = new ArrayList<>();
-        for (Account a : accounts) {
-            AccountVO vo1 = (a.asViewObject(AccountVO.class, v -> v.setUsername(a.getUsername())
-                .setEmail(a.getEmail())
-                .setRole(a.getRole())
-                .setTime(a.getTime())
-                .setAvatar(a.getAvatar())
-                .setWebsite(a.getWebsite())));
-            vo.add(vo1);
-        }
-        return RestBean.success(accounts);
+        List<AccountVO> accountVOs = service.getAccountVOList();
+        return RestBean.success(accountVOs);
     }
 
 

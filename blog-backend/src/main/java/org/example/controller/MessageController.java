@@ -20,7 +20,7 @@ import java.util.List;
 public class MessageController {
 
     @Autowired
-    MessageServiceImpl service;
+    org.example.service.MessageService service;
 
     /**
      * 留言消息

@@ -22,7 +22,7 @@ import java.util.List;
 public class TagController {
 
     @Autowired
-    TagServiceImpl server;
+    org.example.service.TagService server;
 
     /**
      * 添加标签

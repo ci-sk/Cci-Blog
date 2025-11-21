@@ -3,6 +3,7 @@ package org.example.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.example.entity.dto.Account;
+import org.example.entity.vo.response.AccountVO;
 import org.example.mapper.AccountMapper;
 import org.example.service.AccountService;
 import org.springframework.security.core.userdetails.User;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -103,5 +105,21 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     @Override
     public Integer getCount() {
         return mapper.getCount();
+    }
+    
+    @Override
+    public List<AccountVO> getAccountVOList() {
+        List<Account> accounts = mapper.getAccountCount();
+        ArrayList<AccountVO> vo = new ArrayList<>();
+        for (Account a : accounts) {
+            AccountVO vo1 = (a.asViewObject(AccountVO.class, v -> v.setUsername(a.getUsername())
+                .setEmail(a.getEmail())
+                .setRole(a.getRole())
+                .setTime(a.getTime())
+                .setAvatar(a.getAvatar())
+                .setWebsite(a.getWebsite())));
+            vo.add(vo1);
+        }
+        return vo;
     }
 }
